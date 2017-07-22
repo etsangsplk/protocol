@@ -23,7 +23,7 @@ contract RangeProposal is Proposal {
     function getWinningRange() returns (uint) {
         uint[] memory results;
         for (uint i = 0; i < votes.length; i++) {
-            Vote vote = votes[i];
+            Vote memory vote = votes[i];
             if (Choice(vote.choice) == Choice.NO) {
                 continue;
             }

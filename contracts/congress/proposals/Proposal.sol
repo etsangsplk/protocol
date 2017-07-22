@@ -31,12 +31,12 @@ contract Proposal {
     }
 
     function vote(Choice _choice, uint8 _range) external {
-        if (voted[msg.sender]) throw;
+        require(!voted[msg.sender]);
 
         // ew
         uint8 _voteRange = 0;
         if (voteRangeEnabled()) {
-            if (!isValidVoteRange(_range)) throw;
+            assert(isValidVoteRange(_range));
             _voteRange = _range;
         }
 
@@ -51,7 +51,7 @@ contract Proposal {
         uint no = 0;
 
         for (uint i = 0; i < votes.length; i++) {
-            Vote vote = votes[i];
+            Vote memory vote = votes[i];
             uint voteBalance = token.balanceOf(vote.voter);
 
             if (Choice(vote.choice) == Choice.YES) {

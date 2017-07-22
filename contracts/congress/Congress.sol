@@ -18,7 +18,7 @@ contract Congress is ownable {
     }
 
     function setExecutor(Executor _executor) onlyOwner {
-        if (!_executor.isOwner(this)) throw;
+        require(_executor.isOwner(this));
         executors[uint8(_executor.proposalType())] = _executor;
     }
 
