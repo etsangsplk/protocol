@@ -31,12 +31,12 @@ contract Proposal {
     }
 
     function vote(Choice _choice, uint8 _range) external {
-        require(!voted[msg.sender]);
+        assert(!voted[msg.sender]);
 
         // ew
         uint8 _voteRange = 0;
         if (voteRangeEnabled()) {
-            assert(isValidVoteRange(_range));
+            require(isValidVoteRange(_range));
             _voteRange = _range;
         }
 

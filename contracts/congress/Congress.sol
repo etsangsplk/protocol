@@ -25,13 +25,13 @@ contract Congress is ownable {
     function executeProposal(uint _proposal) external {
         Proposal proposal = proposals[_proposal];
 
-        if (executed[_proposal]) throw;
-        if (proposal.deadline() > now) throw;
-        if (proposal.getVoterQuorum() < configuration.get("minimumQuorum")) throw;
-        if (!proposal.didPass()) throw;
+        assert(!executed[_proposal]);
+        assert(proposal.deadline() < now);
+        assert(proposal.getVoterQuorum() > configuration.get("minimumQuorum"));
+        assert(proposal.didPass());
 
         Executor executor = executors[uint8(proposal.proposalType())];
-        if (!executor.execute(proposal)) throw;
+        assert(executor.execute(proposal));
 
         executed[_proposal] = true;
     }
