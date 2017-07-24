@@ -5,11 +5,10 @@ import "../../tokens/ERC20.sol";
 contract Proposal {
 
     enum ProposalType { DAO_CHANGE, BUY }
-    enum Choice { YES, NO }
 
     struct Vote {
         address voter;
-        uint8 choice;
+        bool inFavour;
         uint8 range;
     }
 
@@ -20,7 +19,7 @@ contract Proposal {
 
     mapping (address => bool) voted;
 
-    event Voted(address indexed voter, uint8 choice);
+    event Voted(address indexed voter, bool inFavour);
 
     function proposalType() returns (ProposalType);
     function voteRangeEnabled() returns (bool);
@@ -30,7 +29,7 @@ contract Proposal {
         return deadline;
     }
 
-    function vote(Choice _choice, uint8 _range) external {
+    function vote(bool inFavour, uint8 _range) external {
         assert(!voted[msg.sender]);
 
         // ew
@@ -40,10 +39,10 @@ contract Proposal {
             _voteRange = _range;
         }
 
-        votes.push(Vote(msg.sender, uint8(_choice), _voteRange));
+        votes.push(Vote(msg.sender, inFavour, _voteRange));
         voted[msg.sender] = true;
 
-        Voted(msg.sender, uint8(_choice));
+        Voted(msg.sender, inFavour);
     }
 
     function didPass() returns (bool) {
@@ -54,7 +53,7 @@ contract Proposal {
             Vote memory vote = votes[i];
             uint voteBalance = token.balanceOf(vote.voter);
 
-            if (Choice(vote.choice) == Choice.YES) {
+            if (vote.inFavour) {
                 yes += voteBalance;
                 continue;
             }
