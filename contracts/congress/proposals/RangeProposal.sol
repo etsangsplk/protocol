@@ -24,7 +24,7 @@ contract RangeProposal is Proposal {
         uint[] memory results;
         for (uint i = 0; i < votes.length; i++) {
             Vote memory vote = votes[i];
-            if (Choice(vote.choice) == Choice.NO) {
+            if (!vote.inFavour) {
                 continue;
             }
 
