@@ -8,7 +8,7 @@ node_js:
   - "8"
 
 before_install:
-  - npm install -g ethereumjs-testrpc truffle truffle-expect truffle-config web3
+  - npm install -g ethereumjs-testrpc truffle truffle-expect truffle-config
 
 script:
   - testrpc > /dev/null &
