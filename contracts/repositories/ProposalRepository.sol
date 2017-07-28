@@ -24,7 +24,7 @@ contract ProposalRepository is ProposalRepositoryInterface {
     }
 
     function get(string name) public constant returns (ProposalFactory factory, Executor executor) {
-        Proposal proposal = registry[name];
+        Proposal memory proposal = registry[name];
         return (proposal.factory, proposal.executor);
     }
 
