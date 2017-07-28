@@ -2,20 +2,34 @@ pragma solidity ^0.4.11;
 
 import "../executors/Executor.sol";
 import "./ProposalRepositoryInterface.sol";
+import {ProposalFactoryInterface as ProposalFactory} from "../factories/ProposalFactoryInterface.sol";
 
 contract ProposalRepository is ProposalRepositoryInterface {
 
     struct Proposal {
-        address factory;
+        ProposalFactory factory;
         Executor executor;
     }
 
-    function add(string name, address factory, Executor executor) public {
+    mapping (string => Proposal) private registry;
 
+    function add(string name, ProposalFactory factory, Executor executor) public {
+
+        registry[name] = Proposal({
+            factory: factory,
+            executor: executor
+        });
+
+        ProposalAdded(name);
     }
 
-    function get(string name) public constant returns (address factory, Executor executor) {
-
+    function get(string name) public constant returns (ProposalFactory factory, Executor executor) {
+        Proposal proposal = registry[name];
+        return (proposal.factory, proposal.executor);
     }
 
+    function remove(string name) public {
+        delete registry[name];
+        ProposalRemoved(name);
+    }
 }
