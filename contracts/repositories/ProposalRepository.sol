@@ -8,7 +8,7 @@ contract ProposalRepository is ProposalRepositoryInterface {
 
     struct Proposal {
         ProposalFactory factory;
-        Executor executor;
+        Executor executor; // @todo: may need a factory here, so executors can have state
     }
 
     mapping (string => Proposal) private registry;
