@@ -4,8 +4,6 @@ import "../../tokens/ERC20.sol";
 
 contract Proposal {
 
-    enum ProposalType { DAO_CHANGE, BUY }
-
     struct Vote {
         address voter;
         bool inFavour;
@@ -13,7 +11,6 @@ contract Proposal {
     }
 
     Vote[] votes;
-    ERC20 public token;
     address public creator;
     uint public deadline;
 
@@ -21,7 +18,6 @@ contract Proposal {
 
     event Voted(address indexed voter, bool inFavour);
 
-    function proposalType() returns (ProposalType);
     function voteRangeEnabled() returns (bool);
     function isValidVoteRange(uint8 _range) returns (bool);
 
@@ -45,7 +41,8 @@ contract Proposal {
         Voted(msg.sender, inFavour);
     }
 
-    function didPass() returns (bool) {
+    // @todo move into quorum contract
+    /*function didPass() returns (bool) {
         uint yes = 0;
         uint no = 0;
 
@@ -71,5 +68,5 @@ contract Proposal {
         }
 
         return (sum / token.totalSupply()) * 100;
-    }
+    }*/
 }
