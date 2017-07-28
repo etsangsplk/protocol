@@ -17,8 +17,9 @@ contract Congress is ownable {
     }
 
     function addProposal(Proposal proposal) public returns (uint) {
-        proposals.append(proposal);
-        return proposals.length--;
+        uint index = proposals.length;
+        proposals[index] = proposal;
+        return index;
     }
 
     /*function executeProposal(uint _proposal) external {
