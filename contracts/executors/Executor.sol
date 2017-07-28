@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "../proposals/Proposal.sol";
-import "../../ownership/ownable.sol";
+import "../ownership/ownable.sol";
 
 contract Executor is ownable {
 
