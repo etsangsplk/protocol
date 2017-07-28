@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
-import "../Configuration.sol";
-import "../ownership/ownable.sol";
+import "./Configuration.sol";
+import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./executors/Executor.sol";
 
