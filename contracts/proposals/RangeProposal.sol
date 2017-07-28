@@ -19,7 +19,7 @@ contract RangeProposal is Proposal {
 
         return false;
     }
-
+/*
     function getWinningRange() returns (uint) {
         uint[] memory results;
         for (uint i = 0; i < votes.length; i++) {
@@ -45,5 +45,5 @@ contract RangeProposal is Proposal {
         }
 
         return winner;
-    }
+    }*/
 }
