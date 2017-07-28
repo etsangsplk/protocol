@@ -1,9 +1,8 @@
 pragma solidity ^0.4.11;
 
 import "../executors/Executor.sol";
-import {ProposalFactoryInterface as ProposalFactory} from "../factories/ProposalFactoryInterface.sol";
 
-contract ProposalRespositoryInterface {
+contract ProposalRepositoryInterface {
 
     event ProposalAdded(string name);
     event ProposalRemoved(string name);
