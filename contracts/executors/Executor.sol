@@ -5,8 +5,6 @@ import "../ownership/ownable.sol";
 
 contract Executor is ownable {
 
-    function proposalType() returns (Proposal.ProposalType);
-
     function execute(Proposal _proposal) onlyOwner returns (bool);
 
     function destroy() onlyOwner {

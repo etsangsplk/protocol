@@ -17,12 +17,12 @@ contract Congress is ownable {
         configuration = _configuration;
     }
 
-    function setExecutor(Executor _executor) onlyOwner {
+    /*function setExecutor(Executor _executor) onlyOwner {
         require(_executor.isOwner(this));
         executors[uint8(_executor.proposalType())] = _executor;
-    }
+    }*/
 
-    function executeProposal(uint _proposal) external {
+    /*function executeProposal(uint _proposal) external {
         Proposal proposal = proposals[_proposal];
 
         assert(!executed[_proposal]);
@@ -34,5 +34,5 @@ contract Congress is ownable {
         assert(executor.execute(proposal));
 
         executed[_proposal] = true;
-    }
+    }*/
 }
