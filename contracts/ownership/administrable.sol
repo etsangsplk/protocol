@@ -7,7 +7,7 @@ contract administrable is ownable {
     mapping (address => bool) admin;
 
     modifier onlyAdmin {
-        if (!isOwner(msg.sender) && !isAdmin(msg.sender)) throw;
+        require(isOwner(msg.sender) || isAdmin(msg.sender));
         _;
     }
 
