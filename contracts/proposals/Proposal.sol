@@ -13,7 +13,6 @@ contract Proposal {
     Vote[] votes;
     address public creator;
     uint public deadline;
-    string public name;
 
     mapping (address => bool) voted;
 
