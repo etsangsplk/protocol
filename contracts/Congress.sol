@@ -4,7 +4,8 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./executors/Executor.sol";
-import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
+import "./repositories/ProposalRepository.sol";
+import "./factories/ProposalFactoryInterface.sol";
 
 contract Congress is ownable {
 
@@ -18,11 +19,11 @@ contract Congress is ownable {
         configuration = _configuration;
     }
 
-    // @TODO: Find solution to only add proposals we have in our repository
-    function addProposal(Proposal proposal) public returns (uint) {
-        uint index = proposals.length;
-        proposals[index] = proposal;
-        return index;
+    function createProposal(string name, bytes data) public {
+        /*ProposalFactoryInterface factory;*/
+        var (factory,) = proposalRepository.get(name);
+        Proposal proposal = Proposal(factory.create.call(data));
+        proposals[proposals.length] = (proposal);
     }
 
     /*function executeProposal(uint _proposal) external {
