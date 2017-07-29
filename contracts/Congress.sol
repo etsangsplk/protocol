@@ -4,11 +4,13 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./executors/Executor.sol";
+import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
 
 contract Congress is ownable {
 
     Proposal[] public proposals;
     Configuration public configuration;
+    ProposalRepository public proposalRepository;
 
     mapping (uint => bool) executed;
 
@@ -16,6 +18,7 @@ contract Congress is ownable {
         configuration = _configuration;
     }
 
+    // @TODO: Find solution to only add proposals we have in our repository
     function addProposal(Proposal proposal) public returns (uint) {
         uint index = proposals.length;
         proposals[index] = proposal;
