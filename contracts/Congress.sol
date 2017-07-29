@@ -21,9 +21,9 @@ contract Congress is ownable {
 
     function createProposal(string name, bytes data) public {
         /*ProposalFactory factory;*/
-        var (factory,) = proposalRepository.get(name);
+        /*var (factory,) = proposalRepository.get(name);
         Proposal proposal = factory.delegatecall(data);
-        proposals[proposals.length] = (proposal);
+        proposals[proposals.length] = (proposal);*/
     }
 
     /*function executeProposal(uint _proposal) external {

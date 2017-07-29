@@ -8,8 +8,8 @@ contract ProposalRepositoryInterface {
     event ProposalAdded(string name);
     event ProposalRemoved(string name);
 
-    function add(string name, ProposalFactory factory, Executor executor) public;
-    function get(string name) public constant returns (ProposalFactory factory, Executor executor);
+    function add(string name, ProposalFactory factory, Executor executor, bytes abi) public;
+    function get(string name) public constant returns (ProposalFactory factory, Executor executor, bytes abi);
     function remove(string name) public;
 
 }

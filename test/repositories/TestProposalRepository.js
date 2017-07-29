@@ -22,7 +22,8 @@ contract('ProposalRepository', function (accounts) {
             let result = await repository.add(
                 "foo",
                 executor.address,
-                factory.address
+                factory.address,
+                "foo"
             );
 
             assert.equal(result.logs[0].event, 'ProposalAdded', 'proposal was not added');
