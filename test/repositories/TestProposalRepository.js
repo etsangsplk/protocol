@@ -27,4 +27,14 @@ contract('ProposalRepository', function (accounts) {
 
             assert.equal(result.logs[0].event, 'ProposalAdded', 'proposal was not added');
         });
+
+        it('returns proposal data', async () => {
+            let result = await repository.get.call("foo");
+            assert.isNotNull(result);
+        });
+
+        it('removes proposal data', async () => {
+            let result = await repository.remove("foo");
+            assert.equal(result.logs[0].event, 'ProposalRemoved', 'proposal was not added');
+        });
 });

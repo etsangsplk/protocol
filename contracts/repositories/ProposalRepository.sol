@@ -14,7 +14,6 @@ contract ProposalRepository is ProposalRepositoryInterface {
     mapping (string => Proposal) private registry;
 
     function add(string name, ProposalFactory factory, Executor executor) public {
-
         registry[name] = Proposal({
             factory: factory,
             executor: executor
