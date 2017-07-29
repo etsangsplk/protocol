@@ -9,19 +9,26 @@ import { ProposalFactoryInterface as ProposalFactory } from "./factories/Proposa
 
 contract Congress is ownable {
 
+    struct Modules {
+        ProposalRepository proposals;
+    }
+
+    Modules modules;
     Proposal[] public proposals;
     Configuration public configuration;
-    ProposalRepository public proposalRepository;
 
     mapping (uint => bool) executed;
 
-    function Congress(Configuration _configuration) {
+    function Congress(Configuration _configuration, ProposalRepository proposals) {
         configuration = _configuration;
+        modules = Modules({
+            proposals: proposals
+        });
     }
 
     function createProposal(string name, bytes data) public {
         /*ProposalFactory factory;*/
-        /*var (factory,) = proposalRepository.get(name);
+        /*var (factory,) = modules.proposals.get(name);
         Proposal proposal = factory.delegatecall(data);
         proposals[proposals.length] = (proposal);*/
     }
