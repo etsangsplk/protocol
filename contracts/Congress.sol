@@ -4,8 +4,7 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./executors/Executor.sol";
-import "./repositories/ProposalRepository.sol";
-import "./factories/ProposalFactoryInterface.sol";
+import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
 
 contract Congress is ownable {
 
@@ -19,12 +18,12 @@ contract Congress is ownable {
         configuration = _configuration;
     }
 
-    function createProposal(string name, bytes data) public {
-        /*ProposalFactoryInterface factory;*/
+    /*function createProposal(string name, bytes data) public {
+        ProposalFactoryInterface factory;
         var (factory,) = proposalRepository.get(name);
         Proposal proposal = Proposal(factory.create.call(data));
         proposals[proposals.length] = (proposal);
-    }
+    }*/
 
     /*function executeProposal(uint _proposal) external {
         Proposal proposal = proposals[_proposal];
