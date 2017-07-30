@@ -26,7 +26,18 @@ contract Congress is ownable {
         });
     }
 
-    function createProposal(string name, bytes data) public {
+    function createProposal(string name, string methodSignature, bytes[] data) public {
+
+
+        bytes4 sig = bytes4(sha3(methodSignature));
+
+        assembly {
+            let x = mload(0x40);
+            mstore(x, sig);
+
+            // @todo itterate data in assambly to add it to call
+        }
+
         /*ProposalFactory factory;*/
         /*var (factory,) = modules.proposals.get(name);
         Proposal proposal = factory.delegatecall(data);
