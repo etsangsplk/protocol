@@ -14,6 +14,7 @@ contract Proposal {
     address public creator;
     uint public deadline;
 
+    mapping (address => bool) inFavour;
     mapping (address => bool) voted;
 
     event Voted(address indexed voter, bool inFavour);
@@ -35,10 +36,15 @@ contract Proposal {
             _voteRange = _range;
         }
 
+        // @todo no more struct, move into mapping so that we can count votes in congress
         votes.push(Vote(msg.sender, inFavour, _voteRange));
         voted[msg.sender] = true;
 
         Voted(msg.sender, inFavour);
+    }
+
+    function inFavour(address voter) constant returns (bool) {
+        return inFavour[voter];
     }
 
     // @todo move into quorum contract
