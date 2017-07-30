@@ -4,17 +4,24 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./executors/Executor.sol";
+import "./voting/VotingRights.sol";
 
 contract Congress is ownable {
 
     Proposal[] public proposals;
     Configuration public configuration;
+    VotingRights public rights;
 
     mapping (uint8 => Executor) executors;
     mapping (uint => bool) executed;
 
-    function Congress(Configuration _configuration) {
+    function Congress(Configuration _configuration, VotingRights _rights) {
         configuration = _configuration;
+        rights = _rights;
+    }
+
+    function vote(uint proposal, bool inFavour) {
+        require(rights.canVote(msg.sender));
     }
 
     /*function setExecutor(Executor _executor) onlyOwner {
