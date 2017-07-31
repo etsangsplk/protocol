@@ -41,11 +41,14 @@ contract Congress is ownable {
     }
 
     function propose(string name, bytes payload) public {
+        require(modules.strategy.canPropose(msg.sender));
+
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
         Proposal proposal = createProposal(factory, payload);
         proposals.push(proposal);
+
         ProposalCreated(id, name, msg.sender);
     }
 
