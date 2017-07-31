@@ -54,7 +54,7 @@ contract Congress is ownable {
 
     function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
         Proposal proposal;
-        uint32 len =  24 * 32;
+        uint len = payload.length;
         uint r = 0;
 
         assembly {
