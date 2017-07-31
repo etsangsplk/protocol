@@ -37,7 +37,7 @@ contract Congress is ownable {
     }
 
     function hasWon(uint proposal) constant returns (bool) {
-        return modules.strategy.hasWon(proposal);
+        return modules.strategy.proposalPassed(proposal);
     }
 
     function propose(string name, bytes payload) public {
