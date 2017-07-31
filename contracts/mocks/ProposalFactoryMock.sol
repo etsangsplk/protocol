@@ -18,12 +18,4 @@ contract MockProposal is Proposal {
     function MockProposal(uint _test) {
         test = _test;
     }
-
-    function voteRangeEnabled() returns (bool) {
-        false;
-    }
-
-    function isValidVoteRange(uint8 _range) returns (bool) {
-        false;
-    }
 }
