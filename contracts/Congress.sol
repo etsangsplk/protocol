@@ -9,7 +9,7 @@ import { ProposalFactoryInterface as ProposalFactory } from "./factories/Proposa
 
 contract Congress is ownable {
 
-    event Proposed(string name, address indexed proposer, uint index);
+    event ProposalCreated(uint id, string name, address indexed creator);
 
     struct Modules {
         ProposalRepository proposals;
@@ -31,9 +31,10 @@ contract Congress is ownable {
     function propose(string name, bytes payload) public {
         var (factory,) = modules.proposals.get(name);
 
+        uint id = proposals.length;
         Proposal proposal = createProposal(factory, payload);
         proposals.push(proposal);
-        Proposed(name, msg.sender, proposals.length - 1);
+        ProposalCreated(id, name, msg.sender);
     }
 
     function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {

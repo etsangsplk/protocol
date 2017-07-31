@@ -30,7 +30,7 @@ contract('Congress', function (accounts) {
             '0x780900dc0000000000000000000000000000000000000000000000000000000000000001'
         );
 
-        assert.equal(result.logs[0].event, 'Proposed', 'proposal was not added');
+        assert.equal(result.logs[0].event, 'ProposalCreated', 'proposal was not added');
     });
 
 });
