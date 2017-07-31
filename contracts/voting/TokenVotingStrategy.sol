@@ -11,14 +11,6 @@ contract TokenVotingStrategy is VotingStrategy {
         token = _token;
     }
 
-    function canPropose(address proposer) constant returns (bool) {
-        return token.balanceOf(proposer) > 0;
-    }
-
-    function canVote(address voter, uint propsal) constant returns (bool) {
-        return token.balanceOf(proposer) > 0;
-    }
-
     function quorumReached(uint proposal) constant returns (bool) {
         return false; // @todo
     }
