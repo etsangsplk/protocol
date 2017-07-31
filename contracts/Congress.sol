@@ -42,18 +42,4 @@ contract Congress is ownable {
             return(0, len)
         }
     }
-
-    /*function executeProposal(uint _proposal) external {
-        Proposal proposal = proposals[_proposal];
-
-        assert(!executed[_proposal]);
-        assert(proposal.deadline() < now);
-        assert(proposal.getVoterQuorum() > configuration.get("minimumQuorum"));
-        assert(proposal.didPass());
-
-        Executor executor = executors[uint8(proposal.proposalType())];
-        assert(executor.execute(proposal));
-
-        executed[_proposal] = true;
-    }*/
 }
