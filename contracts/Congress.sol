@@ -35,10 +35,15 @@ contract Congress is ownable {
 
     function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
         uint32 len =  24 * 32;
+        uint r = 0;
+
         assembly {
-            let result := 0
-            result := call(sub(gas, 10000), factory, 0, add(payload, 0x20), mload(payload), 0, len)
-            jumpi(invalidJumpLabel, iszero(result))
+            r := call(sub(gas, 10000), factory, 0, add(payload, 0x20), mload(payload), 0, len)
+        }
+
+        require(r == 1);
+
+        assembly {
             return(0, len)
         }
     }
