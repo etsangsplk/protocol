@@ -38,6 +38,7 @@ contract Congress is ownable {
 
     function vote(uint proposal, bool inFavour) {
         require(modules.rights.canVote(msg.sender));
+        proposals[proposal].vote(inFavour);
     }
 
     function propose(string name, bytes payload) public {
