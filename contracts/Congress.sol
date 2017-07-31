@@ -26,22 +26,21 @@ contract Congress is ownable {
         });
     }
 
-    function createProposal(string name, string methodSignature, bytes[] data) public {
+    function propose(string name, bytes payload) public {
+        var (factory,) = modules.proposals.get(name);
 
+        Proposal proposal = createProposal(factory, payload);
+        proposals.push(proposal);
+    }
 
-        bytes4 sig = bytes4(sha3(methodSignature));
-
+    function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
+        uint32 len =  24 * 32;
         assembly {
-            let x = mload(0x40);
-            mstore(x, sig);
-
-            // @todo itterate data in assambly to add it to call
+            let result := 0
+            result := call(sub(gas, 10000), factory, 0, add(payload, 0x20), mload(payload), 0, len)
+            jumpi(invalidJumpLabel, iszero(result))
+            return(0, len)
         }
-
-        /*ProposalFactory factory;*/
-        /*var (factory,) = modules.proposals.get(name);
-        Proposal proposal = factory.delegatecall(data);
-        proposals[proposals.length] = (proposal);*/
     }
 
     /*function executeProposal(uint _proposal) external {
