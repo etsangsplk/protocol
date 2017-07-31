@@ -13,7 +13,7 @@ contract Proposal {
     address public creator;
     uint public deadline;
 
-    mapping (address => bool) inFavour;
+    mapping (address => bool) isInFavour;
     mapping (address => bool) voted;
 
     event Voted(address indexed voter, bool inFavour);
@@ -31,8 +31,8 @@ contract Proposal {
         Voted(msg.sender, inFavour);
     }
 
-    function inFavour(address voter) constant returns (bool) {
-        return inFavour[voter];
+    function inFavour(address voter) public constant returns (bool) {
+        return isInFavour[voter];
     }
 
     // @todo move into quorum contract
