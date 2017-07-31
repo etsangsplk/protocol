@@ -7,7 +7,6 @@ contract Proposal {
     struct Vote {
         address voter;
         bool inFavour;
-        uint8 range;
     }
 
     Vote[] votes;
@@ -18,24 +17,14 @@ contract Proposal {
 
     event Voted(address indexed voter, bool inFavour);
 
-    function voteRangeEnabled() returns (bool);
-    function isValidVoteRange(uint8 _range) returns (bool);
-
     function deadline() constant returns (uint) {
         return deadline;
     }
 
-    function vote(bool inFavour, uint8 _range) external {
+    function vote(bool inFavour) external {
         assert(!voted[msg.sender]);
 
-        // ew
-        uint8 _voteRange = 0;
-        if (voteRangeEnabled()) {
-            require(isValidVoteRange(_range));
-            _voteRange = _range;
-        }
-
-        votes.push(Vote(msg.sender, inFavour, _voteRange));
+        votes.push(Vote(msg.sender, inFavour));
         voted[msg.sender] = true;
 
         Voted(msg.sender, inFavour);
