@@ -9,6 +9,8 @@ import { ProposalFactoryInterface as ProposalFactory } from "./factories/Proposa
 
 contract Congress is ownable {
 
+    event Proposed(string name, address indexed proposer, uint index);
+
     struct Modules {
         ProposalRepository proposals;
     }
@@ -19,10 +21,10 @@ contract Congress is ownable {
 
     mapping (uint => bool) executed;
 
-    function Congress(Configuration _configuration, ProposalRepository proposals) {
+    function Congress(Configuration _configuration, ProposalRepository _proposals) {
         configuration = _configuration;
         modules = Modules({
-            proposals: proposals
+            proposals: _proposals
         });
     }
 
@@ -31,9 +33,11 @@ contract Congress is ownable {
 
         Proposal proposal = createProposal(factory, payload);
         proposals.push(proposal);
+        Proposed(name, msg.sender, proposals.length - 1);
     }
 
     function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
+        Proposal proposal;
         uint32 len =  24 * 32;
         uint r = 0;
 
@@ -44,7 +48,7 @@ contract Congress is ownable {
         require(r == 1);
 
         assembly {
-            return(0, len)
+            proposal := mload(32)
         }
     }
 }
