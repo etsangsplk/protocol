@@ -28,7 +28,7 @@ contract Congress is ownable {
         });
     }
 
-    function propose(string name, bytes payload) public {
+    function propose(string name, bytes payload) external {
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
