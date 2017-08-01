@@ -12,4 +12,7 @@ contract VotingStrategyMock is VotingStrategy {
         return true;
     }
 
+    function votingWeightOf(address voter) constant returns (uint) {
+        return 1;
+    }
 }
