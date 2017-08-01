@@ -3,6 +3,7 @@ pragma solidity ^0.4.11;
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
+import "./voting/VotingStrategy.sol";
 import "./executors/Executor.sol";
 import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
 import { ProposalFactoryInterface as ProposalFactory } from "./factories/ProposalFactoryInterface.sol";
@@ -13,6 +14,7 @@ contract Congress is ownable {
 
     struct Modules {
         ProposalRepository proposals;
+        VotingStrategy strategy;
     }
 
     Modules modules;
@@ -21,19 +23,30 @@ contract Congress is ownable {
 
     mapping (uint => bool) executed;
 
-    function Congress(Configuration _configuration, ProposalRepository _proposals) {
+    function Congress(
+        Configuration _configuration,
+        ProposalRepository _proposals,
+        VotingStrategy _strategy
+    )
+    {
         configuration = _configuration;
         modules = Modules({
-            proposals: _proposals
+            proposals: _proposals,
+            strategy: _strategy
         });
     }
 
-    function propose(string name, bytes payload) external {
+    function hasWon(uint proposal) constant returns (bool) {
+        return modules.strategy.proposalPassed(proposal);
+    }
+
+    function propose(string name, bytes payload) public {
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
         Proposal proposal = createProposal(factory, payload);
         proposals.push(proposal);
+
         ProposalCreated(id, name, msg.sender);
     }
 
