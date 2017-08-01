@@ -3,6 +3,7 @@ pragma solidity ^0.4.11;
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
+import "./voting/VotingStrategy.sol";
 import "./executors/Executor.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
@@ -15,6 +16,7 @@ contract Congress is ownable {
     struct Modules {
         ProposalRepository proposals;
         VotingRights rights;
+        VotingStrategy strategy;
     }
 
     Modules modules;
@@ -26,13 +28,15 @@ contract Congress is ownable {
     function Congress(
         Configuration _configuration,
         ProposalRepository _proposals,
-        VotingRights _rights
+        VotingRights _rights,
+        VotingStrategy _strategy
     )
     {
         configuration = _configuration;
         modules = Modules({
             proposals: _proposals,
-            rights: _rights
+            rights: _rights,
+            strategy: _strategy
         });
     }
 
@@ -47,6 +51,7 @@ contract Congress is ownable {
         uint id = proposals.length;
         Proposal proposal = createProposal(factory, payload);
         proposals.push(proposal);
+
         ProposalCreated(id, name, msg.sender);
     }
 
