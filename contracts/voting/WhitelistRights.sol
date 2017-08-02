@@ -11,6 +11,6 @@ contract WhitelistRights is VotingRights {
     }
 
     function canPropose(address proposer) constant returns (bool) {
-        return whitelisted[voter];
+        return whitelisted[proposer];
     }
 }
