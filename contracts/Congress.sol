@@ -5,6 +5,7 @@ import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
 import "./executors/Executor.sol";
+import "./voting/VotingRights.sol";
 import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
 import { ProposalFactoryInterface as ProposalFactory } from "./factories/ProposalFactoryInterface.sol";
 
@@ -14,6 +15,7 @@ contract Congress is ownable {
 
     struct Modules {
         ProposalRepository proposals;
+        VotingRights rights;
         VotingStrategy strategy;
     }
 
@@ -26,21 +28,24 @@ contract Congress is ownable {
     function Congress(
         Configuration _configuration,
         ProposalRepository _proposals,
+        VotingRights _rights,
         VotingStrategy _strategy
     )
     {
         configuration = _configuration;
         modules = Modules({
             proposals: _proposals,
+            rights: _rights,
             strategy: _strategy
         });
     }
 
-    function hasWon(uint proposal) constant returns (bool) {
-        return modules.strategy.proposalPassed(proposal);
+    function vote(uint proposal, bool inFavour) {
+        require(modules.rights.canVote(msg.sender));
+        proposals[proposal].vote(inFavour);
     }
 
-    function propose(string name, bytes payload) public {
+    function propose(string name, bytes payload) external {
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;

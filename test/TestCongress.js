@@ -4,6 +4,7 @@ var Repository = artifacts.require('repositories/ProposalRepository.sol');
 var Factory = artifacts.require('mock/ProposalFactoryMock.sol');
 var Executor = artifacts.require('mock/ExecutorMock.sol');
 var VotingStrategy = artifacts.require('mock/VotingStrategyMock.sol');
+var VotingRights = artifacts.require('voting/WhitelistRights.sol');
 
 const utils = require('./helpers/Utils.js');
 
@@ -21,9 +22,15 @@ contract('Congress', function (accounts) {
         factory = await Factory.new();
         let executor = await Executor.new();
         let votingStrategy = await VotingStrategy.new();
+        let votingRights = await VotingRights.new([accounts[0]]);
 
         await repo.add("foo", factory.address, executor.address, "0x0");
-        congress = await MyCongress.new(config.address, repo.address, votingStrategy.address);
+        congress = await MyCongress.new(
+            config.address,
+            repo.address,
+            votingStrategy.address,
+            votingRights.address
+         );
     });
 
     it('should allow me to propose', async () => {
