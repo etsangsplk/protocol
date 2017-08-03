@@ -22,7 +22,7 @@ contract('Congress', function (accounts) {
         factory = await Factory.new();
         let executor = await Executor.new();
         let votingStrategy = await VotingStrategy.new();
-        let votingRights = await VotingRights.new();
+        let votingRights = await VotingRights.new([accounts[0]]);
 
         await repo.add("foo", factory.address, executor.address, "0x0");
         congress = await MyCongress.new(
