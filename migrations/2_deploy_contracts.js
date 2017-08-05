@@ -1,5 +1,5 @@
-var SafeMath = artifacts.require('SafeMath.sol');
-var Configuration = artifacts.require("./dao/Configuration.sol");
+const SafeMath = artifacts.require('./SafeMath.sol');
+const Configuration = artifacts.require("./Configuration.sol");
 
 module.exports = async (deployer) => {
   deployer.deploy(Configuration);
