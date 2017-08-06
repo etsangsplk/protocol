@@ -4,7 +4,7 @@ import "../executors/Executor.sol";
 import "./ProposalRepositoryInterface.sol";
 import {ProposalFactoryInterface as ProposalFactory} from "../factories/ProposalFactoryInterface.sol";
 
-contract ProposalRepository is ProposalRepositoryInterface {
+contract ProposalRegistry is ProposalRegistryInterface {
 
     struct Proposal {
         ProposalFactory factory;

@@ -6,7 +6,7 @@ import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
 import "./executors/Executor.sol";
 import "./voting/VotingRights.sol";
-import { ProposalRepositoryInterface as ProposalRepository } from "./repositories/ProposalRepositoryInterface.sol";
+import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
 import { ProposalFactoryInterface as ProposalFactory } from "./factories/ProposalFactoryInterface.sol";
 
 contract Congress is ownable {
@@ -14,7 +14,7 @@ contract Congress is ownable {
     event ProposalCreated(uint id, string name, address indexed creator);
 
     struct Modules {
-        ProposalRepository proposals;
+        ProposalRegistry proposals;
         VotingRights rights;
         VotingStrategy strategy;
     }
@@ -27,7 +27,7 @@ contract Congress is ownable {
 
     function Congress(
         Configuration _configuration,
-        ProposalRepository _proposals,
+        ProposalRegistry _proposals,
         VotingRights _rights,
         VotingStrategy _strategy
     )
