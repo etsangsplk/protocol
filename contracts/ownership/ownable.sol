@@ -5,7 +5,7 @@ contract ownable {
     address public owner;
 
     modifier onlyOwner {
-        if (!isOwner(msg.sender)) throw;
+        require(isOwner(msg.sender));
         _;
     }
 
