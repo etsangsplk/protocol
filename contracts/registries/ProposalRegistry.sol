@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "../executors/Executor.sol";
-import "./ProposalRepositoryInterface.sol";
+import "./ProposalRegistryInterface.sol";
 import {ProposalFactoryInterface as ProposalFactory} from "../factories/ProposalFactoryInterface.sol";
 
 contract ProposalRegistry is ProposalRegistryInterface {
