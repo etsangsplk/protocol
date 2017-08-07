@@ -45,7 +45,7 @@ contract Congress is ownable {
         proposals[proposal].vote(inFavour);
     }
 
-    function propose(string name, bytes payload) external {
+    /*function propose(string name, bytes payload) external {
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
@@ -53,9 +53,9 @@ contract Congress is ownable {
         proposals.push(proposal);
 
         ProposalCreated(id, name, msg.sender);
-    }
+    }*/
 
-    function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
+    /*function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
         Proposal proposal;
         uint len = payload.length;
         uint r = 0;
@@ -69,5 +69,9 @@ contract Congress is ownable {
         assembly {
             proposal := mload(32)
         }
+    }*/
+
+    function createProposal(bytes code, bytes32[] arguments) internal {
+
     }
 }
