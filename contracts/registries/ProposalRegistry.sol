@@ -7,16 +7,14 @@ import {ProposalFactoryInterface as ProposalFactory} from "../factories/Proposal
 contract ProposalRegistry is ProposalRegistryInterface {
 
     struct Proposal {
-        ProposalFactory factory;
         Executor executor; // @todo: may need a factory here, so executors can have state
         bytes abi;
     }
 
     mapping (string => Proposal) private registry;
 
-    function add(string name, ProposalFactory factory, Executor executor, bytes abi) public {
+    function add(string name, Executor executor, bytes abi) public {
         registry[name] = Proposal({
-            factory: factory,
             executor: executor,
             abi: abi
         });
@@ -24,9 +22,9 @@ contract ProposalRegistry is ProposalRegistryInterface {
         ProposalAdded(name);
     }
 
-    function get(string name) public constant returns (ProposalFactory factory, Executor executor, bytes abi) {
+    function get(string name) public constant returns (Executor executor, bytes abi) {
         Proposal memory proposal = registry[name];
-        return (proposal.factory, proposal.executor, proposal.abi);
+        return (proposal.executor, proposal.abi);
     }
 
     function remove(string name) public {
