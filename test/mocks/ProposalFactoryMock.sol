@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
-import "../factories/ProposalFactoryInterface.sol";
-import "../proposals/Proposal.sol";
+import "../../contracts/factories/ProposalFactoryInterface.sol";
+import "../../contracts/proposals/Proposal.sol";
 
 contract ProposalFactoryMock is ProposalFactoryInterface {
 

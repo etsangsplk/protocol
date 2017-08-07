@@ -1,9 +1,9 @@
 const MyCongress = artifacts.require('Congress.sol');
 var Configuration = artifacts.require('Configuration.sol');
 var Registry = artifacts.require('registries/ProposalRegistry.sol');
-var Factory = artifacts.require('mock/ProposalFactoryMock.sol');
-var Executor = artifacts.require('mock/ExecutorMock.sol');
-var VotingStrategy = artifacts.require('mock/VotingStrategyMock.sol');
+var Factory = artifacts.require('./mock/ProposalFactoryMock.sol');
+var Executor = artifacts.require('./mock/ExecutorMock.sol');
+var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
 var VotingRights = artifacts.require('voting/WhitelistRights.sol');
 
 const utils = require('./helpers/Utils.js');
