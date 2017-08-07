@@ -1,6 +1,6 @@
 const MyCongress = artifacts.require('Congress.sol');
 var Configuration = artifacts.require('Configuration.sol');
-var Repository = artifacts.require('repositories/ProposalRepository.sol');
+var Registry = artifacts.require('registries/ProposalRegistry.sol');
 var Factory = artifacts.require('mock/ProposalFactoryMock.sol');
 var Executor = artifacts.require('mock/ExecutorMock.sol');
 var VotingStrategy = artifacts.require('mock/VotingStrategyMock.sol');
@@ -18,7 +18,7 @@ contract('Congress', function (accounts) {
 
     beforeEach(async () => {
         config = await Configuration.new();
-        repo = await Repository.new();
+        repo = await Registry.new();
         factory = await Factory.new();
         let executor = await Executor.new();
         let votingStrategy = await VotingStrategy.new();
