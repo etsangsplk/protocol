@@ -6,33 +6,39 @@ contract Proposal {
 
     struct Vote {
         address voter;
-        bool inFavour;
+        uint8 choice;
     }
 
     Vote[] votes;
+
+    uint8[] public validChoices;
     address public creator;
     uint public deadline;
 
-    mapping (address => bool) isInFavour;
     mapping (address => bool) voted;
 
-    event Voted(address indexed voter, bool inFavour);
+    event Voted(address indexed voter, uint8 choice);
+
+    function Proposal(uint8[] _validChoices) {
+        validChoices = _validChoices;
+    }
 
     function deadline() constant returns (uint) {
         return deadline;
     }
 
-    function vote(bool inFavour) external {
+    function vote(uint8 choice) external {
+        // @todo assert valid choice
         assert(!voted[msg.sender]);
 
-        votes.push(Vote(msg.sender, inFavour));
+        votes.push(Vote(msg.sender, choice));
         voted[msg.sender] = true;
 
-        Voted(msg.sender, inFavour);
+        Voted(msg.sender, choice);
     }
 
-    function inFavour(address voter) public constant returns (bool) {
-        return isInFavour[voter];
+    function voted(address voter) constant returns (bool) {
+        return voted[voter];
     }
 
     // @todo move into quorum contract
