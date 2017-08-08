@@ -16,15 +16,12 @@ contract Proposal {
 
     function Proposal(uint8[] _choices) {
         choices = _choices;
-    }
-
-    function deadline() constant returns (uint) {
-        return deadline;
+        creator = msg.sender;
     }
 
     function vote(uint8 choice) external {
-        // @todo assert valid choice
-        require(voted[msg.sender]);
+        assert(isValidChoice(choice));
+        require(!voted[msg.sender]);
 
         voters.push(msg.sender);
         votes[msg.sender] = choice;
@@ -33,12 +30,30 @@ contract Proposal {
         Voted(msg.sender, choice);
     }
 
+    function deadline() constant returns (uint) {
+        return deadline;
+    }
+
     function voted(address voter) constant returns (bool) {
         return voted[voter];
     }
 
     function getVote(address voter) constant returns (uint8) {
         return votes[voter];
+    }
+
+    function getVoters() constant returns (address[]) {
+        return voters;
+    }
+
+    function isValidChoice(uint8 _choice) constant returns (bool) {
+        for (uint i = 0; i < choices.length; i++) {
+            if (choices[i] == _choice) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // @todo move into quorum contract
