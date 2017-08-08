@@ -4,23 +4,18 @@ import "../tokens/ERC20.sol";
 
 contract Proposal {
 
-    struct Vote {
-        address voter;
-        uint8 choice;
-    }
-
-    Vote[] votes;
-
-    uint8[] public validChoices;
+    address[] public voters;
+    uint8[] public choices;
     address public creator;
     uint public deadline;
 
     mapping (address => bool) voted;
+    mapping (address => uint8) votes;
 
     event Voted(address indexed voter, uint8 choice);
 
-    function Proposal(uint8[] _validChoices) {
-        validChoices = _validChoices;
+    function Proposal(uint8[] _choices) {
+        choices = _choices;
     }
 
     function deadline() constant returns (uint) {
@@ -29,9 +24,10 @@ contract Proposal {
 
     function vote(uint8 choice) external {
         // @todo assert valid choice
-        assert(!voted[msg.sender]);
+        require(voted[msg.sender]);
 
-        votes.push(Vote(msg.sender, choice));
+        voters.push(msg.sender);
+        votes[msg.sender] = choice;
         voted[msg.sender] = true;
 
         Voted(msg.sender, choice);
@@ -39,6 +35,10 @@ contract Proposal {
 
     function voted(address voter) constant returns (bool) {
         return voted[voter];
+    }
+
+    function getVote(address voter) constant returns (uint8) {
+        return votes[voter];
     }
 
     // @todo move into quorum contract
