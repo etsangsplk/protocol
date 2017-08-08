@@ -38,11 +38,11 @@ contract Proposal {
         return voted[voter];
     }
 
-    function getVote(address voter) constant returns (uint8) {
+    function choice(address voter) constant returns (uint8) {
         return votes[voter];
     }
 
-    function getVoters() constant returns (address[]) {
+    function voters() constant returns (address[]) {
         return voters;
     }
 
