@@ -40,9 +40,9 @@ contract Congress is ownable {
         });
     }
 
-    function vote(uint proposal, bool inFavour) {
+    function vote(uint proposal, uint8 choice) {
         require(modules.rights.canVote(msg.sender));
-        proposals[proposal].vote(inFavour);
+        proposals[proposal].vote(choice);
     }
 
     function propose(string name, bytes payload) external {
