@@ -14,11 +14,6 @@ contract Proposal {
 
     event Voted(address indexed voter, uint8 choice);
 
-    function Proposal(uint8[] _validChoices) {
-        validChoices = _validChoices;
-        creator = msg.sender;
-    }
-
     function vote(uint8 choice) external {
         assert(isValidChoice(choice));
         require(!voted[msg.sender]);
