@@ -34,10 +34,6 @@ contract Proposal {
         return deadline;
     }
 
-    function voted(address voter) constant returns (bool) {
-        return voted[voter];
-    }
-
     function choice(address voter) constant returns (uint8) {
         return choices[voter];
     }
