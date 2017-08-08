@@ -5,17 +5,17 @@ import "../tokens/ERC20.sol";
 contract Proposal {
 
     address[] public voters;
-    uint8[] public choices;
+    uint8[] public validChoices;
     address public creator;
     uint public deadline;
 
     mapping (address => bool) voted;
-    mapping (address => uint8) votes;
+    mapping (address => uint8) choices;
 
     event Voted(address indexed voter, uint8 choice);
 
-    function Proposal(uint8[] _choices) {
-        choices = _choices;
+    function Proposal(uint8[] _validChoices) {
+        validChoices = _validChoices;
         creator = msg.sender;
     }
 
@@ -24,7 +24,7 @@ contract Proposal {
         require(!voted[msg.sender]);
 
         voters.push(msg.sender);
-        votes[msg.sender] = choice;
+        choices[msg.sender] = choice;
         voted[msg.sender] = true;
 
         Voted(msg.sender, choice);
@@ -39,7 +39,7 @@ contract Proposal {
     }
 
     function choice(address voter) constant returns (uint8) {
-        return votes[voter];
+        return choices[voter];
     }
 
     function voters() constant returns (address[]) {
@@ -47,8 +47,8 @@ contract Proposal {
     }
 
     function isValidChoice(uint8 _choice) constant returns (bool) {
-        for (uint i = 0; i < choices.length; i++) {
-            if (choices[i] == _choice) {
+        for (uint i = 0; i < validChoices.length; i++) {
+            if (validChoices[i] == _choice) {
                 return true;
             }
         }
