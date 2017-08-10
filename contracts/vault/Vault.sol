@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "./VaultInterface.sol";
-import "./ERC20.sol";
+import "../tokens/ERC20.sol";
 
 contract Vault is VaultInterface {
 
