@@ -15,4 +15,12 @@ contract Vault is VaultInterface {
         require(this.balance >= amount);
         to.transfer(amount);
     }
+
+    function balance() public constant returns (uint) {
+        return this.balance;
+    }
+
+    function balanceOf(address _token) public constant returns (uint) {
+        return ERC20(_token).balanceOf(this);
+    }
 }
