@@ -14,7 +14,7 @@ contract Version {
     function createCongress(
         address votingRights,
         address votingStragegy
-    ) external public returns (uint) {
+    ) external returns (uint) {
 
         uint id = nextId();
         Congress congress = new Congress(
