@@ -2,7 +2,6 @@ pragma solidity ^0.4.11;
 
 import "../Congress.sol";
 import "../Configuration.sol";
-import "../registries/ProposalRegistry.sol";
 
 contract Version {
 
