@@ -40,11 +40,17 @@ contract Congress is ownable {
         });
     }
 
+    /// @dev Votes on a proposal.
+    /// @param proposal ID of the proposal to vote on.
+    /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) {
         require(modules.rights.canVote(msg.sender));
         proposals[proposal].vote(choice);
     }
 
+    /// @dev Creates a new proposal and stores it.
+    /// @param name Name of the desired proposal type.
+    /// @param payload Bytes encoded arguments used for constructor.
     function propose(string name, bytes payload) external {
         var (factory,) = modules.proposals.get(name);
 
