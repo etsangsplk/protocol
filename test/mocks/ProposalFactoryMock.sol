@@ -6,7 +6,7 @@ import "../../contracts/proposals/Proposal.sol";
 contract ProposalFactoryMock is ProposalFactoryInterface {
 
     function create(uint test) returns (Proposal) {
-        uint8[] memory choices;
+        uint8[] choices;
         choices.push(1);
         choices.push(2);
         return new MockProposal(test, choices);
