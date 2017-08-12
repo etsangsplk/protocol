@@ -11,8 +11,8 @@ contract Version {
     event CongressCreated(address congress);
 
     function createCongress(
-        address votingRights,
-        address votingStragegy
+        VotingRights votingRights,
+        VotingStrategy votingStragegy
     ) external returns (uint) {
 
         uint id = nextId();
