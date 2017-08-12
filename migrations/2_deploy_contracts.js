@@ -1,6 +1,6 @@
 const SafeMath = artifacts.require('./SafeMath.sol');
-const Configuration = artifacts.require("./Configuration.sol");
+const Version = artifacts.require("./Version.sol");
 
 module.exports = async (deployer) => {
-  deployer.deploy(Configuration);
+  deployer.deploy(Version);
 };
