@@ -2,6 +2,7 @@ pragma solidity ^0.4.11;
 
 import "../Congress.sol";
 import "../Configuration.sol";
+import { ProposalRegistry as Registry } from "../registries/ProposalRegistry.sol"; // had to do it like this cause congress
 
 contract Version {
 
@@ -18,7 +19,7 @@ contract Version {
         uint id = nextId();
         Congress congress = new Congress(
             new Configuration(),
-            new ProposalRegistry(),
+            new Registry(),
             votingRights,
             votingStragegy
         );
