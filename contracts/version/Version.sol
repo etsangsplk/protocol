@@ -7,14 +7,16 @@ import "../registries/ProposalRegistry.sol";
 contract Version {
 
     mapping (uint => address) congresses;
+    uint public lastId;
 
     event CongressCreated(address congress);
 
-    // @todo could potentially return ID think about this
     function createCongress(
         address votingRights,
         address votingStragegy
-    ) external public returns (Congress) {
+    ) external public returns (uint) {
+
+        uint id = nextId();
         Congress congress = new Congress(
             new Configuration(),
             new ProposalRegistry(),
@@ -22,9 +24,13 @@ contract Version {
             votingStragegy
         );
 
-        // @todo save in map
+        congresses[id] = congress;
 
-        return congress;
+        return id;
+    }
+
+    function nextId() returns (uint) {
+        lastId++; return lastId;
     }
 
 }
