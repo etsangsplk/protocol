@@ -9,11 +9,11 @@ contract Version {
     mapping (uint => address) congresses;
     uint public lastId;
 
-    event CongressCreated(address congress);
+    event CongressCreated(uint id, address congress);
 
     function createCongress(
         VotingRights votingRights,
-        VotingStrategy votingStragegy
+        VotingStrategy votingStrategy
     ) external returns (uint) {
 
         uint id = nextId();
@@ -21,16 +21,24 @@ contract Version {
             new Configuration(),
             new Registry(),
             votingRights,
-            votingStragegy
+            votingStrategy
         );
 
+        CongressCreated(id, congress);
         congresses[id] = congress;
-
         return id;
     }
 
-    function nextId() returns (uint) {
-        lastId++; return lastId;
+    function destroyCongress(uint id) external {
+        // @todo trigger selfdestruct
+        delete congresses[id];
     }
 
+    function getCongress(uint id) external returns (address) {
+        return congresses[id];
+    }
+
+    function nextId() private returns (uint) {
+        lastId++; return lastId;
+    }
 }
