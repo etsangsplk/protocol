@@ -28,8 +28,8 @@ contract('Congress', function (accounts) {
         congress = await MyCongress.new(
             config.address,
             repo.address,
-            votingStrategy.address,
-            votingRights.address
+            votingRights.address,
+            votingStrategy.address
          );
     });
 
