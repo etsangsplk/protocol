@@ -55,14 +55,14 @@ contract Congress is ownable {
     /// @param payload Bytes encoded arguments used for constructor.
     function propose(string name, bytes payload) external {
         require(modules.rights.canPropose(msg.sender));
-        
+
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
 
         Proposal proposal = createProposal(factory, payload);
         if (!modules.rights.requiresApproval()) {
-            proposal.approve();
+            proposal.isApproved();
         }
 
         proposals.push(proposal);

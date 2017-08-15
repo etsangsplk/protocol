@@ -36,7 +36,7 @@ contract('Congress', function (accounts) {
     it('should allow me to propose', async () => {
         let result = await congress.propose(
             "foo",
-            '0x780900dc0000000000000000000000000000000000000000000000000000000000000001'
+            "0x780900dc"
         );
 
         assert.equal(result.logs[0].event, 'ProposalCreated', 'proposal was not added');

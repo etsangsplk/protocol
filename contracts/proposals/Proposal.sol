@@ -9,7 +9,7 @@ contract Proposal is ownable {
     uint8[] public validChoices;
     address public creator;
     uint public deadline;
-    bool public approved;
+    bool public approved = false;
 
     mapping (address => bool) voted;
     mapping (address => uint8) choices;
@@ -34,7 +34,7 @@ contract Proposal is ownable {
         Voted(msg.sender, choice);
     }
 
-    function approve() external onlyOwner {
+    function approve() /*external onlyOwner*/ {
         approved = true;
     }
 
