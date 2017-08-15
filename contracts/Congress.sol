@@ -7,7 +7,6 @@ import "./voting/VotingStrategy.sol";
 import "./executors/Executor.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
-import { ProposalFactoryInterface as ProposalFactory } from "./factories/ProposalFactoryInterface.sol";
 
 contract Congress is ownable {
 
@@ -71,7 +70,13 @@ contract Congress is ownable {
         }
     }*/
 
-    function createProposal(bytes code, bytes32[] arguments) internal {
+    function createProposal(bytes code, bytes32[] arguments) internal returns (address) {
+        address retval;
+        assembly {
+            retval := create(0,add(code,0x20), mload(code))
+            jumpi(invalidJumpLabel,iszero(extcodesize(addr)))
+        }
 
+        return retval;
     }
 }
