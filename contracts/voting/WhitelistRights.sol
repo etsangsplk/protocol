@@ -19,4 +19,12 @@ contract WhitelistRights is VotingRights {
     function canPropose(address proposer) constant returns (bool) {
         return whitelisted[proposer];
     }
+
+    function canApprove(address approver) constant returns (bool) {
+        return false;
+    }
+
+    function requiresApproval(/* will require proposal id */) constant returns (bool) {
+        return false;
+    }
 }
