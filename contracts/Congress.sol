@@ -10,7 +10,7 @@ import { ProposalRegistryInterface as ProposalRegistry } from "./registries/Prop
 
 contract Congress is ownable {
 
-    event ProposalCreated(uint id, string name, address indexed creator);
+    event ProposalCreated(uint id, address addr, string name, address indexed creator);
 
     struct Modules {
         ProposalRegistry proposals;
@@ -47,24 +47,20 @@ contract Congress is ownable {
         proposals[proposal].vote(choice);
     }
 
-<<<<<<< HEAD
-    /*function propose(string name, bytes payload) external {
-=======
     /// @dev Creates a new proposal and stores it.
     /// @param name Name of the desired proposal type.
-    /// @param payload Bytes encoded arguments used for constructor.
-    function propose(string name, bytes payload) external {
+    /// @param code Bytes encoded arguments used for constructor.
+    function propose(string name, bytes code) external {
         require(modules.rights.canPropose(msg.sender));
-        
->>>>>>> development
-        var (factory,) = modules.proposals.get(name);
+
+        //var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
-        Proposal proposal = createProposal(factory, payload);
+        Proposal proposal = Proposal(createProposal(code, code)); // @todo
         proposals.push(proposal);
 
-        ProposalCreated(id, name, msg.sender);
-    }*/
+        ProposalCreated(id, address(proposal), name, msg.sender);
+    }
 
     /*function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
         Proposal proposal;
@@ -82,11 +78,11 @@ contract Congress is ownable {
         }
     }*/
 
-    function createProposal(bytes code, bytes32[] arguments) internal returns (address) {
+    function createProposal(bytes code, bytes payload) internal returns (address) {
         address retval;
         assembly {
             retval := create(0,add(code,0x20), mload(code))
-            jumpi(invalidJumpLabel,iszero(extcodesize(addr)))
+            jumpi(invalidJumpLabel,iszero(extcodesize(retval)))
         }
 
         return retval;
