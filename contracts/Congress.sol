@@ -49,40 +49,29 @@ contract Congress is ownable {
 
     /// @dev Creates a new proposal and stores it.
     /// @param name Name of the desired proposal type.
-    /// @param code Bytes encoded arguments used for constructor.
-    function propose(string name, bytes code) external {
+    /// @param code Byte code for the proposal type.
+    /// @param arguments Byte encoded constructor arguments
+    function propose(string name, bytes code, bytes32[] arguments) external {
         require(modules.rights.canPropose(msg.sender));
 
+        // @todo we will need to hash the code to see if it matches the stored hash
         //var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;
-        Proposal proposal = Proposal(createProposal(code, code)); // @todo
+        Proposal proposal = Proposal(createProposal(code, arguments));
         proposals.push(proposal);
 
         ProposalCreated(id, address(proposal), name, msg.sender);
     }
 
-    /*function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
-        Proposal proposal;
-        uint len = payload.length;
-        uint r = 0;
+    function createProposal(bytes code, bytes32[] arguments) internal returns (address) {
 
-        assembly {
-            r := call(sub(gas, 10000), factory, 0, add(payload, 0x20), mload(payload), 0, len)
-        }
+        // @todo code + arguments need be merged
 
-        require(r == 1);
-
-        assembly {
-            proposal := mload(32)
-        }
-    }*/
-
-    function createProposal(bytes code, bytes payload) internal returns (address) {
         address retval;
         assembly {
-            retval := create(0,add(code,0x20), mload(code))
-            jumpi(invalidJumpLabel,iszero(extcodesize(retval)))
+            retval := create(0, add(code,0x20), mload(code))
+            jumpi(invalidJumpLabel, iszero(extcodesize(retval)))
         }
 
         return retval;
