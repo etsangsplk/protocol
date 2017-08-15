@@ -45,6 +45,7 @@ contract Congress is ownable {
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) {
         require(modules.rights.canVote(msg.sender));
+        require(modules.rights.approved());
         proposals[proposal].vote(choice);
     }
 
@@ -58,7 +59,18 @@ contract Congress is ownable {
         Proposal proposal = createProposal(factory, payload);
         proposals.push(proposal);
 
+        if (!modules.rights.requiresApproval()) {
+            proposal.approve();
+        }
+
         ProposalCreated(id, name, msg.sender);
+    }
+
+    /// @dev Approves a proposal.
+    /// @param proposal ID of the proposal we want to approve
+    function approve(uint proposal) external {
+        require(modules.rights.canApprove(msg.sender));
+        proposals[proposals].approve();
     }
 
     function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
