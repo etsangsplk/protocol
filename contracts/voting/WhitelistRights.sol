@@ -24,7 +24,8 @@ contract WhitelistRights is VotingRights {
         return false;
     }
 
-    function requiresApproval(/* will require proposal id */) constant returns (bool) {
+    /* will require proposal id */
+    function requiresApproval() constant returns (bool) {
         return false;
     }
 }

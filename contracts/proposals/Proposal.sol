@@ -24,7 +24,7 @@ contract Proposal is ownable {
 
     function vote(uint8 choice) external {
         assert(isValidChoice(choice));
-        require(approved());
+        require(approved);
         require(!voted[msg.sender]);
 
         voters.push(msg.sender);
@@ -46,7 +46,7 @@ contract Proposal is ownable {
         return deadline;
     }
 
-    function approved() constant returns (bool) {
+    function isApproved() constant returns (bool) {
         return approved;
     }
 
