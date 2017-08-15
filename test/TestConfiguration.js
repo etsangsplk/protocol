@@ -1,4 +1,4 @@
-const Configuration = artifacts.require('dao/Configuration.sol');
+const Configuration = artifacts.require('Configuration.sol');
 const utils = require('./helpers/Utils.js');
 
 let config;

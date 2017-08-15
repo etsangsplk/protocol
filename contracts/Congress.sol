@@ -39,12 +39,24 @@ contract Congress is ownable {
         });
     }
 
-    function vote(uint proposal, bool inFavour) {
+    /// @dev Votes on a proposal.
+    /// @param proposal ID of the proposal to vote on.
+    /// @param choice Choice selected for vote.
+    function vote(uint proposal, uint8 choice) {
         require(modules.rights.canVote(msg.sender));
-        proposals[proposal].vote(inFavour);
+        proposals[proposal].vote(choice);
     }
 
+<<<<<<< HEAD
     /*function propose(string name, bytes payload) external {
+=======
+    /// @dev Creates a new proposal and stores it.
+    /// @param name Name of the desired proposal type.
+    /// @param payload Bytes encoded arguments used for constructor.
+    function propose(string name, bytes payload) external {
+        require(modules.rights.canPropose(msg.sender));
+        
+>>>>>>> development
         var (factory,) = modules.proposals.get(name);
 
         uint id = proposals.length;

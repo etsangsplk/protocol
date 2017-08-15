@@ -4,63 +4,52 @@ import "../tokens/ERC20.sol";
 
 contract Proposal {
 
-    struct Vote {
-        address voter;
-        bool inFavour;
-    }
-
-    Vote[] votes;
+    address[] public voters;
+    uint8[] public validChoices;
     address public creator;
     uint public deadline;
 
-    mapping (address => bool) isInFavour;
     mapping (address => bool) voted;
+    mapping (address => uint8) choices;
 
-    event Voted(address indexed voter, bool inFavour);
+    event Voted(address indexed voter, uint8 choice);
+
+    function Proposal(uint8[] _choices) {
+        for (uint i = 0; i < _choices.length; i++) {
+            validChoices.push(_choices[i]);
+        }
+    }
+
+    function vote(uint8 choice) external {
+        assert(isValidChoice(choice));
+        require(!voted[msg.sender]);
+
+        voters.push(msg.sender);
+        choices[msg.sender] = choice;
+        voted[msg.sender] = true;
+
+        Voted(msg.sender, choice);
+    }
 
     function deadline() constant returns (uint) {
         return deadline;
     }
 
-    function vote(bool inFavour) external {
-        assert(!voted[msg.sender]);
-
-        votes.push(Vote(msg.sender, inFavour));
-        voted[msg.sender] = true;
-
-        Voted(msg.sender, inFavour);
+    function choice(address voter) constant returns (uint8) {
+        return choices[voter];
     }
 
-    function inFavour(address voter) public constant returns (bool) {
-        return isInFavour[voter];
+    function voters() constant returns (address[]) {
+        return voters;
     }
 
-    // @todo move into quorum contract
-    /*function didPass() returns (bool) {
-        uint yes = 0;
-        uint no = 0;
-
-        for (uint i = 0; i < votes.length; i++) {
-            Vote memory vote = votes[i];
-            uint voteBalance = token.balanceOf(vote.voter);
-
-            if (vote.inFavour) {
-                yes += voteBalance;
-                continue;
+    function isValidChoice(uint8 _choice) constant returns (bool) {
+        for (uint i = 0; i < validChoices.length; i++) {
+            if (validChoices[i] == _choice) {
+                return true;
             }
-
-            no += voteBalance;
         }
 
-        return yes > no;
+        return false;
     }
-
-    function getVoterQuorum() returns (uint) {
-        uint sum = 0;
-        for (uint i = 0; i < votes.length; i++) {
-            sum += token.balanceOf(votes[i].voter);
-        }
-
-        return (sum / token.totalSupply()) * 100;
-    }*/
 }
