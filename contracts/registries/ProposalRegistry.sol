@@ -2,6 +2,7 @@ pragma solidity ^0.4.11;
 
 import "../executors/Executor.sol";
 import "./ProposalRegistryInterface.sol";
+import "../ownership/ownable.sol";
 
 contract ProposalRegistry is ProposalRegistryInterface {
 
@@ -37,6 +38,8 @@ contract ProposalRegistry is ProposalRegistryInterface {
             retval := create(0, add(payload,0x20), mload(payload))
             jumpi(0x02, iszero(extcodesize(retval)))
         }
+
+        ownable(retval).transferOwnership(msg.sender);
 
         return retval;
     }

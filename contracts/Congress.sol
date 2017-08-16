@@ -44,7 +44,15 @@ contract Congress is ownable {
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) {
         require(modules.rights.canVote(msg.sender));
+        require(proposals[proposal].isApproved());
         proposals[proposal].vote(choice);
+    }
+
+    /// @dev Approves a proposal.
+    /// @param proposal ID of the proposal we want to approve
+    function approve(uint proposal) external {
+        require(modules.rights.canApprove(msg.sender));
+        proposals[proposal].approve();
     }
 
     /// @dev Creates a new proposal and stores it.
@@ -56,6 +64,11 @@ contract Congress is ownable {
         // @todo we will need to hash the code to see if it matches the stored hash
         uint id = proposals.length;
         Proposal proposal = Proposal(modules.proposals.create(name, arguments));
+
+        if (!modules.rights.requiresApproval()) {
+            proposal.approve();
+        }
+
         proposals.push(proposal);
 
         ProposalCreated(id, address(proposal), name, msg.sender);

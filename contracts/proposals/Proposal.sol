@@ -1,13 +1,15 @@
 pragma solidity ^0.4.11;
 
 import "../tokens/ERC20.sol";
+import "../ownership/ownable.sol";
 
-contract Proposal {
+contract Proposal is ownable {
 
     address[] public voters;
     uint8[] public validChoices;
     address public creator;
     uint public deadline;
+    bool public approved = false;
 
     mapping (address => bool) voted;
     mapping (address => uint8) choices;
@@ -22,6 +24,7 @@ contract Proposal {
 
     function vote(uint8 choice) external {
         assert(isValidChoice(choice));
+        require(approved);
         require(!voted[msg.sender]);
 
         voters.push(msg.sender);
@@ -31,8 +34,20 @@ contract Proposal {
         Voted(msg.sender, choice);
     }
 
+    function approve() external onlyOwner {
+        approved = true;
+    }
+
+    function unapprove() external onlyOwner {
+        approved = false;
+    }
+
     function deadline() constant returns (uint) {
         return deadline;
+    }
+
+    function isApproved() constant returns (bool) {
+        return approved;
     }
 
     function choice(address voter) constant returns (uint8) {
