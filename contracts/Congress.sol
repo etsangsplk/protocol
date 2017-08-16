@@ -7,12 +7,10 @@ import "./voting/VotingStrategy.sol";
 import "./executors/Executor.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
-import { ProposalFactoryInterface as ProposalFactory } from "./factories/ProposalFactoryInterface.sol";
 
 contract Congress is ownable {
 
-    event ProposalCreated(uint id, string name, address indexed creator);
-    event Foo(bool foo);
+    event ProposalCreated(uint id, address addr, string name, address indexed creator);
 
     struct Modules {
         ProposalRegistry proposals;
@@ -50,26 +48,6 @@ contract Congress is ownable {
         proposals[proposal].vote(choice);
     }
 
-    /// @dev Creates a new proposal and stores it.
-    /// @param name Name of the desired proposal type.
-    /// @param payload Bytes encoded arguments used for constructor.
-    function propose(string name, bytes payload) external {
-        require(modules.rights.canPropose(msg.sender));
-
-        var (factory,) = modules.proposals.get(name);
-
-        uint id = proposals.length;
-
-        Proposal proposal = createProposal(factory, payload);
-        if (!modules.rights.requiresApproval()) {
-            proposal.isApproved();
-        }
-
-        proposals.push(proposal);
-
-        ProposalCreated(id, name, msg.sender);
-    }
-
     /// @dev Approves a proposal.
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
@@ -77,19 +55,22 @@ contract Congress is ownable {
         proposals[proposal].approve();
     }
 
-    function createProposal(ProposalFactory factory, bytes payload) internal returns (Proposal) {
-        Proposal proposal;
-        uint len = payload.length;
-        uint r = 0;
+    /// @dev Creates a new proposal and stores it.
+    /// @param name Name of the desired proposal type.
+    /// @param arguments Byte encoded constructor arguments
+    function propose(string name, bytes arguments) external {
+        require(modules.rights.canPropose(msg.sender));
 
-        assembly {
-            r := call(sub(gas, 10000), factory, 0, add(payload, 0x20), mload(payload), 0, len)
+        // @todo we will need to hash the code to see if it matches the stored hash
+        uint id = proposals.length;
+        Proposal proposal = Proposal(modules.proposals.create(name, arguments));
+
+        if (!modules.rights.requiresApproval()) {
+            propsal.approve();
         }
 
-        require(r == 1);
+        proposals.push(proposal);
 
-        assembly {
-            proposal := mload(32)
-        }
+        ProposalCreated(id, address(proposal), name, msg.sender);
     }
 }

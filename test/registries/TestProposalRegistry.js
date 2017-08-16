@@ -1,6 +1,5 @@
 const ProposalRegistry = artifacts.require('registries/ProposalRegistry.sol');
 var ExecutorMock = artifacts.require("mocks/ExecutorMock.sol");
-var ProposalFactory = artifacts.require("factories/ProposalFactoryInterface.sol");
 
 let registry;
 
@@ -17,12 +16,11 @@ contract('ProposalRegistry', function (accounts) {
         it('verifies that proposal can be added to registry', async () => {
 
             let executor = await ExecutorMock.new();
-            let factory = await ProposalFactory.new();
 
             let result = await registry.add(
                 "foo",
                 executor.address,
-                factory.address,
+                "0x0",
                 "foo"
             );
 
