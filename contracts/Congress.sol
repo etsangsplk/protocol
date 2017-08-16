@@ -66,7 +66,7 @@ contract Congress is ownable {
         Proposal proposal = Proposal(modules.proposals.create(name, arguments));
 
         if (!modules.rights.requiresApproval()) {
-            propsal.approve();
+            proposal.approve();
         }
 
         proposals.push(proposal);

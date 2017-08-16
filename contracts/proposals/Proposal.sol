@@ -34,7 +34,7 @@ contract Proposal is ownable {
         Voted(msg.sender, choice);
     }
 
-    function approve() /*external onlyOwner*/ {
+    function approve() external onlyOwner {
         approved = true;
     }
 
