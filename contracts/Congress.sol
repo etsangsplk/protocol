@@ -49,9 +49,8 @@ contract Congress is ownable {
 
     /// @dev Creates a new proposal and stores it.
     /// @param name Name of the desired proposal type.
-    /// @param code Byte code for the proposal type.
     /// @param arguments Byte encoded constructor arguments
-    function propose(string name, bytes code, bytes32[] arguments) external {
+    function propose(string name, bytes arguments) external {
         require(modules.rights.canPropose(msg.sender));
 
         // @todo we will need to hash the code to see if it matches the stored hash
