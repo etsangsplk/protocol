@@ -39,10 +39,10 @@ contract('Congress', function (accounts) {
     it('should allow me to propose', async () => {
         let result = await congress.propose(
             "foo",
-            );
+            "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002"
+        );
 
-
-        console.log(await congress.proposals.call());
+        let proposals = await congress.proposals.call();
 
         assert.equal(result.logs[0].event, 'ProposalCreated', 'proposal was not added');
     });

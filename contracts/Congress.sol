@@ -54,25 +54,12 @@ contract Congress is ownable {
         require(modules.rights.canPropose(msg.sender));
 
         // @todo we will need to hash the code to see if it matches the stored hash
-        var (,,code) = modules.proposals.get(name);
-
         uint id = proposals.length;
-        Proposal proposal = Proposal(createProposal(code, arguments));
+        Proposal proposal = Proposal(modules.proposals.create(name, arguments));
         proposals.push(proposal);
 
+        proposal.voters();
+
         ProposalCreated(id, address(proposal), name, msg.sender);
-    }
-
-    function createProposal(bytes code, bytes32[] arguments) internal returns (address) {
-
-        // @todo code + arguments need be merged
-
-        address retval;
-        assembly {
-            retval := create(0, add(code,0x20), mload(code))
-            jumpi(invalidJumpLabel, iszero(extcodesize(retval)))
-        }
-
-        return retval;
     }
 }

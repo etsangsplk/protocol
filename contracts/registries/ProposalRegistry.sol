@@ -23,6 +23,23 @@ contract ProposalRegistry is ProposalRegistryInterface {
         ProposalAdded(name);
     }
 
+    function create(string name, bytes arguments) public constant returns (address) {
+        bytes memory code = registry[name].code;
+        bytes memory payload = new bytes(code.length + arguments.length);
+
+        uint k = 0;
+        for (uint i = 0; i < code.length; i++) payload[k++] = code[i];
+        for (i = 0; i < arguments.length; i++) payload[k++] = arguments[i];
+
+        address retval;
+        assembly {
+            retval := create(0, add(payload,0x20), mload(payload))
+            jumpi(invalidJumpLabel, iszero(extcodesize(retval)))
+        }
+
+        return retval;
+    }
+
     function get(string name) public constant returns (Executor executor, bytes abi, bytes code) {
         Proposal memory proposal = registry[name];
         return (proposal.executor, proposal.abi, proposal.code);
