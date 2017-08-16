@@ -22,16 +22,16 @@ contract Proposal is ownable {
         }
     }
 
-    function vote(uint8 choice) external {
+    function vote(address voter, uint8 choice) external onlyOwner {
         assert(isValidChoice(choice));
         require(approved);
-        require(!voted[msg.sender]);
+        require(!voted[voter]);
 
-        voters.push(msg.sender);
-        choices[msg.sender] = choice;
-        voted[msg.sender] = true;
+        voters.push(voter);
+        choices[voter] = choice;
+        voted[voter] = true;
 
-        Voted(msg.sender, choice);
+        Voted(voter, choice);
     }
 
     function approve() external onlyOwner {
