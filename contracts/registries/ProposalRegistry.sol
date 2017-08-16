@@ -23,6 +23,7 @@ contract ProposalRegistry is ProposalRegistryInterface {
         ProposalAdded(name);
     }
 
+    // @todo this will need to be moved as soon as we move the bytecodes to a central location
     function create(string name, bytes arguments) public constant returns (address) {
         bytes memory code = registry[name].code;
         bytes memory payload = new bytes(code.length + arguments.length);
@@ -34,7 +35,7 @@ contract ProposalRegistry is ProposalRegistryInterface {
         address retval;
         assembly {
             retval := create(0, add(payload,0x20), mload(payload))
-            jumpi(invalidJumpLabel, iszero(extcodesize(retval)))
+            jumpi(0x02, iszero(extcodesize(retval)))
         }
 
         return retval;
