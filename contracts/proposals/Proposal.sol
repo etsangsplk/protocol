@@ -15,24 +15,8 @@ contract Proposal is ownable {
         }
     }
 
-    function approve() external onlyOwner {
-        approved = true;
-    }
-
-    function unapprove() external onlyOwner {
-        approved = false;
-    }
-
     function deadline() constant returns (uint) {
         return deadline;
-    }
-
-    function isApproved() constant returns (bool) {
-        return approved;
-    }
-
-    function choice(address voter) constant returns (uint8) {
-        return choices[voter];
     }
 
     function voters() constant returns (address[]) {

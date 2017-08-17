@@ -12,14 +12,14 @@ contract Voting is ownable {
 
         address[] voters;
         mapping (address => bool) voted;
-        mapping (address => uint) choices;
+        mapping (address => uint8) choices;
     }
 
     ProposalData[] proposals;
 
     function vote(uint id, address voter, uint8 choice) external onlyOwner {
         require(!proposals[id].voted[voter]);
-        require(isValidChoice(id));
+        require(isValidChoice(id, choice));
 
         ProposalData storage proposal = proposals[id];
         proposal.voters.push(voter);
@@ -27,7 +27,7 @@ contract Voting is ownable {
         proposal.voted[voter] = true;
     }
 
-    function isValidChoice(uint8 id) constant returns (bool) {
-        return Proposal(proposals[id].proposal).isValidChoice(id);
+    function isValidChoice(uint id, uint8 choice) constant returns (bool) {
+        return Proposal(proposals[id].proposal).isValidChoice(choice);
     }
 }

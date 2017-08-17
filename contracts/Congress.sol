@@ -4,6 +4,7 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
+import "./voting/Voting.sol";
 import "./executors/Executor.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
@@ -16,6 +17,7 @@ contract Congress is ownable {
         ProposalRegistry proposals;
         VotingRights rights;
         VotingStrategy strategy;
+        Voting voting;
     }
 
     Modules modules;
@@ -35,7 +37,8 @@ contract Congress is ownable {
         modules = Modules({
             proposals: _proposals,
             rights: _rights,
-            strategy: _strategy
+            strategy: _strategy,
+            voting: new Voting() // @todo DI
         });
     }
 
@@ -44,15 +47,16 @@ contract Congress is ownable {
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) {
         require(modules.rights.canVote(msg.sender));
-        require(proposals[proposal].isApproved());
-        proposals[proposal].vote(msg.sender, choice);
+        /*require(proposals[proposal].isApproved());*/
+        /*proposals[proposal].vote(msg.sender, choice);*/
+        modules.voting.vote(proposal, msg.sender, choice);
     }
 
     /// @dev Approves a proposal.
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
         require(modules.rights.canApprove(msg.sender));
-        proposals[proposal].approve();
+        /*proposals[proposal].approve();*/
     }
 
     /// @dev Creates a new proposal and stores it.
@@ -66,7 +70,7 @@ contract Congress is ownable {
         Proposal proposal = Proposal(modules.proposals.create(name, arguments));
 
         if (!modules.rights.requiresApproval()) {
-            proposal.approve();
+            /*proposal.approve();*/
         }
 
         proposals.push(proposal);
