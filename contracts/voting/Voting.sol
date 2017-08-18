@@ -6,6 +6,7 @@ import "../proposals/Proposal.sol";
 contract Voting is ownable {
 
     struct ProposalData {
+        bool approved;
 
         address creator;
         address proposal;
@@ -25,6 +26,14 @@ contract Voting is ownable {
         proposal.voters.push(voter);
         proposal.choices[voter] = choice;
         proposal.voted[voter] = true;
+    }
+
+    function approve(uint id) external onlyOwner {
+        proposals[id].approved = true;
+    }
+
+    function isApproved(uint id) constant returns (bool) {
+        return proposals[id].approved;
     }
 
     function isValidChoice(uint id, uint8 choice) constant returns (bool) {
