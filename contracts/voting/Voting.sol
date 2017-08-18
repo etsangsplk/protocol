@@ -19,13 +19,16 @@ contract Voting is ownable {
     ProposalData[] proposals;
 
     function create(address creator, address proposal) external onlyOwner returns (uint) {
-        ProposalData storage proposal = proposals[proposals.length];
+        uint id = proposals.length;
+        proposals.length++;
+
+        ProposalData storage proposal = proposals[id];
 
         proposal.creator = creator;
         proposal.proposal = proposal;
         proposal.approved = false;
 
-        return proposals.length;
+        return id;
     }
 
     function vote(uint id, address voter, uint8 choice) external onlyOwner {
