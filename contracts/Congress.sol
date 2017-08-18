@@ -64,11 +64,12 @@ contract Congress is ownable {
         require(modules.rights.canPropose(msg.sender));
 
         // @todo we will need to hash the code to see if it matches the stored hash
-        uint id = proposals.length;
         Proposal proposal = Proposal(modules.proposals.create(name, arguments));
 
+        uint id = modules.voting.create(msg.sender, proposal);
+
         if (!modules.rights.requiresApproval()) {
-            /*modules.voting.approve()*/
+            modules.voting.approve(id);
         }
 
         proposals.push(proposal);
