@@ -54,7 +54,7 @@ contract Congress is ownable {
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
         require(modules.rights.canApprove(msg.sender));
-        /*proposals[proposal].approve();*/
+        modules.voting.approve(proposal);
     }
 
     /// @dev Creates a new proposal and stores it.

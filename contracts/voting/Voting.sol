@@ -22,11 +22,11 @@ contract Voting is ownable {
         uint id = proposals.length;
         proposals.length++;
 
-        ProposalData storage proposal = proposals[id];
+        ProposalData storage data = proposals[id];
 
-        proposal.creator = creator;
-        proposal.proposal = proposal;
-        proposal.approved = false;
+        data.creator = creator;
+        data.proposal = proposal;
+        data.approved = false;
 
         return id;
     }
