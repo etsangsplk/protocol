@@ -1,22 +1,19 @@
 pragma solidity ^0.4.11;
 
-import "../executors/Executor.sol";
 import "./ProposalRegistryInterface.sol";
 import "../ownership/ownable.sol";
 
 contract ProposalRegistry is ProposalRegistryInterface {
 
     struct Proposal {
-        Executor executor; // @todo: may need a factory here, so executors can have state
         bytes code; // @todo this belongs into a global store of sorts.
         bytes abi;
     }
 
     mapping (string => Proposal) private registry;
 
-    function add(string name, Executor executor, bytes code, bytes abi) public {
+    function add(string name, bytes code, bytes abi) public {
         registry[name] = Proposal({
-            executor: executor,
             code: code,
             abi: abi
         });
@@ -44,9 +41,9 @@ contract ProposalRegistry is ProposalRegistryInterface {
         return retval;
     }
 
-    function get(string name) public constant returns (Executor executor, bytes abi, bytes code) {
+    function get(string name) public constant returns (bytes abi, bytes code) {
         Proposal memory proposal = registry[name];
-        return (proposal.executor, proposal.abi, proposal.code);
+        return (proposal.abi, proposal.code);
     }
 
     function remove(string name) public {
