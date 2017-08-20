@@ -15,4 +15,6 @@ contract Proposal is ownable {
 
         return false;
     }
+
+    function execute() external;
 }
