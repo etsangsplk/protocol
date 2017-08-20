@@ -9,5 +9,4 @@ contract ExtendableChoiceProposal is Proposal {
             choices.push(_choices[i]);
         }
     }
-
 }

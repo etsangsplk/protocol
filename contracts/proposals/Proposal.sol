@@ -5,6 +5,13 @@ import "../ownership/ownable.sol";
 contract Proposal is ownable {
 
     uint8[] public choices;
+    bool public executed = false;
+
+    modifier onlyWhenNotExecuted() {
+        require(!executed); _;
+    }
+
+    function execute() external onlyWhenNotExecuted;
 
     function isValidChoice(uint8 _choice) constant returns (bool) {
         for (uint i = 0; i < choices.length; i++) {
@@ -15,6 +22,4 @@ contract Proposal is ownable {
 
         return false;
     }
-
-    function execute() external;
 }
