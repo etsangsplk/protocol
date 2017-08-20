@@ -7,11 +7,7 @@ contract Proposal is ownable {
     uint8[] public choices;
     bool public executed = false;
 
-    modifier onlyWhenNotExecuted() {
-        require(!executed); _;
-    }
-
-    function execute() external onlyWhenNotExecuted;
+    function execute() external;
 
     function isValidChoice(uint8 _choice) constant returns (bool) {
         for (uint i = 0; i < choices.length; i++) {
