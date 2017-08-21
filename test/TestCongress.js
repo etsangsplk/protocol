@@ -3,7 +3,7 @@ var Configuration = artifacts.require('Configuration.sol');
 var Registry = artifacts.require('registries/ProposalRegistry.sol');
 var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
 var VotingRights = artifacts.require('voting/WhitelistRights.sol');
-var Proposal = artifacts.require('proposals/Proposal.sol');
+var Proposal = artifacts.require('./mock/ProposalMock.sol');
 
 const utils = require('./helpers/Utils.js');
 
