@@ -67,7 +67,7 @@ contract Congress is ownable {
 
         uint id = modules.voting.create(msg.sender, proposal);
 
-        if (!modules.rights.requiresApproval()) {
+        if (!modules.rights.requiresApproval(id)) {
             modules.voting.approve(id);
         }
 
