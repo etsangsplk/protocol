@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "./VotingInterface.sol";
+import { VotingInterface as Voting } from "./VotingInterface.sol";
 
 contract VotingAware {
 
