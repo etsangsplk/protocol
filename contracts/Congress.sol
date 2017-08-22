@@ -39,6 +39,10 @@ contract Congress is ownable {
             strategy: _strategy,
             voting: new Voting() // @todo DI
         });
+
+        // @todo does not belong here
+        modules.rights.setVoting(modules.voting);
+        modules.strategy.setVoting(modules.voting);
     }
 
     /// @dev Votes on a proposal.

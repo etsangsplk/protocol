@@ -6,7 +6,9 @@ contract VotingAware {
 
     Voting public voting;
 
-    function VotingAware(address _voting) {
+    modifier onlyWhenVotingNotSet() { require(address(voting) == 0); _; }
+
+    function setVoting(address _voting) onlyWhenVotingNotSet {
         voting = Voting(_voting);
     }
 }
