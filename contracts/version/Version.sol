@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-import { Voting as Voting } from "../Voting/Voting.sol";
+import { Voting as Voting } from "../voting/Voting.sol";
 import "../Congress.sol";
 import "../Configuration.sol";
 import { ProposalRegistry as Registry } from "../registries/ProposalRegistry.sol"; // had to do it like this cause congress
