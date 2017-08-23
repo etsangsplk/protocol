@@ -10,5 +10,6 @@ contract VotingInterface {
     function voters(uint id) constant returns (address[]);
     function choice(uint id, address voter) constant returns (uint8);
     function hasVoted(uint id, address voter) constant returns (bool);
+    function getProposal(uint id) constant returns (address);
 
 }

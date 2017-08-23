@@ -77,10 +77,15 @@ contract Congress is ownable {
         ProposalCreated(id, address(proposal), name, msg.sender);
     }
 
-    function execute(uint proposal) external {
-        require(modules.rights.quorumReached(proposal));
+    function execute(uint id) external {
+        Proposal proposal = Proposal(modules.voting.getProposal(id));
 
-        uint8 winner = modules.strategy.winningChoice(proposal);
+        require(!proposal.wasExecuted());
+        require(modules.rights.quorumReached(id));
+
+        uint8 winner = modules.strategy.winningChoice(id);
         require(winner != 0); // 0 is defaulted to false
+
+        proposal.execute();
     }
 }

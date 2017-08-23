@@ -81,4 +81,8 @@ contract Voting is VotingInterface, ownable {
     function hasVoted(uint id, address voter) constant returns (bool) {
         return proposals[id].voted[voter];
     }
+
+    function getProposal(uint id) constant returns (address) {
+        return proposals[id].proposal;
+    }
 }
