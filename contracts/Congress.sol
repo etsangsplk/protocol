@@ -88,6 +88,6 @@ contract Congress is ownable {
         uint8 winner = modules.strategy.winningChoice(id);
         require(winner != 0); // 0 is defaulted to false
 
-        proposal.execute();
+        proposal.execute(winner);
     }
 }

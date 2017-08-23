@@ -13,7 +13,7 @@ contract Proposal is ownable {
         return executed;
     }
 
-    function execute() external;
+    function execute(uint8 choice) external onlyOwner;
 
     function isValidChoice(uint8 _choice) constant returns (bool) {
         for (uint i = 0; i < choices.length; i++) {
