@@ -19,13 +19,17 @@ contract Version {
 
         uint id = nextId();
 
+        Voting voting = new Voting();
+
         Congress congress = new Congress(
             new Configuration(),
             new Registry(),
-            new Voting(),
+            voting,
             votingRights,
             votingStrategy
         );
+
+        voting.transferOwnership(address(congress));
 
         CongressCreated(id, congress);
         congresses[id] = congress;

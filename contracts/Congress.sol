@@ -19,7 +19,6 @@ contract Congress is ownable {
     }
 
     Modules modules;
-    Proposal[] public proposals;
     Configuration public configuration;
 
     mapping (uint => bool) executed;
@@ -74,8 +73,6 @@ contract Congress is ownable {
         if (!modules.rights.requiresApproval(id)) {
             modules.voting.approve(id);
         }
-
-        proposals.push(proposal);
 
         ProposalCreated(id, address(proposal), name, msg.sender);
     }
