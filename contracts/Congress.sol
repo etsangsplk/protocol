@@ -4,7 +4,6 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
-import "./voting/Voting.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
 
@@ -16,7 +15,7 @@ contract Congress is ownable {
         ProposalRegistry proposals;
         VotingRights rights;
         VotingStrategy strategy;
-        Voting voting;
+        VotingInterface voting;
     }
 
     Modules modules;
@@ -28,6 +27,7 @@ contract Congress is ownable {
     function Congress(
         Configuration _configuration,
         ProposalRegistry _proposals,
+        address _voting,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -37,7 +37,7 @@ contract Congress is ownable {
             proposals: _proposals,
             rights: _rights,
             strategy: _strategy,
-            voting: new Voting() // @todo DI
+            voting: VotingInterface(_voting)
         });
 
         // @todo does not belong here
