@@ -81,7 +81,7 @@ contract Congress is ownable {
         Proposal proposal = Proposal(modules.voting.getProposal(id));
 
         require(!proposal.wasExecuted());
-        require(modules.rights.quorumReached(id));
+        require(modules.strategy.quorumReached(id));
 
         uint8 winner = modules.strategy.winningChoice(id);
         require(winner != 0); // 0 is defaulted to false
