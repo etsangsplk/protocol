@@ -4,7 +4,6 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
-import "./voting/Voting.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
 
@@ -16,11 +15,10 @@ contract Congress is ownable {
         ProposalRegistry proposals;
         VotingRights rights;
         VotingStrategy strategy;
-        Voting voting;
+        VotingInterface voting;
     }
 
     Modules modules;
-    Proposal[] public proposals;
     Configuration public configuration;
 
     mapping (uint => bool) executed;
@@ -28,6 +26,7 @@ contract Congress is ownable {
     function Congress(
         Configuration _configuration,
         ProposalRegistry _proposals,
+        address _voting,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -37,8 +36,12 @@ contract Congress is ownable {
             proposals: _proposals,
             rights: _rights,
             strategy: _strategy,
-            voting: new Voting() // @todo DI
+            voting: VotingInterface(_voting)
         });
+
+        // @todo does not belong here
+        modules.rights.setVoting(modules.voting);
+        modules.strategy.setVoting(modules.voting);
     }
 
     /// @dev Votes on a proposal.
@@ -67,11 +70,9 @@ contract Congress is ownable {
 
         uint id = modules.voting.create(msg.sender, proposal);
 
-        if (!modules.rights.requiresApproval()) {
+        if (!modules.rights.requiresApproval(id)) {
             modules.voting.approve(id);
         }
-
-        proposals.push(proposal);
 
         ProposalCreated(id, address(proposal), name, msg.sender);
     }
