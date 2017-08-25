@@ -6,35 +6,6 @@ import "./VotingInterface.sol";
 
 contract Voting is VotingInterface, ownable {
 
-    struct ProposalData {
-        bool approved;
-
-        address creator;
-        address proposal;
-
-        address[] voters;
-        mapping (address => bool) voted;
-        mapping (address => uint8) choices;
-    }
-
-    ProposalData[] proposals;
-
-    /// @dev Creates a new proposal and stores it.
-    /// @param creator Address of the proposal creator.
-    /// @param proposal Address of the proposal contract.
-    /// @return id of the created proposal.
-    function create(address creator, address proposal) external onlyOwner returns (uint) {
-        uint id = proposals.length;
-        proposals.length++;
-
-        ProposalData storage data = proposals[id];
-        data.creator = creator;
-        data.proposal = proposal;
-        data.approved = false;
-
-        return id;
-    }
-
     /// @dev Votes on a proposal.
     /// @param id Id of the proposal.
     /// @param voter Address of the voter.
