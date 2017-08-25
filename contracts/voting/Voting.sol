@@ -20,27 +20,6 @@ contract Voting is VotingInterface, ownable {
         proposal.voted[voter] = true;
     }
 
-    /// @dev Approves a proposal.
-    /// @param id Id of the proposal.
-    function approve(uint id) external onlyOwner {
-        proposals[id].approved = true;
-    }
-
-    /// @dev Checks if a proposal has been approved.
-    /// @param id Id of the proposal.
-    /// @return bool if proposal is approved.
-    function isApproved(uint id) constant returns (bool) {
-        return proposals[id].approved;
-    }
-
-    /// @dev Checks if a choice is valid
-    /// @param id Id of the proposal.
-    /// @param choice Users selected voting choice.
-    /// @return bool if choice is valid.
-    function isValidChoice(uint id, uint8 choice) constant returns (bool) {
-        return Proposal(proposals[id].proposal).isValidChoice(choice);
-    }
-
     function voters(uint id) constant returns (address[]) {
         return proposals[id].voters;
     }
