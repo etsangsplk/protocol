@@ -69,6 +69,10 @@ contract ProposalManager is ownable {
         return proposals[id].choices[voter];
     }
 
+    /// @dev Returns if voter has voter or not.
+    /// @param id Id of the proposal.
+    /// @param voter Address of the voter.
+    /// @return bool Whether voter has voted.
     function hasVoted(uint id, address voter) constant returns (bool) {
         return proposals[id].voted[voter];
     }
