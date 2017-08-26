@@ -3,7 +3,7 @@ pragma solidity ^0.4.11;
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
-import "../manager/ProposalManager.sol";
+import "./managers/ProposalManager.sol";
 import "./voting/VotingStrategy.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
@@ -27,6 +27,7 @@ contract Congress is ownable {
     function Congress(
         Configuration _configuration,
         ProposalRegistry _proposals,
+        ProposalManager _proposalManager,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -38,9 +39,11 @@ contract Congress is ownable {
             strategy: _strategy,
         });
 
+        proposalManager = _proposalManager;
+
         // @todo change to repository
-        modules.rights.setVoting(modules.voting);
-        modules.strategy.setVoting(modules.voting);
+        /*modules.rights.setVoting(modules.voting);*/
+        /*modules.strategy.setVoting(modules.voting);*/
     }
 
     /// @dev Votes on a proposal.
@@ -48,16 +51,16 @@ contract Congress is ownable {
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) external {
         // @todo move this logic into a new class
-        require(!proposalManager.hasVoted(id, voter));
-        require(proposalManager.isValidChoice(id, choice));
-        proposalManager.appendVote(id, voter, choice);
+        require(!proposalManager.hasVoted(proposal, msg.sender));
+        require(proposalManager.isValidChoice(proposal, choice));
+        proposalManager.appendVote(proposal, msg.sender, choice);
     }
 
     /// @dev Approves a proposal.
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
         require(modules.rights.canApprove(msg.sender));
-        modules.voting.approve(proposal);
+        proposalManager.approve(proposal);
     }
 
     /// @dev Creates a new proposal and stores it.
@@ -69,10 +72,10 @@ contract Congress is ownable {
         // @todo we will need to hash the code to see if it matches the stored hash
         Proposal proposal = Proposal(modules.proposals.create(name, arguments));
 
-        uint id = modules.voting.create(msg.sender, proposal);
+        uint id = proposalManager.add(msg.sender, proposal);
 
         if (!modules.rights.requiresApproval(id)) {
-            modules.voting.approve(id);
+            proposalManager.approve(id);
         }
 
         ProposalCreated(id, address(proposal), name, msg.sender);

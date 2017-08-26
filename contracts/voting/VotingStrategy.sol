@@ -1,8 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "./VotingAware.sol";
-
-contract VotingStrategy is VotingAware {
+contract VotingStrategy {
 
     function quorumReached(uint proposal) constant returns (bool);
     function proposalPassed(uint proposal) constant returns (bool);

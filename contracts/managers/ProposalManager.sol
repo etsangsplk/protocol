@@ -1,6 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "../ownership/ownable.sol";
+import "../proposals/Proposal.sol";
 
 contract ProposalManager is ownable {
 
