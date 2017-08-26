@@ -30,6 +30,7 @@ contract Congress is ownable {
         Configuration _configuration,
         ProposalRegistry _proposals,
         ProposalManager _proposalManager,
+        VotingManager _votingManager,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -42,6 +43,7 @@ contract Congress is ownable {
         });
 
         proposalManager = _proposalManager;
+        votingManager = _votingManager;
 
         // @todo change to repository
         /*modules.rights.setVoting(modules.voting);*/
@@ -52,11 +54,9 @@ contract Congress is ownable {
     /// @param proposal ID of the proposal to vote on.
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) external {
-        require(modules.rights.isApproved(proposal));
+        require(proposalManager.isApproved(proposal));
         require(modules.rights.canVote(msg.sender));
-        require(!votingManager.hasVoted(proposal, msg.sender));
-        require(votingManager.isValidChoice(proposal, choice));
-        votingManager.appendVote(proposal, msg.sender, choice);
+        votingManager.vote(proposal, msg.sender, choice);
     }
 
     /// @dev Approves a proposal.

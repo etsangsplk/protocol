@@ -20,16 +20,19 @@ contract Version {
         uint id = nextId();
 
         ProposalManager manager = new ProposalManager();
+        VotingManager votingManager = new VotingManager();
 
         Congress congress = new Congress(
             new Configuration(),
             new Registry(),
             manager,
+            votingManager,
             votingRights,
             votingStrategy
         );
 
         manager.transferOwnership(address(congress));
+        votingManager.transferOwnership(address(congress));
 
         CongressCreated(id, congress);
         congresses[id] = congress;
