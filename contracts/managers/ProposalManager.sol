@@ -53,4 +53,26 @@ contract ProposalManager is ownable {
     function isValidChoice(uint id, uint8 choice) constant returns (bool) {
         return Proposal(proposals[id].proposal).isValidChoice(choice);
     }
+
+    /// @dev Returns voters for proposal.
+    /// @param id Id of the proposal.
+    /// @return address[] All voter addresses
+    function voters(uint id) constant returns (address[]) {
+        return proposals[id].voters;
+    }
+
+    function choice(uint id, address voter) constant returns (uint8) {
+        return proposals[id].choices[voter];
+    }
+
+    function hasVoted(uint id, address voter) constant returns (bool) {
+        return proposals[id].voted[voter];
+    }
+
+    function appendVote(uint id, address voter, uint8 choice) external onlyOwner {
+        ProposalData storage proposal = proposals[id];
+        proposal.voters.push(voter);
+        proposal.choices[voter] = choice;
+        proposal.voted[voter] = true;
+    }
 }

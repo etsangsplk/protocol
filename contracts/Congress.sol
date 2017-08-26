@@ -15,18 +15,17 @@ contract Congress is ownable {
         ProposalRegistry proposals;
         VotingRights rights;
         VotingStrategy strategy;
-        VotingInterface voting;
     }
 
     Modules modules;
     Configuration public configuration;
+    ProposalManager public proposalManager;
 
     mapping (uint => bool) executed;
 
     function Congress(
         Configuration _configuration,
         ProposalRegistry _proposals,
-        address _voting,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -36,10 +35,9 @@ contract Congress is ownable {
             proposals: _proposals,
             rights: _rights,
             strategy: _strategy,
-            voting: VotingInterface(_voting)
         });
 
-        // @todo does not belong here
+        // @todo change to repository
         modules.rights.setVoting(modules.voting);
         modules.strategy.setVoting(modules.voting);
     }
@@ -47,9 +45,11 @@ contract Congress is ownable {
     /// @dev Votes on a proposal.
     /// @param proposal ID of the proposal to vote on.
     /// @param choice Choice selected for vote.
-    function vote(uint proposal, uint8 choice) {
-        require(modules.rights.canVote(msg.sender));
-        modules.voting.vote(proposal, msg.sender, choice);
+    function vote(uint proposal, uint8 choice) external {
+        // @todo move this logic into a new class
+        require(!proposalManager.hasVoted(id, voter));
+        require(proposalManager.isValidChoice(id, choice));
+        proposalManager.appendVote(id, voter, choice);
     }
 
     /// @dev Approves a proposal.
