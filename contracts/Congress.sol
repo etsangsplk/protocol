@@ -3,6 +3,7 @@ pragma solidity ^0.4.11;
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
+import "../manager/ProposalManager.sol";
 import "./voting/VotingStrategy.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
