@@ -21,6 +21,7 @@ contract Congress is ownable {
     Modules modules;
     Configuration public configuration;
     ProposalManager public proposalManager;
+    VotingManager public votingManager;
 
     mapping (uint => bool) executed;
 
@@ -50,10 +51,11 @@ contract Congress is ownable {
     /// @param proposal ID of the proposal to vote on.
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) external {
-        // @todo move this logic into a new class
-        require(!proposalManager.hasVoted(proposal, msg.sender));
-        require(proposalManager.isValidChoice(proposal, choice));
-        proposalManager.appendVote(proposal, msg.sender, choice);
+        require(modules.rights.isApproved(proposal));
+        require(modules.rights.canVote(msg.sender));
+        require(!votingManager.hasVoted(proposal, msg.sender));
+        require(votingManager.isValidChoice(proposal, choice));
+        votingManager.appendVote(proposal, msg.sender, choice);
     }
 
     /// @dev Approves a proposal.
