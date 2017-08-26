@@ -39,7 +39,7 @@ contract('Congress', function (accounts) {
             votingStrategy.address
          );
 
-         await manager.transferOwnership(congress.address);
+         await proposalManager.transferOwnership(congress.address);
          await votingManager.transferOwnership(congress.address);
     });
 
