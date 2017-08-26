@@ -4,6 +4,7 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./managers/ProposalManager.sol";
+import "./managers/VotingManager.sol";
 import "./voting/VotingStrategy.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
