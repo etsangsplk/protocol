@@ -61,6 +61,10 @@ contract ProposalManager is ownable {
         return proposals[id].voters;
     }
 
+    /// @dev Returns choice selected by voter.
+    /// @param id Id of the proposal.
+    /// @param voter Address of the voter.
+    /// @return uint8 Value of the selected choice.
     function choice(uint id, address voter) constant returns (uint8) {
         return proposals[id].choices[voter];
     }
