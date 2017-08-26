@@ -4,6 +4,7 @@ import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./managers/ProposalManager.sol";
+import "./managers/VotingManager.sol";
 import "./voting/VotingStrategy.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
@@ -21,6 +22,7 @@ contract Congress is ownable {
     Modules modules;
     Configuration public configuration;
     ProposalManager public proposalManager;
+    VotingManager public votingManager;
 
     mapping (uint => bool) executed;
 
@@ -28,6 +30,7 @@ contract Congress is ownable {
         Configuration _configuration,
         ProposalRegistry _proposals,
         ProposalManager _proposalManager,
+        VotingManager _votingManager,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -40,6 +43,7 @@ contract Congress is ownable {
         });
 
         proposalManager = _proposalManager;
+        votingManager = _votingManager;
 
         // @todo change to repository
         /*modules.rights.setVoting(modules.voting);*/
@@ -50,10 +54,9 @@ contract Congress is ownable {
     /// @param proposal ID of the proposal to vote on.
     /// @param choice Choice selected for vote.
     function vote(uint proposal, uint8 choice) external {
-        // @todo move this logic into a new class
-        require(!proposalManager.hasVoted(proposal, msg.sender));
-        require(proposalManager.isValidChoice(proposal, choice));
-        proposalManager.appendVote(proposal, msg.sender, choice);
+        require(proposalManager.isApproved(proposal));
+        require(modules.rights.canVote(msg.sender));
+        votingManager.vote(proposal, msg.sender, choice);
     }
 
     /// @dev Approves a proposal.
