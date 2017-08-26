@@ -36,7 +36,7 @@ contract Congress is ownable {
         modules = Modules({
             proposals: _proposals,
             rights: _rights,
-            strategy: _strategy,
+            strategy: _strategy
         });
 
         proposalManager = _proposalManager;
