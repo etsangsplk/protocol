@@ -40,6 +40,7 @@ contract('Congress', function (accounts) {
          );
 
          await manager.transferOwnership(congress.address);
+         await votingManager.transferOwnership(congress.address);
     });
 
     it('should allow me to propose', async () => {
