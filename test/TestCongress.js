@@ -3,12 +3,12 @@ var Configuration = artifacts.require('Configuration.sol');
 var Registry = artifacts.require('registries/ProposalRegistry.sol');
 var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
 var VotingRights = artifacts.require('voting/WhitelistRights.sol');
-var Voting = artifacts.require('voting/Voting.sol');
+var Manager = artifacts.require('managers/ProposalManager.sol');
 var Proposal = artifacts.require('./mock/ProposalMock.sol');
 
 const utils = require('./helpers/Utils.js');
 
-let congress, config, repo, factory, voting;
+let congress, config, repo, factory, manager;
 
 contract('Congress', function (accounts) {
 
@@ -21,7 +21,7 @@ contract('Congress', function (accounts) {
         repo = await Registry.new();
         let votingStrategy = await VotingStrategy.new();
         let votingRights = await VotingRights.new([accounts[0]]);
-        let voting = await Voting.new();
+        let manager = await Manager.new();
 
         await repo.add(
             "foo",
@@ -31,12 +31,12 @@ contract('Congress', function (accounts) {
         congress = await MyCongress.new(
             config.address,
             repo.address,
-            voting.address,
+            manager.address,
             votingRights.address,
             votingStrategy.address
          );
 
-         await voting.transferOwnership(congress.address);
+         await manager.transferOwnership(congress.address);
     });
 
     it('should allow me to propose', async () => {

@@ -2,9 +2,8 @@ pragma solidity ^0.4.11;
 
 import "../ownership/ownable.sol";
 import "../proposals/Proposal.sol";
-import "./VotingInterface.sol";
 
-contract Voting is VotingInterface, ownable {
+contract ProposalManager is ownable {
 
     struct ProposalData {
         bool approved;
@@ -19,11 +18,11 @@ contract Voting is VotingInterface, ownable {
 
     ProposalData[] proposals;
 
-    /// @dev Creates a new proposal and stores it.
+    /// @dev Adds a new proposal.
     /// @param creator Address of the proposal creator.
     /// @param proposal Address of the proposal contract.
-    /// @return id of the created proposal.
-    function create(address creator, address proposal) external onlyOwner returns (uint) {
+    /// @return id of the proposal.
+    function add(address creator, address proposal) external onlyOwner returns (uint) {
         uint id = proposals.length;
         proposals.length++;
 
@@ -33,20 +32,6 @@ contract Voting is VotingInterface, ownable {
         data.approved = false;
 
         return id;
-    }
-
-    /// @dev Votes on a proposal.
-    /// @param id Id of the proposal.
-    /// @param voter Address of the voter.
-    /// @param choice Users selected voting choice.
-    function vote(uint id, address voter, uint8 choice) external onlyOwner {
-        require(!proposals[id].voted[voter]);
-        require(isValidChoice(id, choice));
-
-        ProposalData storage proposal = proposals[id];
-        proposal.voters.push(voter);
-        proposal.choices[voter] = choice;
-        proposal.voted[voter] = true;
     }
 
     /// @dev Approves a proposal.
@@ -70,15 +55,33 @@ contract Voting is VotingInterface, ownable {
         return Proposal(proposals[id].proposal).isValidChoice(choice);
     }
 
+    /// @dev Returns voters for proposal.
+    /// @param id Id of the proposal.
+    /// @return address[] All voter addresses
     function voters(uint id) constant returns (address[]) {
         return proposals[id].voters;
     }
 
+    /// @dev Returns choice selected by voter.
+    /// @param id Id of the proposal.
+    /// @param voter Address of the voter.
+    /// @return uint8 Value of the selected choice.
     function choice(uint id, address voter) constant returns (uint8) {
         return proposals[id].choices[voter];
     }
 
+    /// @dev Returns if voter has voter or not.
+    /// @param id Id of the proposal.
+    /// @param voter Address of the voter.
+    /// @return bool Whether voter has voted.
     function hasVoted(uint id, address voter) constant returns (bool) {
         return proposals[id].voted[voter];
+    }
+
+    function appendVote(uint id, address voter, uint8 choice) external onlyOwner {
+        ProposalData storage proposal = proposals[id];
+        proposal.voters.push(voter);
+        proposal.choices[voter] = choice;
+        proposal.voted[voter] = true;
     }
 }

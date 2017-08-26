@@ -1,8 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "./VotingAware.sol";
-
-contract VotingRights is VotingAware {
+contract VotingRights {
 
     function canVote(address voter) constant returns (bool);
     function canPropose(address proposer) constant returns (bool);
