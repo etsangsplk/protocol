@@ -2,8 +2,9 @@ pragma solidity ^0.4.11;
 
 import "../ownership/ownable.sol";
 import "../proposals/Proposal.sol";
+import "./ProposalManagerInterface.sol";
 
-contract ProposalManager is ownable {
+contract ProposalManager is ProposalManagerInterface, ownable {
 
     struct ProposalData {
         bool approved;

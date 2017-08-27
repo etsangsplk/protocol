@@ -1,8 +1,9 @@
 pragma solidity ^0.4.11;
 
 import "../ownership/ownable.sol";
+import "./VotingManagerInterface.sol";
 
-contract VotingManager is ownable {
+contract VotingManager is VotingManagerInterface, ownable {
 
     // @todo this name fucking sucks
     struct Votes {
