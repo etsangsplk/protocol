@@ -6,6 +6,8 @@ import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
 import "./voting/VotingRights.sol";
 import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
+import { ProposalManagerInterface as ProposalManager } from "./managers/ProposalManagerInterface.sol";
+import { VotingManagerInterface as VotingManager } from  "./managers/VotingManagerInterface.sol";
 
 contract Congress is ownable {
 
@@ -15,18 +17,20 @@ contract Congress is ownable {
         ProposalRegistry proposals;
         VotingRights rights;
         VotingStrategy strategy;
-        VotingInterface voting;
     }
 
     Modules modules;
     Configuration public configuration;
+    ProposalManager public proposalManager;
+    VotingManager public votingManager;
 
     mapping (uint => bool) executed;
 
     function Congress(
         Configuration _configuration,
         ProposalRegistry _proposals,
-        address _voting,
+        ProposalManager _proposalManager,
+        VotingManager _votingManager,
         VotingRights _rights,
         VotingStrategy _strategy
     )
@@ -35,28 +39,31 @@ contract Congress is ownable {
         modules = Modules({
             proposals: _proposals,
             rights: _rights,
-            strategy: _strategy,
-            voting: VotingInterface(_voting)
+            strategy: _strategy
         });
 
-        // @todo does not belong here
-        modules.rights.setVoting(modules.voting);
-        modules.strategy.setVoting(modules.voting);
+        proposalManager = _proposalManager;
+        votingManager = _votingManager;
+
+        // @todo change to repository
+        /*modules.rights.setVoting(modules.voting);*/
+        /*modules.strategy.setVoting(modules.voting);*/
     }
 
     /// @dev Votes on a proposal.
     /// @param proposal ID of the proposal to vote on.
     /// @param choice Choice selected for vote.
-    function vote(uint proposal, uint8 choice) {
+    function vote(uint proposal, uint8 choice) external {
+        require(proposalManager.isApproved(proposal));
         require(modules.rights.canVote(msg.sender));
-        modules.voting.vote(proposal, msg.sender, choice);
+        votingManager.vote(proposal, msg.sender, choice);
     }
 
     /// @dev Approves a proposal.
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
         require(modules.rights.canApprove(msg.sender));
-        modules.voting.approve(proposal);
+        proposalManager.approve(proposal);
     }
 
     /// @dev Creates a new proposal and stores it.
@@ -68,10 +75,10 @@ contract Congress is ownable {
         // @todo we will need to hash the code to see if it matches the stored hash
         Proposal proposal = Proposal(modules.proposals.create(name, arguments));
 
-        uint id = modules.voting.create(msg.sender, proposal);
+        uint id = proposalManager.add(msg.sender, proposal);
 
         if (!modules.rights.requiresApproval(id)) {
-            modules.voting.approve(id);
+            proposalManager.approve(id);
         }
 
         ProposalCreated(id, address(proposal), name, msg.sender);

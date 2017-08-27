@@ -1,8 +1,9 @@
 pragma solidity ^0.4.11;
 
-import { Voting as Voting } from "../voting/Voting.sol";
 import "../Congress.sol";
 import "../Configuration.sol";
+import { ProposalManager as PManager } from "../managers/ProposalManager.sol"; // @todo figure out a nicer way
+import { VotingManager as VManager } from "../managers/VotingManager.sol";
 import { ProposalRegistry as Registry } from "../registries/ProposalRegistry.sol"; // had to do it like this cause congress
 
 contract Version {
@@ -19,17 +20,20 @@ contract Version {
 
         uint id = nextId();
 
-        Voting voting = new Voting();
+        PManager manager = new PManager();
+        VManager votingManager = new VManager();
 
         Congress congress = new Congress(
             new Configuration(),
             new Registry(),
-            voting,
+            manager,
+            votingManager,
             votingRights,
             votingStrategy
         );
 
-        voting.transferOwnership(address(congress));
+        manager.transferOwnership(address(congress));
+        votingManager.transferOwnership(address(congress));
 
         CongressCreated(id, congress);
         congresses[id] = congress;
