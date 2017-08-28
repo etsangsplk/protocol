@@ -8,8 +8,8 @@ contract Configuration is administrable {
     mapping (bytes32 => bool) protected;
 
     modifier onlyPermitted(bytes32 _key) {
-        if (!isOwner(msg.sender) && !isAdmin(msg.sender)) throw;
-        if (isAdmin(msg.sender) && protected[_key]) throw;
+        require(isOwner(msg.sender) || isAdmin(msg.sender));
+        require(isOwner(msg.sender) || !protected[_key]);
         _;
     }
 
