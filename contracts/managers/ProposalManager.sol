@@ -43,4 +43,8 @@ contract ProposalManager is ProposalManagerInterface, ownable {
     function isApproved(uint id) constant returns (bool) {
         return proposals[id].approved;
     }
+
+    function getProposal(uint id) constant returns (address) {
+        return proposals[id].proposal;
+    }
 }
