@@ -5,5 +5,6 @@ contract ProposalManagerInterface {
     function add(address creator, address proposal) external returns (uint);
     function approve(uint id) external;
     function isApproved(uint id) constant returns (bool);
+    function getProposal(uint id) constant returns (address);
 
 }

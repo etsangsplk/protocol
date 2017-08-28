@@ -8,8 +8,8 @@ contract VotingStrategyMock is VotingStrategy {
         return true;
     }
 
-    function proposalPassed(uint proposal) constant returns (bool)  {
-        return true;
+    function winningChoice(uint proposal) constant returns (uint8)  {
+        return 0;
     }
 
     function votingWeightOf(address voter) constant returns (uint) {

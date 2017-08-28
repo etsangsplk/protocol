@@ -83,4 +83,18 @@ contract Congress is ownable {
 
         ProposalCreated(id, address(proposal), name, msg.sender);
     }
+
+    /// @dev Executes a proposal if it has passed.
+    /// @param id ID of the proposal to execute.
+    function execute(uint id) external {
+        Proposal proposal = Proposal(proposalManager.getProposal(id));
+
+        assert(!proposal.wasExecuted());
+        assert(modules.strategy.quorumReached(id));
+
+        uint8 winner = modules.strategy.winningChoice(id);
+        require(winner != 0); // 0 is defaulted to false
+
+        proposal.execute(winner);
+    }
 }
