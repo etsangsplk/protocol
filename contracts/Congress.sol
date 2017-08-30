@@ -5,32 +5,32 @@ import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
 import "./voting/VotingStrategy.sol";
 import "./voting/VotingRights.sol";
-import { ProposalRegistryInterface as ProposalRegistry } from "./registries/ProposalRegistryInterface.sol";
-import { ProposalManagerInterface as ProposalManager } from "./managers/ProposalManagerInterface.sol";
-import { VotingManagerInterface as VotingManager } from  "./managers/VotingManagerInterface.sol";
+import "./registries/ProposalRegistryInterface.sol";
+import "./managers/ProposalManagerInterface.sol";
+import "./managers/VotingManagerInterface.sol";
 
 contract Congress is ownable {
 
     event ProposalCreated(uint id, address addr, string name, address indexed creator);
 
     struct Modules {
-        ProposalRegistry proposals;
+        ProposalRegistryInterface proposals;
         VotingRights rights;
         VotingStrategy strategy;
     }
 
     Modules modules;
     Configuration public configuration;
-    ProposalManager public proposalManager;
-    VotingManager public votingManager;
+    ProposalManagerInterface public proposalManager;
+    VotingManagerInterface public votingManager;
 
     mapping (uint => bool) executed;
 
     function Congress(
         Configuration _configuration,
-        ProposalRegistry _proposals,
-        ProposalManager _proposalManager,
-        VotingManager _votingManager,
+        ProposalRegistryInterface _proposals,
+        ProposalManagerInterface _proposalManager,
+        VotingManagerInterface _votingManager,
         VotingRights _rights,
         VotingStrategy _strategy
     )
