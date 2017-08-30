@@ -22,11 +22,11 @@ contract VotingManager is VotingManagerInterface, ownable {
         votes.voted[voter] = true;
     }
 
-    function voted(uint proposal, address voter) constant returns (bool) {
+    function voted(uint proposal, address voter) public constant returns (bool) {
         return voting[proposal].voted[voter];
     }
 
-    function choice(uint proposal, address voter) constant returns (uint8) {
+    function choice(uint proposal, address voter) external constant returns (uint8) {
         return voting[proposal].choice[voter];
     }
 }

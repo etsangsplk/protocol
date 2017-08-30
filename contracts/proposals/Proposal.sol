@@ -15,7 +15,7 @@ contract Proposal is ownable {
 
     function execute() external;
 
-    function isValidChoice(uint8 _choice) constant returns (bool) {
+    function isValidChoice(uint8 _choice) public constant returns (bool) {
         for (uint i = 0; i < choices.length; i++) {
             if (choices[i] == _choice) {
                 return true;

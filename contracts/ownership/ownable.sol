@@ -17,7 +17,7 @@ contract ownable {
         owner = _newOwner;
     }
 
-    function isOwner(address _address) returns (bool) {
+    function isOwner(address _address) public constant returns (bool) {
         return owner == _address;
     }
 }

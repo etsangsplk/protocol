@@ -40,7 +40,7 @@ contract ProposalManager is ProposalManagerInterface, ownable {
     /// @dev Checks if a proposal has been approved.
     /// @param id Id of the proposal.
     /// @return bool if proposal is approved.
-    function isApproved(uint id) constant returns (bool) {
+    function isApproved(uint id) external constant returns (bool) {
         return proposals[id].approved;
     }
 }

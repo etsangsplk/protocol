@@ -19,7 +19,7 @@ contract administrable is ownable {
         admin[_address] = false;
     }
 
-    function isAdmin(address _address) constant returns (bool) {
+    function isAdmin(address _address) public constant returns (bool) {
         return admin[_address];
     }
 }
