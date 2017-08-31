@@ -1,8 +1,8 @@
 pragma solidity ^0.4.11;
 
-import "../../contracts/voting/VotingStrategy.sol";
+import "../../contracts/voting/VotingStrategyInterface.sol";
 
-contract VotingStrategyMock is VotingStrategy {
+contract VotingStrategyMock is VotingStrategyInterface {
 
     function quorumReached(uint proposal) constant returns (bool) {
         return true;

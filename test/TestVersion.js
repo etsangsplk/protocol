@@ -1,6 +1,6 @@
 const MyVersion = artifacts.require('version/Version.sol');
-var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
-var VotingRights = artifacts.require('voting/WhitelistRights.sol');
+var VotingStrategyInterface = artifacts.require('./mock/VotingStrategyMock.sol');
+var VotingRightsInterface = artifacts.require('voting/WhitelistRights.sol');
 
 let version;
 
@@ -15,8 +15,8 @@ contract('Version', function (accounts) {
     });
 
     it('should allow me to create a congress', async () => {
-        let votingStrategy = await VotingStrategy.new();
-        let votingRights = await VotingRights.new([accounts[0]]);
+        let votingStrategy = await VotingStrategyInterface.new();
+        let votingRights = await VotingRightsInterface.new([accounts[0]]);
 
         let result = await version.createCongress(
             votingRights.address,
