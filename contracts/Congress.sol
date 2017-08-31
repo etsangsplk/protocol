@@ -3,8 +3,8 @@ pragma solidity ^0.4.11;
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/Proposal.sol";
-import "./voting/VotingStrategy.sol";
-import "./voting/VotingRights.sol";
+import "./voting/VotingStrategyInterface.sol";
+import "./voting/VotingRightsInterface.sol";
 import "./registries/ProposalRegistryInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
@@ -15,8 +15,8 @@ contract Congress is ownable {
 
     struct Modules {
         ProposalRegistryInterface proposals;
-        VotingRights rights;
-        VotingStrategy strategy;
+        VotingRightsInterface rights;
+        VotingStrategyInterface strategy;
     }
 
     Modules modules;
@@ -31,8 +31,8 @@ contract Congress is ownable {
         ProposalRegistryInterface _proposals,
         ProposalManagerInterface _proposalManager,
         VotingManagerInterface _votingManager,
-        VotingRights _rights,
-        VotingStrategy _strategy
+        VotingRightsInterface _rights,
+        VotingStrategyInterface _strategy
     )
     {
         configuration = _configuration;

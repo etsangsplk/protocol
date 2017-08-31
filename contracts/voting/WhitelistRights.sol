@@ -1,8 +1,8 @@
 pragma solidity ^0.4.11;
 
-import "./VotingRights.sol";
+import "./VotingRightsInterface.sol";
 
-contract WhitelistRights is VotingRights {
+contract WhitelistRights is VotingRightsInterface {
 
     mapping (address => bool) public whitelisted;
 
