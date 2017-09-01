@@ -1,6 +1,7 @@
 pragma solidity ^0.4.11;
 
 library SafeMath {
+
     function mul(uint a, uint b) internal returns (uint) {
         uint c = a * b;
         assert(a == 0 || c / a == b);
@@ -39,11 +40,5 @@ library SafeMath {
 
     function min256(uint256 a, uint256 b) internal constant returns (uint256) {
         return a < b ? a : b;
-    }
-
-    function assert(bool assertion) internal {
-        if (!assertion) {
-            throw;
-        }
     }
 }
