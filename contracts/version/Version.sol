@@ -8,8 +8,9 @@ import "../registries/ProposalRegistry.sol";
 
 contract Version {
 
-    mapping (uint => address) congresses;
     uint public lastId;
+
+    mapping (uint => address) congresses;
 
     event CongressCreated(uint id, address congress);
 

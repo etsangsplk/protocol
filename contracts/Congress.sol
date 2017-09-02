@@ -11,8 +11,6 @@ import "./managers/VotingManagerInterface.sol";
 
 contract Congress is ownable {
 
-    event ProposalCreated(uint id, address addr, string name, address indexed creator);
-
     struct Modules {
         ProposalRegistryInterface proposals;
         VotingRightsInterface rights;
@@ -25,6 +23,9 @@ contract Congress is ownable {
     VotingManagerInterface public votingManager;
 
     mapping (uint => bool) executed;
+
+    event ProposalCreated(uint id, address addr, string name, address indexed creator);
+    event ProposalExecuted(uint id);
 
     function Congress(
         Configuration _configuration,
@@ -96,5 +97,6 @@ contract Congress is ownable {
         require(winner != 0); // 0 is defaulted to false
 
         proposal.execute(winner);
+        ProposalExecuted(id);
     }
 }
