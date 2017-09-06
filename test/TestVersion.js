@@ -1,6 +1,6 @@
 const MyVersion = artifacts.require('version/Version.sol');
 var VotingStrategyInterface = artifacts.require('./mock/VotingStrategyMock.sol');
-var VotingRightsInterface = artifacts.require('voting/WhitelistRights.sol');
+var VotingRightsInterface = artifacts.require('./mock/VotingRightsMock.sol');
 
 let version;
 
