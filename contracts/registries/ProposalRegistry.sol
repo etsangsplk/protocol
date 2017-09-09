@@ -30,15 +30,15 @@ contract ProposalRegistry is ProposalRegistryInterface {
         for (uint i = 0; i < code.length; i++) payload[k++] = code[i];
         for (i = 0; i < arguments.length; i++) payload[k++] = arguments[i];
 
-        address retval;
+        address result;
         assembly {
-            retval := create(0, add(payload,0x20), mload(payload))
-            jumpi(0x02, iszero(extcodesize(retval)))
+            result := create(0, add(payload, 0x20), mload(payload))
+            switch result case 0 { invalid() }
         }
 
-        ownable(retval).transferOwnership(msg.sender);
+        ownable(result).transferOwnership(msg.sender);
 
-        return retval;
+        return result;
     }
 
     function get(string name) public constant returns (bytes abi, bytes code) {
