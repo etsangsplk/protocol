@@ -1,4 +1,4 @@
-const MyCongress = artifacts.require('Congress.sol');
+const MyOrganization = artifacts.require('Organization.sol');
 var Configuration = artifacts.require('Configuration.sol');
 var Registry = artifacts.require('registries/ProposalRegistry.sol');
 var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
@@ -9,9 +9,9 @@ var Proposal = artifacts.require('./mock/ProposalMock.sol');
 
 const utils = require('./helpers/Utils.js');
 
-let congress, config, repo, factory, proposalManager;
+let organization, config, repo, factory, proposalManager;
 
-contract('Congress', function (accounts) {
+contract('Organization', function (accounts) {
 
     let shouldntFail = function (err) {
         assert.isFalse(!!err);
@@ -30,7 +30,7 @@ contract('Congress', function (accounts) {
             Proposal.binary,
             "0x0"
         );
-        congress = await MyCongress.new(
+        organization = await MyOrganization.new(
             config.address,
             repo.address,
             proposalManager.address,
@@ -39,12 +39,12 @@ contract('Congress', function (accounts) {
             votingStrategy.address
          );
 
-         await proposalManager.transferOwnership(congress.address);
-         await votingManager.transferOwnership(congress.address);
+         await proposalManager.transferOwnership(organization.address);
+         await votingManager.transferOwnership(organization.address);
     });
 
     it('should allow me to propose', async () => {
-        let result = await congress.propose(
+        let result = await organization.propose(
             "foo",
             ""
         );
