@@ -9,7 +9,7 @@ import "./registries/ProposalRegistryInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
 
-contract Congress is ownable {
+contract Organization is ownable {
 
     struct Modules {
         ProposalRegistryInterface proposals;
@@ -27,7 +27,7 @@ contract Congress is ownable {
     event ProposalCreated(uint id, address addr, string name, address indexed creator);
     event ProposalExecuted(uint id);
 
-    function Congress(
+    function Organization(
         Configuration _configuration,
         ProposalRegistryInterface _proposals,
         ProposalManagerInterface _proposalManager,
