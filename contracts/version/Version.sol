@@ -17,7 +17,8 @@ contract Version {
     function createCongress(
         VotingRightsInterface votingRights,
         VotingStrategyInterface votingStrategy
-    ) external returns (uint) {
+    ) external returns (uint)
+    {
 
         uint id = nextId();
 
@@ -51,6 +52,7 @@ contract Version {
     }
 
     function nextId() private returns (uint) {
-        lastId++; return lastId;
+        lastId++;
+        return lastId;
     }
 }
