@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "../Congress.sol";
+import "../Organization.sol";
 import "../Configuration.sol";
 import "../managers/ProposalManager.sol";
 import "../managers/VotingManager.sol";
@@ -10,11 +10,11 @@ contract Version {
 
     uint public lastId;
 
-    mapping (uint => address) congresses;
+    mapping (uint => address) organizations;
 
-    event CongressCreated(uint id, address congress);
+    event OrganizationCreated(uint id, address organization);
 
-    function createCongress(
+    function createOrganization(
         VotingRightsInterface votingRights,
         VotingStrategyInterface votingStrategy
     ) external returns (uint)
@@ -25,7 +25,7 @@ contract Version {
         ProposalManager manager = new ProposalManager();
         VotingManager votingManager = new VotingManager();
 
-        Congress congress = new Congress(
+        Organization organization = new Organization(
             new Configuration(),
             new ProposalRegistry(),
             manager,
@@ -34,21 +34,21 @@ contract Version {
             votingStrategy
         );
 
-        manager.transferOwnership(address(congress));
-        votingManager.transferOwnership(address(congress));
+        manager.transferOwnership(address(organization));
+        votingManager.transferOwnership(address(organization));
 
-        CongressCreated(id, congress);
-        congresses[id] = congress;
+        OrganizationCreated(id, organization);
+        organizations[id] = organization;
         return id;
     }
 
-    function destroyCongress(uint id) external {
+    function destroyOrganization(uint id) external {
         // @todo trigger selfdestruct
-        delete congresses[id];
+        delete organizations[id];
     }
 
-    function getCongress(uint id) external returns (address) {
-        return congresses[id];
+    function getOrganization(uint id) external returns (address) {
+        return organizations[id];
     }
 
     function nextId() private returns (uint) {
