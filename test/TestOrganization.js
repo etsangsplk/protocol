@@ -7,15 +7,9 @@ var ProposalManager = artifacts.require('managers/ProposalManager.sol');
 var VotingManager = artifacts.require('managers/VotingManager.sol');
 var Proposal = artifacts.require('./mock/ProposalMock.sol');
 
-const utils = require('./helpers/Utils.js');
-
-let organization, config, repo, factory, proposalManager;
-
 contract('Organization', function (accounts) {
 
-    let shouldntFail = function (err) {
-        assert.isFalse(!!err);
-    };
+    let organization, config, repo;
 
     beforeEach(async () => {
         config = await Configuration.new();
@@ -30,6 +24,7 @@ contract('Organization', function (accounts) {
             Proposal.binary,
             "0x0"
         );
+
         organization = await MyOrganization.new(
             config.address,
             repo.address,
@@ -37,7 +32,7 @@ contract('Organization', function (accounts) {
             votingManager.address,
             votingRights.address,
             votingStrategy.address
-         );
+        );
 
          await proposalManager.transferOwnership(organization.address);
          await votingManager.transferOwnership(organization.address);

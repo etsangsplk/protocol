@@ -2,13 +2,9 @@ const MyVersion = artifacts.require('version/Version.sol');
 var VotingStrategyInterface = artifacts.require('./mock/VotingStrategyMock.sol');
 var VotingRightsInterface = artifacts.require('./mock/VotingRightsMock.sol');
 
-let version;
-
 contract('Version', function (accounts) {
 
-    let shouldntFail = function (err) {
-        assert.isFalse(!!err);
-    };
+    let version;
 
     beforeEach(async () => {
         version = await MyVersion.new();
