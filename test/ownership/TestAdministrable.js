@@ -1,4 +1,4 @@
-const Administrable = artifacts.require('administrable.sol');
+const Administrable = artifacts.require('ownership/administrable.sol');
 
 contract('administrable', function (accounts) {
 
