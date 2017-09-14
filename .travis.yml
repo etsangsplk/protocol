@@ -10,9 +10,13 @@ node_js:
 before_install:
   - npm install -g ethereumjs-testrpc truffle truffle-expect truffle-config
 
-script:
-  - testrpc > /dev/null &
+
+before_script:
+  - testrpc > testrpc.log &
+
+after_script:
   - truffle test
+  - cat testrpc.log
 
 notifications:
   email: false
