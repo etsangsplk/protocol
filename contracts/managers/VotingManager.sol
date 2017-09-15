@@ -15,7 +15,7 @@ contract VotingManager is VotingManagerInterface, ownable {
     /// @dev Votes on proposal.
     /// @param proposal Id of the proposal to vote on.
     /// @param voter Address of the voter.
-    /// @param choice Voters selected choice.
+    /// @param choice Voters selected option.
     function vote(uint proposal, address voter, uint8 choice, uint256 weight) external onlyOwner {
         require(!voted(proposal, voter));
 
@@ -24,10 +24,10 @@ contract VotingManager is VotingManagerInterface, ownable {
         data.voted[voter] = true;
     }
 
-    /// @dev Amount votes count for a choice on a proposal.
+    /// @dev Amount votes count for a option on a proposal.
     /// @param proposal Id of the proposal.
-    /// @param choice Selected choice.
-    /// @return count of votes for choice.
+    /// @param choice Selected option.
+    /// @return count of votes for option.
     function votes(uint proposal, uint8 choice) external constant returns (uint256) {
         return proposalVotes[proposal].choices[choice];
     }

@@ -2,12 +2,12 @@ pragma solidity ^0.4.15;
 
 contract ProposalInterface {
 
-    uint8[] public choices;
+    uint8[] public options;
     bool public executed;
 
-    function execute(uint8 choice) external;
+    function execute(uint8 option) external;
     function wasExecuted() external constant returns (bool);
-    function isValidChoice(uint8 _choice) external constant returns (bool);
-    function getChoicesLength() external constant returns (uint);
+    function isValidOption(uint8 option) external constant returns (bool);
+    function getOptionsLength() external constant returns (uint);
 
 }

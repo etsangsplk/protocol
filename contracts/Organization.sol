@@ -53,10 +53,12 @@ contract Organization is ownable {
 
     /// @dev Votes on a proposal.
     /// @param proposal ID of the proposal to vote on.
-    /// @param choice Choice selected for vote.
+    /// @param choice Option selected for vote.
     function vote(uint proposal, uint8 choice) external {
         require(proposalManager.isApproved(proposal));
         require(modules.rights.canVote(msg.sender));
+        require(ProposalInterface(proposalManager.getProposal(proposal)).isValidOption(choice));
+
         votingManager.vote(proposal, msg.sender, choice, modules.strategy.votingWeightOf(msg.sender));
     }
 
@@ -94,27 +96,27 @@ contract Organization is ownable {
         assert(modules.strategy.quorumReached(id));
 
         // @todo remove as soon as we can return arrays in solidity
-        uint8[] memory choices = new uint8[](proposal.getChoicesLength());
-        for (uint i = 1; i < choices.length; i++) {
-            choices[i] = proposal.choices(i);
+        uint8[] memory options = new uint8[](proposal.getOptionsLength());
+        for (uint i = 1; i < options.length; i++) {
+            options[i] = proposal.options(i);
         }
 
-        uint8 winner = winningChoice(id, choices);
+        uint8 winner = winningOption(id, options);
         require(winner != 0); // 0 is defaulted to false
 
         proposal.execute(winner);
         ProposalExecuted(id);
     }
 
-    function winningChoice(uint proposal, uint8[] choices) public constant returns (uint8) {
+    function winningOption(uint proposal, uint8[] options) public constant returns (uint8) {
 
         uint winner = 0;
-        for (uint i = 1; i < choices.length; i++) {
-            if (votingManager.votes(proposal, choices[i]) > votingManager.votes(proposal, choices[winner])) {
+        for (uint i = 1; i < options.length; i++) {
+            if (votingManager.votes(proposal, options[i]) > votingManager.votes(proposal, options[winner])) {
                 winner = i;
             }
         }
 
-        return choices[winner];
+        return options[winner];
     }
 }

@@ -13,9 +13,9 @@ contract Proposal is ProposalInterface, ownable {
         return executed;
     }
 
-    function isValidChoice(uint8 _choice) external constant returns (bool) {
-        for (uint i = 0; i < choices.length; i++) {
-            if (choices[i] == _choice) {
+    function isValidOption(uint8 option) external constant returns (bool) {
+        for (uint i = 0; i < options.length; i++) {
+            if (options[i] == option) {
                 return true;
             }
         }
@@ -23,7 +23,7 @@ contract Proposal is ProposalInterface, ownable {
         return false;
     }
 
-    function getChoicesLength() external constant returns (uint) {
-        return choices.length;
+    function getOptionsLength() external constant returns (uint) {
+        return options.length;
     }
 }
