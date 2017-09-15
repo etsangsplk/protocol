@@ -2,7 +2,7 @@ pragma solidity ^0.4.11;
 
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
-import "./proposals/Proposal.sol";
+import "./proposals/ProposalInterface.sol";
 import "./voting/VotingStrategyInterface.sol";
 import "./voting/VotingRightsInterface.sol";
 import "./registries/ProposalRegistryInterface.sol";
@@ -74,7 +74,7 @@ contract Organization is ownable {
         require(modules.rights.canPropose(msg.sender));
 
         // @todo we will need to hash the code to see if it matches the stored hash
-        Proposal proposal = Proposal(modules.proposals.create(name, arguments));
+        ProposalInterface proposal = ProposalInterface(modules.proposals.create(name, arguments));
 
         uint id = proposalManager.add(msg.sender, proposal);
 
@@ -88,7 +88,7 @@ contract Organization is ownable {
     /// @dev Executes a proposal if it has passed.
     /// @param id ID of the proposal to execute.
     function execute(uint id) external {
-        Proposal proposal = Proposal(proposalManager.getProposal(id));
+        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
 
         assert(!proposal.wasExecuted());
         assert(modules.strategy.quorumReached(id));
