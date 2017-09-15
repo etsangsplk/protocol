@@ -9,8 +9,6 @@ contract Proposal is ProposalInterface, ownable {
 
     modifier onlyBeforeExecuted() { require(!executed); _; }
 
-    function execute(uint8 choice) external;
-
     function wasExecuted() external constant returns (bool) {
         return executed;
     }

@@ -5,9 +5,9 @@ contract ProposalRegistryInterface {
     event ProposalAdded(string name);
     event ProposalRemoved(string name);
 
-    function create(string name, bytes arguments) public constant returns (address);
-    function add(string name, bytes code, bytes abi) public;
-    function get(string name) public constant returns (bytes abi, bytes code);
-    function remove(string name) public;
+    function add(string name, bytes code, bytes abi) external;
+    function remove(string name) external;
+    function create(string name, bytes arguments) external constant returns (address);
+    function get(string name) external constant returns (bytes abi, bytes code);
 
 }

@@ -12,7 +12,7 @@ contract ProposalRegistry is ProposalRegistryInterface {
 
     mapping (string => Proposal) private registry;
 
-    function add(string name, bytes code, bytes abi) public {
+    function add(string name, bytes code, bytes abi) external {
         registry[name] = Proposal({
             code: code,
             abi: abi
@@ -21,8 +21,13 @@ contract ProposalRegistry is ProposalRegistryInterface {
         ProposalAdded(name);
     }
 
+    function remove(string name) external {
+        delete registry[name];
+        ProposalRemoved(name);
+    }
+
     // @todo this will need to be moved as soon as we move the bytecodes to a central location
-    function create(string name, bytes arguments) public constant returns (address) {
+    function create(string name, bytes arguments) external constant returns (address) {
         bytes memory code = registry[name].code;
         bytes memory payload = new bytes(code.length + arguments.length);
 
@@ -32,8 +37,8 @@ contract ProposalRegistry is ProposalRegistryInterface {
 
         address result;
         assembly {
-            result := create(0, add(payload, 0x20), mload(payload))
-            switch result case 0 { invalid() }
+        result := create(0, add(payload, 0x20), mload(payload))
+        switch result case 0 { invalid() }
         }
 
         ownable(result).transferOwnership(msg.sender);
@@ -41,13 +46,9 @@ contract ProposalRegistry is ProposalRegistryInterface {
         return result;
     }
 
-    function get(string name) public constant returns (bytes abi, bytes code) {
+    function get(string name) external constant returns (bytes abi, bytes code) {
         Proposal memory proposal = registry[name];
         return (proposal.abi, proposal.code);
     }
 
-    function remove(string name) public {
-        delete registry[name];
-        ProposalRemoved(name);
-    }
 }
