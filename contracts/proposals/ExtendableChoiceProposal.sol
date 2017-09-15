@@ -2,11 +2,11 @@ pragma solidity ^0.4.15;
 
 import "./Proposal.sol";
 
-contract ExtendableChoiceProposal is Proposal {
+contract ExtendableOptionsProposal is Proposal {
 
-    function ExtendableChoiceProposal(uint8[] _choices) {
-        for (uint i = 0; i < _choices.length; i++) {
-            choices.push(_choices[i]);
+    function ExtendableOptionsProposal(uint8[] _options) {
+        for (uint i = 0; i < _options.length; i++) {
+            options.push(_options[i]);
         }
     }
 }

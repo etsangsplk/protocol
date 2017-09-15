@@ -8,10 +8,6 @@ contract VotingStrategyMock is VotingStrategyInterface {
         return true;
     }
 
-    function winningChoice(uint proposal) constant returns (uint8)  {
-        return 0;
-    }
-
     function votingWeightOf(address voter) constant returns (uint) {
         return 1;
     }

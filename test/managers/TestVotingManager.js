@@ -21,15 +21,15 @@ contract('VotingManager', function (accounts) {
         }
     });
 
-    it('should return amount of votes for choice', async () => {
+    it('should return amount of votes for option', async () => {
 
         let proposal = 1;
-        let choice = 12;
+        let option = 12;
         let weight = 12;
 
-        await votingManager.vote(proposal, accounts[2], choice, weight);
+        await votingManager.vote(proposal, accounts[2], option, weight);
 
-        assert.equal(weight, await votingManager.votes.call(proposal, choice), 'choice did not match expected value');
+        assert.equal(weight, await votingManager.votes.call(proposal, option), 'option did not match expected value');
     });
 
     it('should return if user has voted', async () => {
