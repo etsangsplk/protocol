@@ -31,6 +31,10 @@ contract VotingManager is VotingManagerInterface, ownable {
         return proposalVotes[proposal].voted[voter];
     }
 
+    /// @dev Amount votes count for a choice on a proposal.
+    /// @param proposal Id of the proposal.
+    /// @param choice Selected choice.
+    /// @returns uint256 count of votes for choice.
     function votes(uint proposal, uint8 choice) public constant returns (uint256) {
         return proposalVotes[proposal].choices[choice];
     }
