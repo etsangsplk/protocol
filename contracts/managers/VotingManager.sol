@@ -19,7 +19,7 @@ contract VotingManager is VotingManagerInterface, ownable {
     function vote(uint proposal, address voter, uint8 choice, uint256 weight) external onlyOwner {
         require(!voted(proposal, voter));
 
-        VoteData data = proposalVotes[proposal];
+        VoteData storage data = proposalVotes[proposal];
         data.choices[choice] += weight;
         data.voted[voter] = true;
     }
