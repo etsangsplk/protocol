@@ -12,24 +12,24 @@ contract('VotingManager', function (accounts) {
 
     it('should fail when trying to vote twice', async () => {
 
-        await votingManager.vote(1, accounts[2], 0);
+        await votingManager.vote(1, accounts[2], 0, 1);
 
         try {
-            await votingManager.vote(1, accounts[2], 0);
+            await votingManager.vote(1, accounts[2], 0, 1);
         } catch (error) {
             return utils.ensureException(error);
         }
     });
 
-    it('should return choice user voted for', async () => {
+    it('should return amount of votes for choice', async () => {
 
         let proposal = 1;
         let choice = 12;
-        let voter = accounts[2];
+        let weight = 12;
 
-        await votingManager.vote(proposal, voter, choice);
+        await votingManager.vote(proposal, accounts[2], choice, weight);
 
-        assert.equal(choice, await votingManager.choice.call(proposal, voter), 'choice did not match expected value');
+        assert.equal(weight, await votingManager.votes.call(proposal, choice), 'choice did not match expected value');
     });
 
     it('should return if user has voted', async () => {
@@ -37,7 +37,7 @@ contract('VotingManager', function (accounts) {
         let proposal = 1;
         let voter = accounts[2];
 
-        await votingManager.vote(proposal, voter, 12);
+        await votingManager.vote(proposal, voter, 12, 1);
 
         assert.equal(true, await votingManager.voted.call(proposal, voter), 'voted did not match expected value');
     });

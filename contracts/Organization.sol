@@ -57,7 +57,7 @@ contract Organization is ownable {
     function vote(uint proposal, uint8 choice) external {
         require(proposalManager.isApproved(proposal));
         require(modules.rights.canVote(msg.sender));
-        votingManager.vote(proposal, msg.sender, choice);
+        votingManager.vote(proposal, msg.sender, choice, modules.strategy.votingWeightOf(msg.sender));
     }
 
     /// @dev Approves a proposal.
@@ -93,10 +93,28 @@ contract Organization is ownable {
         assert(!proposal.wasExecuted());
         assert(modules.strategy.quorumReached(id));
 
-        uint8 winner = modules.strategy.winningChoice(id);
+        // @todo remove as soon as we can return arrays in solidity
+        uint8[] memory choices = new uint8[](proposal.getChoicesLength());
+        for (uint i = 1; i < choices.length; i++) {
+            choices[i] = proposal.choices(i);
+        }
+
+        uint8 winner = winningChoice(id, choices);
         require(winner != 0); // 0 is defaulted to false
 
         proposal.execute(winner);
         ProposalExecuted(id);
+    }
+
+    function winningChoice(uint proposal, uint8[] choices) public constant returns (uint8) {
+
+        uint winner = 0;
+        for (uint i = 1; i < choices.length; i++) {
+            if (votingManager.votes(proposal, choices[i]) > votingManager.votes(proposal, choices[winner])) {
+                winner = i;
+            }
+        }
+
+        return choices[winner];
     }
 }

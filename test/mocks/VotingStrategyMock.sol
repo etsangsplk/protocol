@@ -4,7 +4,7 @@ import "../../contracts/voting/VotingStrategyInterface.sol";
 
 contract VotingStrategyMock is VotingStrategyInterface {
 
-    function quorumReached(uint proposal) constant returns (bool) {
+    function quorumReached(uint quorum) constant returns (bool) {
         return true;
     }
 

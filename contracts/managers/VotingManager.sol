@@ -5,38 +5,33 @@ import "./VotingManagerInterface.sol";
 
 contract VotingManager is VotingManagerInterface, ownable {
 
-    // @todo this name fucking sucks
-    struct Votes {
-        address[] voters;
-        mapping (address => uint8) choice;
+    struct VoteData {
+        mapping (uint8 => uint256) choices; // @todo unituitive name
         mapping (address => bool) voted;
     }
 
-    mapping (uint => Votes) voting;
+    mapping (uint => VoteData) proposalVotes;
 
     /// @dev Votes on proposal.
     /// @param proposal Id of the proposal to vote on.
     /// @param voter Address of the voter.
     /// @param choice Voters selected choice.
-    function vote(uint proposal, address voter, uint8 choice) external onlyOwner {
+    function vote(uint proposal, address voter, uint8 choice, uint256 weight) external onlyOwner {
         require(!voted(proposal, voter));
 
-        Votes votes = voting[proposal];
-        votes.choice[voter] = choice;
-        votes.voted[voter] = true;
+        VoteData data = proposalVotes[proposal];
+        data.choices[choice] += weight;
+        data.voted[voter] = true;
     }
 
     /// @dev Whether a voter has voted on a specific proposal.
     /// @param proposal Id of the proposal.
     /// @param voter Address of the voter.
     function voted(uint proposal, address voter) public constant returns (bool) {
-        return voting[proposal].voted[voter];
+        return proposalVotes[proposal].voted[voter];
     }
 
-    /// @dev Choice a voter has selected for a specific proposal.
-    /// @param proposal Id of the proposal.
-    /// @param voter Address of the voter.
-    function choice(uint proposal, address voter) external constant returns (uint8) {
-        return voting[proposal].choice[voter];
+    function votes(uint proposal, uint8 choice) public constant returns (uint256) {
+        return proposalVotes[proposal].choices[choice];
     }
 }

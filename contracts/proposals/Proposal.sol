@@ -24,4 +24,7 @@ contract Proposal is ownable {
 
         return false;
     }
+    function getChoicesLength() public constant returns (uint) {
+        return choices.length;
+    }
 }
