@@ -117,6 +117,6 @@ contract Organization is ownable {
             }
         }
 
-        return options[winner];
+        return winner;
     }
 }
