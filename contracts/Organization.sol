@@ -92,8 +92,8 @@ contract Organization is ownable {
     function execute(uint id) external {
         ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
 
-        assert(!proposal.wasExecuted());
-        assert(modules.strategy.quorumReached(id));
+        require(!proposal.wasExecuted());
+        require(modules.strategy.quorumReached(id));
 
         // @todo remove as soon as we can return arrays in solidity
         uint8[] memory options = new uint8[](proposal.getOptionsLength());
