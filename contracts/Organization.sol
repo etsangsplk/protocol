@@ -95,28 +95,24 @@ contract Organization is ownable {
         require(!proposal.wasExecuted());
         require(modules.strategy.quorumReached(id));
 
-        // @todo remove as soon as we can return arrays in solidity
-        uint8[] memory options = new uint8[](proposal.getOptionsLength());
-        for (uint i = 1; i < options.length; i++) {
-            options[i] = proposal.options(i);
-        }
-
-        uint8 winner = winningOption(id, options);
+        uint8 winner = winningOption(id);
         require(winner != 0); // 0 is defaulted to false
 
         proposal.execute(winner);
         ProposalExecuted(id);
     }
 
-    function winningOption(uint proposal, uint8[] options) public constant returns (uint8) {
+    function winningOption(uint id) public constant returns (uint8) {
+        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
 
         uint winner = 0;
-        for (uint i = 1; i < options.length; i++) {
-            if (votingManager.votes(proposal, options[i]) > votingManager.votes(proposal, options[winner])) {
+        for (uint i = 1; i < proposal.getOptionsLength(); i++) {
+            // @todo remove proposal.options() call when we can return arrays
+            if (votingManager.votes(id, proposal.options(i)) > votingManager.votes(id, proposal.options(winner))) {
                 winner = i;
             }
         }
 
-        return winner;
+        return proposal.options(i);
     }
 }
