@@ -14,12 +14,8 @@ contract Version {
 
     event OrganizationCreated(uint id, address organization);
 
-    function createOrganization(
-        VotingRightsInterface votingRights,
-        VotingStrategyInterface votingStrategy
-    ) external returns (uint)
+    function createOrganization(VotingRightsInterface rights, VotingStrategyInterface strategy) external returns (uint)
     {
-
         uint id = nextId();
 
         ProposalManager manager = new ProposalManager();
@@ -30,8 +26,8 @@ contract Version {
             new ProposalRegistry(),
             manager,
             votingManager,
-            votingRights,
-            votingStrategy
+            rights,
+            strategy
         );
 
         manager.transferOwnership(address(organization));
@@ -40,6 +36,17 @@ contract Version {
         OrganizationCreated(id, organization);
         organizations[id] = organization;
         return id;
+    }
+
+    function upgradeOrganization(uint id) external {
+        Organization organization = Organization(organizations[id]);
+
+        address configuration = organization.configuration();
+        address proposalManager = organization.proposalManager();
+        address votingManager = organization.votingManager();
+
+        // @todo get voting strategies etc
+        // @todo suicide org
     }
 
     function destroyOrganization(uint id) external {
