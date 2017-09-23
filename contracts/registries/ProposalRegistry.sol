@@ -32,13 +32,13 @@ contract ProposalRegistry is ProposalRegistryInterface {
         bytes memory payload = new bytes(code.length + arguments.length);
 
         uint k = 0;
-        for (uint i = 0; i < code.length; i++) payload[k++] = code[i];
+        for (uint256 i = 0; i < code.length; i++) payload[k++] = code[i];
         for (i = 0; i < arguments.length; i++) payload[k++] = arguments[i];
 
         address result;
         assembly {
-        result := create(0, add(payload, 0x20), mload(payload))
-        switch result case 0 { invalid() }
+            result := create(0, add(payload, 0x20), mload(payload))
+            switch result case 0 { invalid() }
         }
 
         ownable(result).transferOwnership(msg.sender);
