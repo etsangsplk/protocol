@@ -1,8 +1,11 @@
 # Harbour Protocol
 
-[![Build Status](https://travis-ci.com/decanus/Harbour.svg?branch=development)](https://travis-ci.org/Tokenate/Harbour)
+[![Build Status](https://travis-ci.com/decanus/protocol.svg?branch=development)](https://travis-ci.com/decanus/protocol)
 
 [Harbour](https://harbour.tokenate.io) is a protocol designed to make governance easy through modularized infrastructure that defines a set of base rules tailored to specific types of organizations. This repository contains the smart contracts for the Harbours on-chain protocol. 
+
+## Built With
+* [Truffle](https://github.com/trufflesuite/truffle) - Ethereum development enviroment 
 
 ## Authors
 
