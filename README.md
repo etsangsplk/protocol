@@ -1,6 +1,6 @@
 # Harbour Protocol
 
-[![Build Status](https://travis-ci.com/decanus/protocol.svg?token=SGE7GHsjEHmsR4VosLJx&branch=development)](https://travis-ci.com/decanus/protocol) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/decanus/protocol)
+[![Build Status](https://travis-ci.com/decanus/protocol.svg?token=SGE7GHsjEHmsR4VosLJx&branch=development)](https://travis-ci.com/decanus/protocol) [![License](https://github.com/decanus/protocol/blob/development/LICENSE)
 
 [Harbour](https://harbour.tokenate.io) is a protocol designed to make governance easy through modularized infrastructure that defines a set of base rules tailored to specific types of organizations. This repository contains the smart contracts for the Harbours on-chain protocol. 
 
