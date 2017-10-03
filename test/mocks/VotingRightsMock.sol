@@ -17,7 +17,7 @@ contract VotingRightsMock is VotingRightsInterface {
     }
 
     function requiresApproval(uint proposal) constant returns (bool) {
-        return false;
+        return true;
     }
 
 }

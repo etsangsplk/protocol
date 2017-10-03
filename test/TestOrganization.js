@@ -1,33 +1,27 @@
 const MyOrganization = artifacts.require('Organization.sol');
 var Configuration = artifacts.require('Configuration.sol');
-var Registry = artifacts.require('registries/ProposalRegistry.sol');
 var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
 var VotingRights = artifacts.require('./mock/VotingRightsMock.sol');
 var ProposalManager = artifacts.require('managers/ProposalManager.sol');
 var VotingManager = artifacts.require('managers/VotingManager.sol');
-var Proposal = artifacts.require('./mock/ProposalMock.sol');
+var Ballot = artifacts.require('proposals/ballot/Ballot.sol');
+var Proposal = artifacts.require('proposals/Proposal.sol');
+const utils = require('./helpers/Utils.js');
 
 contract('Organization', function (accounts) {
 
-    let organization, config, repo;
+    let organization, config, proposalManager;
 
     beforeEach(async () => {
         config = await Configuration.new();
-        repo = await Registry.new();
+        proposalManager = await ProposalManager.new();
+
         let votingStrategy = await VotingStrategy.new();
         let votingRights = await VotingRights.new([accounts[0]]);
-        let proposalManager = await ProposalManager.new();
         let votingManager = await VotingManager.new();
-
-        await repo.add(
-            "foo",
-            Proposal.binary,
-            "0x0"
-        );
 
         organization = await MyOrganization.new(
             config.address,
-            repo.address,
             proposalManager.address,
             votingManager.address,
             votingRights.address,
@@ -38,13 +32,25 @@ contract('Organization', function (accounts) {
          await votingManager.transferOwnership(organization.address);
     });
 
-    it('should allow me to propose', async () => {
-        let result = await organization.propose(
-            "foo",
-            ""
-        );
+    context('voting', async () => {
 
-        assert.equal(result.logs[0].event, 'ProposalCreated', 'proposal was not added');
+        beforeEach(async () => {
+            let ballot = await Ballot.new();
+            let proposal = await Proposal.new(ballot.address, true, 20, 30);
+            await organization.propose(proposal.address);
+        });
+
+        it('should fail when voting on unapproved proposal', async () => {
+            assert.equal(await proposalManager.isApproved.call(0), false);
+
+            try {
+                await organization.vote(0, 1, { from: accounts[1] });
+            } catch (error) {
+                return utils.ensureException(error);
+            }
+
+            assert.fail('voting did not fail');
+        });
     });
 
 });

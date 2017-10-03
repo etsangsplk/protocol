@@ -5,14 +5,12 @@ import "./ownership/ownable.sol";
 import "./proposals/ProposalInterface.sol";
 import "./voting/VotingStrategyInterface.sol";
 import "./voting/VotingRightsInterface.sol";
-import "./registries/ProposalRegistryInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
 
 contract Organization is ownable {
 
     struct Modules {
-        ProposalRegistryInterface proposals;
         VotingRightsInterface rights;
         VotingStrategyInterface strategy;
     }
@@ -24,12 +22,11 @@ contract Organization is ownable {
 
     mapping (uint => bool) executed;
 
-    event ProposalCreated(uint id, address addr, string name, address indexed creator);
+    event ProposalCreated(uint id, address proposal, address indexed creator);
     event ProposalExecuted(uint id);
 
     function Organization(
         Configuration _configuration,
-        ProposalRegistryInterface _proposals,
         ProposalManagerInterface _proposalManager,
         VotingManagerInterface _votingManager,
         VotingRightsInterface _rights,
@@ -38,7 +35,6 @@ contract Organization is ownable {
     {
         configuration = _configuration;
         modules = Modules({
-            proposals: _proposals,
             rights: _rights,
             strategy: _strategy
         });
@@ -54,10 +50,10 @@ contract Organization is ownable {
     /// @dev Votes on a proposal.
     /// @param proposal ID of the proposal to vote on.
     /// @param choice Option selected for vote.
-    function vote(uint proposal, uint8 choice) external {
+    function vote(uint proposal, uint choice) external {
         require(proposalManager.isApproved(proposal));
         require(modules.rights.canVote(msg.sender));
-        require(ProposalInterface(proposalManager.getProposal(proposal)).isValidOption(choice));
+        require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().getOptionsLength() > choice);
 
         votingManager.vote(proposal, msg.sender, choice, modules.strategy.votingWeightOf(msg.sender));
     }
@@ -69,22 +65,22 @@ contract Organization is ownable {
         proposalManager.approve(proposal);
     }
 
+    // @todo move off chain
     /// @dev Creates a new proposal and stores it.
-    /// @param name Name of the desired proposal type.
-    /// @param arguments Byte encoded constructor arguments
-    function propose(string name, bytes arguments) external {
+    /// @param proposalAddress Address of the new proposal.
+    function propose(address proposalAddress) external {
         require(modules.rights.canPropose(msg.sender));
 
         // @todo we will need to hash the code to see if it matches the stored hash
-        ProposalInterface proposal = ProposalInterface(modules.proposals.create(name, arguments));
+        ProposalInterface proposal = ProposalInterface(proposal);
 
-        uint id = proposalManager.add(msg.sender, proposal);
+        uint id = proposalManager.add(msg.sender, proposalAddress);
 
         if (!modules.rights.requiresApproval(id)) {
             proposalManager.approve(id);
         }
 
-        ProposalCreated(id, address(proposal), name, msg.sender);
+        ProposalCreated(id, proposalAddress, msg.sender);
     }
 
     /// @dev Executes a proposal if it has passed.
@@ -92,27 +88,32 @@ contract Organization is ownable {
     function execute(uint id) external {
         ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
 
-        require(!proposal.wasExecuted());
-        require(modules.strategy.quorumReached(id));
+        require(proposal.isAccepted());
+        require(proposal.canExecute());
 
-        uint8 winner = winningOption(id);
-        require(winner != 0); // 0 is defaulted to false
+        proposal.execute();
 
-        proposal.execute(winner);
         ProposalExecuted(id);
     }
 
-    function winningOption(uint id) public constant returns (uint8) {
-        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
+    /// @dev Tallies votes and submits count to proposal.
+    /// @param id Id of the proposal to tally.
+    function tally(uint id) external {
+        require(modules.strategy.quorumReached(votingManager.quorum(id)));
+        ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
+    }
+
+    // @todo will need update for different vote counting schemes
+    function winningOption(uint id) public constant returns (uint256) {
+        BallotInterface ballot = ProposalInterface(proposalManager.getProposal(id)).ballot();
 
         uint winner = 0;
-        for (uint i = 1; i < proposal.getOptionsLength(); i++) {
-            // @todo remove proposal.options() call when we can return arrays
-            if (votingManager.votes(id, proposal.options(i)) > votingManager.votes(id, proposal.options(winner))) {
+        for (uint i = 1; i < ballot.getOptionsLength(); i++) {
+            if (votingManager.votes(id, i) > votingManager.votes(id, winner)) {
                 winner = i;
             }
         }
 
-        return proposal.options(i);
+        return i;
     }
 }

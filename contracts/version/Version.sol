@@ -4,7 +4,6 @@ import "../Organization.sol";
 import "../Configuration.sol";
 import "../managers/ProposalManager.sol";
 import "../managers/VotingManager.sol";
-import "../registries/ProposalRegistry.sol";
 
 contract Version {
 
@@ -23,7 +22,6 @@ contract Version {
 
         Organization organization = new Organization(
             new Configuration(),
-            new ProposalRegistry(),
             manager,
             votingManager,
             rights,

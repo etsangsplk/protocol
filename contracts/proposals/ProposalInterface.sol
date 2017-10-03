@@ -1,13 +1,20 @@
 pragma solidity ^0.4.15;
 
+// @todo add this directly into the proposal potentially
+import "./ballot/BallotInterface.sol";
+import "./ExecutorInterface.sol";
+
 contract ProposalInterface {
 
-    uint8[] public options;
-    bool public executed;
+    BallotInterface public ballot;
+    ExecutorInterface public executor;
 
-    function execute(uint8 option) external;
-    function wasExecuted() external constant returns (bool);
-    function isValidOption(uint8 option) external constant returns (bool);
-    function getOptionsLength() external constant returns (uint);
+    function execute() external;
+    function setWinningOption(uint option) external;
+    function isVoting() external constant returns (bool);
+    function isEnded() external constant returns (bool);
+    function isAccepted() public constant returns (bool);
+    function canExecute() public constant returns (bool);
+    function isExecuted() public constant returns (bool);
 
 }
