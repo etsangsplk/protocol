@@ -10,14 +10,14 @@ const utils = require('./helpers/Utils.js');
 
 contract('Organization', function (accounts) {
 
-    let organization, config, proposalManager;
+    let organization, config, proposalManager, votingRights;
 
     beforeEach(async () => {
         config = await Configuration.new();
         proposalManager = await ProposalManager.new();
+        votingRights = await VotingRights.new();
 
         let votingPower = await VotingPower.new();
-        let votingRights = await VotingRights.new([accounts[0]]);
         let votingManager = await VotingManager.new();
 
         organization = await MyOrganization.new(
@@ -42,6 +42,20 @@ contract('Organization', function (accounts) {
 
         it('should fail when voting on unapproved proposal', async () => {
             assert.equal(await proposalManager.isApproved.call(0), false);
+
+            try {
+                await organization.vote(0, 1, { from: accounts[1] });
+            } catch (error) {
+                return utils.ensureException(error);
+            }
+
+            assert.fail('voting did not fail');
+        });
+
+        it('should fail when voting without rights', async () => {
+            await organization.approve(0, { from: accounts[0] });
+            assert.equal(await proposalManager.isApproved.call(0), true);
+            await votingRights.addVoter(accounts[1]);
 
             try {
                 await organization.vote(0, 1, { from: accounts[1] });
