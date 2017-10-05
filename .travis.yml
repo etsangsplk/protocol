@@ -14,8 +14,9 @@ before_install:
 before_script:
   - testrpc > testrpc.log &
 
+script: truffle test
+
 after_script:
-  - truffle test
   - cat testrpc.log
 
 notifications:
