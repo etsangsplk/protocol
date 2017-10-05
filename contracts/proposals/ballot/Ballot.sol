@@ -21,7 +21,7 @@ contract Ballot is BallotInterface {
                 mode = Mode.Reject;
             }
 
-            options.push(Option({label: label, data: data, mode: mode}));
+            options.push(Option({label: labels[i], data: data[i], mode: mode}));
         }
     }
 
