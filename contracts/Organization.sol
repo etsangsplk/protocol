@@ -55,7 +55,7 @@ contract Organization is ownable {
         require(modules.rights.canVote(msg.sender));
         require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().getOptionsLength() > choice);
 
-        votingManager.vote(proposal, msg.sender, choice, modules.strategy.votingWeightOf(msg.sender));
+        votingManager.vote(proposal, msg.sender, choice, modules.power.votingWeightOf(msg.sender));
     }
 
     /// @dev Approves a proposal.
@@ -99,7 +99,7 @@ contract Organization is ownable {
     /// @dev Tallies votes and submits count to proposal.
     /// @param id Id of the proposal to tally.
     function tally(uint id) external {
-        require(modules.strategy.quorumReached(votingManager.quorum(id)));
+        require(modules.power.quorumReached(votingManager.quorum(id)));
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
