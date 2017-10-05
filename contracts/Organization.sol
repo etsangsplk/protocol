@@ -3,7 +3,7 @@ pragma solidity ^0.4.15;
 import "./Configuration.sol";
 import "./ownership/ownable.sol";
 import "./proposals/ProposalInterface.sol";
-import "./voting/VotingStrategyInterface.sol";
+import "./voting/VotingPowerInterface.sol";
 import "./voting/VotingRightsInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
@@ -12,7 +12,7 @@ contract Organization is ownable {
 
     struct Modules {
         VotingRightsInterface rights;
-        VotingStrategyInterface strategy;
+        VotingPowerInterface power;
     }
 
     Modules modules;
@@ -30,13 +30,13 @@ contract Organization is ownable {
         ProposalManagerInterface _proposalManager,
         VotingManagerInterface _votingManager,
         VotingRightsInterface _rights,
-        VotingStrategyInterface _strategy
+        VotingPowerInterface _power
     )
     {
         configuration = _configuration;
         modules = Modules({
             rights: _rights,
-            strategy: _strategy
+            power: _power
         });
 
         proposalManager = _proposalManager;

@@ -1,6 +1,6 @@
 const MyOrganization = artifacts.require('Organization.sol');
 var Configuration = artifacts.require('Configuration.sol');
-var VotingStrategy = artifacts.require('./mock/VotingStrategyMock.sol');
+var VotingPower = artifacts.require('./mock/VotingPowerMock.sol');
 var VotingRights = artifacts.require('./mock/VotingRightsMock.sol');
 var ProposalManager = artifacts.require('managers/ProposalManager.sol');
 var VotingManager = artifacts.require('managers/VotingManager.sol');
@@ -16,7 +16,7 @@ contract('Organization', function (accounts) {
         config = await Configuration.new();
         proposalManager = await ProposalManager.new();
 
-        let votingStrategy = await VotingStrategy.new();
+        let votingPower = await VotingPower.new();
         let votingRights = await VotingRights.new([accounts[0]]);
         let votingManager = await VotingManager.new();
 
@@ -25,7 +25,7 @@ contract('Organization', function (accounts) {
             proposalManager.address,
             votingManager.address,
             votingRights.address,
-            votingStrategy.address
+            votingPower.address
         );
 
          await proposalManager.transferOwnership(organization.address);

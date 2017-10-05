@@ -13,7 +13,7 @@ contract Version {
 
     event OrganizationCreated(uint id, address organization);
 
-    function createOrganization(VotingRightsInterface rights, VotingStrategyInterface strategy) external returns (uint)
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (uint)
     {
         uint id = nextId();
 
@@ -25,7 +25,7 @@ contract Version {
             manager,
             votingManager,
             rights,
-            strategy
+            power
         );
 
         manager.transferOwnership(address(organization));
