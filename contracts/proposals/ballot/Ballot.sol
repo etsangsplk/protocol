@@ -17,7 +17,7 @@ contract Ballot is BallotInterface {
     function Ballot(bytes32[] labels, bytes32[] data, bool[] willAccept) {
         for (uint256 i = 0; i < labels.length; i++) {
             Mode mode = Mode.Accept;
-            if (!willAccept) {
+            if (!willAccept[i]) {
                 mode = Mode.Reject;
             }
 
