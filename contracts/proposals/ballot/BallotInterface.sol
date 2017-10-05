@@ -4,8 +4,8 @@ contract BallotInterface {
 
     function getOptionsLength() external constant returns (uint);
     function optionWillAccept(uint index) external constant returns (bool);
-    function getLabel(uint index) external constant returns (string);
+    function getLabel(uint index) external constant returns (bytes32);
     function getData(uint index) external constant returns (bytes32);
-    function getOption(uint index) external constant returns (string, bytes32, bool);
+    function getOption(uint index) external constant returns (bytes32, bytes32, bool);
 
 }
