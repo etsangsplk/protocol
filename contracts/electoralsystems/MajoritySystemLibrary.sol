@@ -1,25 +1,18 @@
 pragma solidity ^0.4.15;
 
-import "./ElectoralSystemLibraryInterface.sol";
-import "../proposals/ProposalInterface.sol";
-import "../managers/ProposalManagerInterface.sol";
-import "../managers/VotingManagerInterface.sol";
+import "./PluralitySystemLibrary.sol";
 
-contract MajoritySystemLibrary is ElectoralSystemLibraryInterface {
-
-    ProposalManagerInterface public proposalManager;
-    VotingManagerInterface public votingManager;
+contract MajoritySystemLibrary is PluralitySystemLibrary {
 
     function winningOption(uint256 id) constant returns (uint256) {
-        BallotInterface ballot = ProposalInterface(proposalManager.getProposal(id)).ballot();
 
-        uint winner = 0;
-        for (uint i = 1; i < ballot.getOptionsLength(); i++) {
-            if (votingManager.votes(id, i) > votingManager.votes(id, winner)) {
-                winner = i;
-            }
-        }
+        uint256 winner = super.winningOption(id);
+        uint256 quorum = votingManager.quorum(id);
+        uint256 votes = votingManager.votes(id, winner);
+        uint256 percentage = ((votes * 10**4) / (quorum * 10**4)) * (10**4);
 
-        return i;
+        require(percentage > 5000); // @todo check this
+
+        return winner;
     }
 }
