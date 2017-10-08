@@ -5,10 +5,13 @@ import "./ownership/ownable.sol";
 import "./proposals/ProposalInterface.sol";
 import "./voting/VotingPowerInterface.sol";
 import "./voting/VotingRightsInterface.sol";
+import "./electoralsystems/ElectoralSystemLibraryInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
 
 contract Organization is ownable {
+
+    ElectoralSystemLibraryInterface electoralSystem;
 
     struct Modules {
         VotingRightsInterface rights;
@@ -103,17 +106,10 @@ contract Organization is ownable {
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
-    // @todo will need update for different vote counting schemes
+    /// @dev Selects the winning option using the electoral system.
+    /// @param id Id of the proposal
+    /// @return id of the winning option
     function winningOption(uint id) public constant returns (uint256) {
-        BallotInterface ballot = ProposalInterface(proposalManager.getProposal(id)).ballot();
-
-        uint winner = 0;
-        for (uint i = 1; i < ballot.getOptionsLength(); i++) {
-            if (votingManager.votes(id, i) > votingManager.votes(id, winner)) {
-                winner = i;
-            }
-        }
-
-        return i;
+        return electoralSystem.winningOption(id);
     }
 }
