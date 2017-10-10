@@ -1,6 +1,7 @@
 pragma solidity ^0.4.15;
 
 import "./Configuration.sol";
+import "./OrganizationInterface.sol";
 import "./ownership/ownable.sol";
 import "./proposals/ProposalInterface.sol";
 import "./voting/VotingPowerInterface.sol";
@@ -9,7 +10,7 @@ import "./electoralsystems/ElectoralSystemLibraryInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
 
-contract Organization is ownable {
+contract Organization is OrganizationInterface, ownable {
 
     ElectoralSystemLibraryInterface electoralSystem;
 

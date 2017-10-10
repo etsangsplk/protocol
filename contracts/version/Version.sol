@@ -37,11 +37,11 @@ contract Version {
     }
 
     function upgradeOrganization(uint id) external {
-        Organization organization = Organization(organizations[id]);
+        OrganizationInterface organization = OrganizationInterface(organizations[id]);
 
-        address configuration = organization.configuration();
-        address proposalManager = organization.proposalManager();
-        address votingManager = organization.votingManager();
+//        address configuration = organization.configuration();
+//        address proposalManager = organization.proposalManager();
+//        address votingManager = organization.votingManager();
 
         // @todo get voting strategies etc
         // @todo suicide org
