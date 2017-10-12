@@ -6,13 +6,12 @@ import "./ownership/ownable.sol";
 import "./proposals/ProposalInterface.sol";
 import "./voting/VotingPowerInterface.sol";
 import "./voting/VotingRightsInterface.sol";
-import "./electoralsystems/ElectoralSystemLibraryInterface.sol";
+import "./electoralsystems/ElectoralSystemInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
 
 contract Organization is OrganizationInterface, ownable {
 
-    ElectoralSystemLibraryInterface electoralSystem;
 
     struct Modules {
         VotingRightsInterface rights;
@@ -23,6 +22,7 @@ contract Organization is OrganizationInterface, ownable {
     Configuration public configuration;
     ProposalManagerInterface public proposalManager;
     VotingManagerInterface public votingManager;
+    ElectoralSystemInterface public electoralSystem;
 
     mapping (uint => bool) executed;
 
@@ -111,6 +111,6 @@ contract Organization is OrganizationInterface, ownable {
     /// @param id Id of the proposal
     /// @return id of the winning option
     function winningOption(uint id) public constant returns (uint256) {
-        return electoralSystem.winningOption(id);
+        return electoralSystem.winner(this, id);
     }
 }

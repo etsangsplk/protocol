@@ -1,6 +1,12 @@
 pragma solidity ^0.4.15;
 
+import "./managers/ProposalManagerInterface.sol";
+import "./managers/VotingManagerInterface.sol";
+
 contract OrganizationInterface {
+
+    ProposalManagerInterface public proposalManager;
+    VotingManagerInterface public votingManager;
 
     function vote(uint proposal, uint choice) external;
     function approve(uint proposal) external;
