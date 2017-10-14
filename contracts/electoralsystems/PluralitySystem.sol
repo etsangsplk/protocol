@@ -11,9 +11,11 @@ contract PluralitySystem is ElectoralSystemInterface {
         VotingManagerInterface votingManager = organization.votingManager();
 
         uint candidate = 0;
-        for (uint i = 1; i < ballot.getOptionsLength(); i++) {
-            if (votingManager.votes(id, i) > votingManager.votes(id, candidate)) {
+        uint candidateVoteCount = 0;
+        for (uint i = 0; i < ballot.getOptionsLength(); i++) {
+            if (votingManager.votes(id, i) > candidateVoteCount) {
                 candidate = i;
+                candidateVoteCount = votingManager.votes(id, i);
             }
         }
 
