@@ -12,20 +12,23 @@ contract ProposalManager is ProposalManagerInterface, ownable {
         address proposal;
     }
 
-    ProposalData[] proposals;
+    uint256 public nextId = 0;
+
+    mapping (uint => ProposalData) public proposals;
 
     /// @dev Adds a new proposal.
     /// @param creator Address of the proposal creator.
     /// @param proposal Address of the proposal contract.
     /// @return id of the proposal.
     function add(address creator, address proposal) external onlyOwner returns (uint) {
-        uint id = proposals.length;
-        proposals.length++;
+        uint256 id = nextId;
+        nextId++;
 
-        ProposalData storage data = proposals[id];
-        data.creator = creator;
-        data.proposal = proposal;
-        data.approved = false;
+        proposals[id] = ProposalData({
+            creator: creator,
+            proposal: proposal,
+            approved: false
+        });
 
         return id;
     }

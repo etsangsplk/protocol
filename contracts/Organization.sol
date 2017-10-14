@@ -57,7 +57,7 @@ contract Organization is OrganizationInterface, ownable {
     function vote(uint proposal, uint choice) external {
         require(proposalManager.isApproved(proposal));
         require(modules.rights.canVote(msg.sender));
-        require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().getOptionsLength() > choice);
+        require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().optionsLength() > choice);
 
         votingManager.vote(proposal, msg.sender, choice, modules.power.votingWeightOf(msg.sender));
     }

@@ -12,21 +12,21 @@ contract Ballot is BallotInterface {
         Mode mode;
     }
 
-    Option[] public options;
+    uint256 public optionsLength;
+
+    mapping (uint => Option) public options;
 
     function Ballot(bytes32[] labels, bytes32[] data, bool[] willAccept) {
-        for (uint256 i = 0; i < labels.length; i++) {
+        optionsLength = labels.length;
+
+        for (uint256 i = 0; i < optionsLength; i++) {
             Mode mode = Mode.Accept;
             if (!willAccept[i]) {
                 mode = Mode.Reject;
             }
 
-            options.push(Option({label: labels[i], data: data[i], mode: mode}));
+            options[i] = Option({label: labels[i], data: data[i], mode: mode});
         }
-    }
-
-    function getOptionsLength() external constant returns (uint) {
-        return options.length;
     }
 
     function optionWillAccept(uint index) external constant returns (bool) {

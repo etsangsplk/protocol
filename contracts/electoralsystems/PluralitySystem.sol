@@ -12,7 +12,7 @@ contract PluralitySystem is ElectoralSystemInterface {
 
         uint candidate = 0;
         uint candidateVoteCount = 0;
-        for (uint i = 0; i < ballot.getOptionsLength(); i++) {
+        for (uint i = 0; i < ballot.optionsLength(); i++) {
             if (votingManager.votes(id, i) > candidateVoteCount) {
                 candidate = i;
                 candidateVoteCount = votingManager.votes(id, i);
