@@ -1,8 +1,8 @@
 pragma solidity ^0.4.15;
 
-import "./Configuration.sol";
-import "./OrganizationInterface.sol";
 import "./ownership/ownable.sol";
+import "./ConfigurationInterface.sol";
+import "./OrganizationInterface.sol";
 import "./proposals/ProposalInterface.sol";
 import "./voting/VotingPowerInterface.sol";
 import "./voting/VotingRightsInterface.sol";
@@ -19,7 +19,7 @@ contract Organization is OrganizationInterface, ownable {
     }
 
     Modules modules;
-    Configuration public configuration;
+    ConfigurationInterface public configuration;
     ProposalManagerInterface public proposalManager;
     VotingManagerInterface public votingManager;
     ElectoralSystemInterface public electoralSystem;
@@ -30,7 +30,7 @@ contract Organization is OrganizationInterface, ownable {
     event ProposalExecuted(uint id);
 
     function Organization(
-        Configuration _configuration,
+        ConfigurationInterface _configuration,
         ProposalManagerInterface _proposalManager,
         VotingManagerInterface _votingManager,
         VotingRightsInterface _rights,

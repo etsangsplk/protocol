@@ -1,8 +1,9 @@
 pragma solidity ^0.4.15;
 
+import "./ConfigurationInterface.sol";
 import "./ownership/administrable.sol";
 
-contract Configuration is administrable {
+contract Configuration is ConfigurationInterface, administrable {
 
     mapping (bytes32 => uint) values;
     mapping (bytes32 => bool) protected;
