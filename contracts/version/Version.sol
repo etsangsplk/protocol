@@ -1,39 +1,27 @@
 pragma solidity ^0.4.15;
 
-import "../Organization.sol";
-import "../Configuration.sol";
-import "../managers/ProposalManager.sol";
-import "../managers/VotingManager.sol";
+import "../factories/OrganizationFactoryInterface.sol";
 
 contract Version {
 
     uint public lastId;
 
+    OrganizationFactoryInterface public organizationFactory;
+
     mapping (uint => address) organizations;
 
     event OrganizationCreated(uint id, address organization);
 
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (uint)
-    {
+    function Version(OrganizationFactoryInterface _organizationFactory) {
+        organizationFactory = _organizationFactory;
+    }
+
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external {
+        OrganizationInterface org = organizationFactory.createOrganization(rights, power);
+
         uint id = nextId();
-
-        ProposalManager manager = new ProposalManager();
-        VotingManager votingManager = new VotingManager();
-
-        Organization organization = new Organization(
-            new Configuration(),
-            manager,
-            votingManager,
-            rights,
-            power
-        );
-
-        manager.transferOwnership(address(organization));
-        votingManager.transferOwnership(address(organization));
-
-        OrganizationCreated(id, organization);
-        organizations[id] = organization;
-        return id;
+        organizations[id] = org;
+        OrganizationCreated(id, org);
     }
 
     function upgradeOrganization(uint id) external {
