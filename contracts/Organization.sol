@@ -6,6 +6,7 @@ import "./OrganizationInterface.sol";
 import "./proposals/ProposalInterface.sol";
 import "./voting/VotingPowerInterface.sol";
 import "./voting/VotingRightsInterface.sol";
+import "./registries/ModuleRegistryInterface.sol";
 import "./electoralsystems/ElectoralSystemInterface.sol";
 import "./managers/ProposalManagerInterface.sol";
 import "./managers/VotingManagerInterface.sol";
@@ -13,13 +14,8 @@ import "./managers/VotingManagerInterface.sol";
 contract Organization is OrganizationInterface, ownable {
 
 
-    struct Modules {
-        VotingRightsInterface rights;
-        VotingPowerInterface power;
-    }
-
-    Modules modules;
     ConfigurationInterface public configuration;
+    ModuleRegistryInterface public modules;
     ProposalManagerInterface public proposalManager;
     VotingManagerInterface public votingManager;
     ElectoralSystemInterface public electoralSystem;
@@ -33,22 +29,17 @@ contract Organization is OrganizationInterface, ownable {
         ConfigurationInterface _configuration,
         ProposalManagerInterface _proposalManager,
         VotingManagerInterface _votingManager,
-        VotingRightsInterface _rights,
-        VotingPowerInterface _power
+        ModuleRegistryInterface _modules
     )
     {
         configuration = _configuration;
-        modules = Modules({
-            rights: _rights,
-            power: _power
-        });
-
         proposalManager = _proposalManager;
         votingManager = _votingManager;
+        modules = _modules;
 
         // @todo change to repository
         /*modules.rights.setVoting(modules.voting);*/
-        /*modules.strategy.setVoting(modules.voting);*/
+        /*votingStrategy().setVoting(modules.voting);*/
     }
 
     /// @dev Votes on a proposal.
@@ -56,16 +47,16 @@ contract Organization is OrganizationInterface, ownable {
     /// @param choice Option selected for vote.
     function vote(uint proposal, uint choice) external {
         require(proposalManager.isApproved(proposal));
-        require(modules.rights.canVote(msg.sender));
+        require(votingRights().canVote(msg.sender));
         require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().optionsLength() > choice);
 
-        votingManager.vote(proposal, msg.sender, choice, modules.power.votingWeightOf(msg.sender));
+        votingManager.vote(proposal, msg.sender, choice, votingPower().votingWeightOf(msg.sender));
     }
 
     /// @dev Approves a proposal.
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
-        require(modules.rights.canApprove(msg.sender));
+        require(votingRights().canApprove(msg.sender));
         proposalManager.approve(proposal);
     }
 
@@ -73,14 +64,14 @@ contract Organization is OrganizationInterface, ownable {
     /// @dev Creates a new proposal and stores it.
     /// @param proposalAddress Address of the new proposal.
     function propose(address proposalAddress) external {
-        require(modules.rights.canPropose(msg.sender));
+        require(votingRights().canPropose(msg.sender));
 
         // @todo we will need to hash the code to see if it matches the stored hash
         ProposalInterface proposal = ProposalInterface(proposal);
 
         uint id = proposalManager.add(msg.sender, proposalAddress);
 
-        if (!modules.rights.requiresApproval(id)) {
+        if (!votingRights().requiresApproval(id)) {
             proposalManager.approve(id);
         }
 
@@ -103,7 +94,7 @@ contract Organization is OrganizationInterface, ownable {
     /// @dev Tallies votes and submits count to proposal.
     /// @param id Id of the proposal to tally.
     function tally(uint id) external {
-        require(modules.power.quorumReached(votingManager.quorum(id)));
+        require(votingPower().quorumReached(votingManager.quorum(id)));
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
@@ -112,5 +103,13 @@ contract Organization is OrganizationInterface, ownable {
     /// @return id of the winning option
     function winningOption(uint id) public constant returns (uint256) {
         return electoralSystem.winner(this, id);
+    }
+
+    function votingRights() public constant returns (VotingRightsInterface) {
+        return VotingRightsInterface(modules.getModule("rights"));
+    }
+
+    function votingPower() public constant returns (VotingPowerInterface) {
+        return VotingPowerInterface(modules.getModule("strategy"));
     }
 }

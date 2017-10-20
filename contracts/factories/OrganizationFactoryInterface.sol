@@ -6,6 +6,11 @@ import "../voting/VotingRightsInterface.sol";
 
 contract OrganizationFactoryInterface {
 
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) returns (OrganizationInterface);
+    function createOrganization(
+        bytes32 votingRightsHash,
+        VotingRightsInterface rights,
+        bytes32 votingPowerHash,
+        VotingPowerInterface power
+    ) public returns (OrganizationInterface);
 
 }

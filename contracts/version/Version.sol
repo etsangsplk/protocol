@@ -1,5 +1,10 @@
 pragma solidity ^0.4.15;
 
+import "../Organization.sol";
+import "../Configuration.sol";
+import "../managers/ProposalManager.sol";
+import "../managers/VotingManager.sol";
+import "../registries/ModuleRegistry.sol";
 import "../factories/OrganizationFactoryInterface.sol";
 
 contract Version {
@@ -12,12 +17,24 @@ contract Version {
 
     event OrganizationCreated(uint id, address organization);
 
+
     function Version(OrganizationFactoryInterface _organizationFactory) {
         organizationFactory = _organizationFactory;
     }
 
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external {
-        OrganizationInterface org = organizationFactory.createOrganization(rights, power);
+    function createOrganization(
+        bytes32 votingRightsHash,
+        VotingRightsInterface rights,
+        bytes32 votingPowerHash,
+        VotingPowerInterface power
+    ) external {
+
+        OrganizationInterface org = organizationFactory.createOrganization(
+            votingRightsHash,
+            rights,
+            votingPowerHash,
+            power
+        );
 
         uint id = nextId();
         organizations[id] = org;
