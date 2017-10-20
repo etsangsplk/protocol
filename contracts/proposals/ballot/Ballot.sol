@@ -4,14 +4,6 @@ import "./BallotInterface.sol";
 
 contract Ballot is BallotInterface {
 
-    enum Mode {Reject, Accept}
-
-    struct Option {
-        bytes32 label;
-        bytes32 data;
-        Mode mode;
-    }
-
     uint256 public optionsLength;
 
     mapping (uint => Option) public options;
@@ -39,10 +31,5 @@ contract Ballot is BallotInterface {
 
     function getData(uint index) external constant returns (bytes32) {
         return options[index].data;
-    }
-
-    function getOption(uint index) external constant returns (bytes32, bytes32, bool) {
-        Option storage option = options[index];
-        return (option.label, option.data, option.mode == Mode.Accept);
     }
 }

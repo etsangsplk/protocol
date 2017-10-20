@@ -58,7 +58,7 @@ contract('Configuration', function (accounts) {
 
         await config.set(key, value);
 
-        config.addAdmin(accounts[1]);
+        await config.addAdmin(accounts[1]);
 
         await config.set(key, newValue, { from: accounts[1] });
 
