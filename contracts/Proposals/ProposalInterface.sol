@@ -1,7 +1,7 @@
 pragma solidity ^0.4.15;
 
 // @todo add this directly into the proposal potentially
-import "./ballot/BallotInterface.sol";
+import "./Ballot/BallotInterface.sol";
 import "./ExecutorInterface.sol";
 
 contract ProposalInterface {

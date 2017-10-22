@@ -1,5 +1,5 @@
-const MyVersion = artifacts.require('version/Version.sol');
-const MyOrganizationFactory = artifacts.require('factories/OrganizationFactory.sol');
+const MyVersion = artifacts.require('Version/Version.sol');
+const MyOrganizationFactory = artifacts.require('Factories/OrganizationFactory.sol');
 const MyVotingPower = artifacts.require('./mock/VotingPowerMock.sol');
 const MyVotingRights = artifacts.require('./mock/VotingRightsMock.sol');
 

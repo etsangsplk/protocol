@@ -1,7 +1,7 @@
 pragma solidity ^0.4.15;
 
-import "./managers/ProposalManagerInterface.sol";
-import "./managers/VotingManagerInterface.sol";
+import "./Managers/ProposalManagerInterface.sol";
+import "./Managers/VotingManagerInterface.sol";
 
 contract OrganizationInterface {
 

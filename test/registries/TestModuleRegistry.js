@@ -1,4 +1,4 @@
-const MyModuleRegistry = artifacts.require('registries/ModuleRegistry.sol');
+const MyModuleRegistry = artifacts.require('Registries/ModuleRegistry.sol');
 
 contract('ModuleRegistry', function (accounts) {
 

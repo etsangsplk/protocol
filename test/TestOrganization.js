@@ -2,11 +2,11 @@ const MyOrganization = artifacts.require('Organization.sol');
 var Configuration = artifacts.require('Configuration.sol');
 var VotingPower = artifacts.require('./mock/VotingPowerMock.sol');
 var VotingRights = artifacts.require('./mock/VotingRightsMock.sol');
-var ProposalManager = artifacts.require('managers/ProposalManager.sol');
-var VotingManager = artifacts.require('managers/VotingManager.sol');
-var MyModuleRegistry = artifacts.require('registries/ModuleRegistry.sol');
-var Ballot = artifacts.require('proposals/ballot/Ballot.sol');
-var Proposal = artifacts.require('proposals/Proposal.sol');
+var ProposalManager = artifacts.require('Managers/ProposalManager.sol');
+var VotingManager = artifacts.require('Managers/VotingManager.sol');
+var MyModuleRegistry = artifacts.require('Registries/ModuleRegistry.sol');
+var Ballot = artifacts.require('Proposals/Ballot/Ballot.sol');
+var Proposal = artifacts.require('Proposals/Proposal.sol');
 const utils = require('./helpers/Utils.js');
 
 contract('Organization', function (accounts) {

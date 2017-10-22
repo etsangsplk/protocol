@@ -1,6 +1,6 @@
-const Administrable = artifacts.require('ownership/administrable.sol');
+const Administrable = artifacts.require('Ownership/Administrable.sol');
 
-contract('administrable', function (accounts) {
+contract('Administrable', function (accounts) {
 
     let administrable;
 

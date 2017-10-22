@@ -1,8 +1,8 @@
 pragma solidity ^0.4.15;
 
 import "../OrganizationInterface.sol";
-import "../voting/VotingPowerInterface.sol";
-import "../voting/VotingRightsInterface.sol";
+import "../Voting/VotingPowerInterface.sol";
+import "../Voting/VotingRightsInterface.sol";
 
 contract OrganizationFactoryInterface {
 

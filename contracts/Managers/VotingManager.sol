@@ -1,9 +1,9 @@
 pragma solidity ^0.4.15;
 
-import "../ownership/ownable.sol";
+import "../Ownership/Ownable.sol";
 import "./VotingManagerInterface.sol";
 
-contract VotingManager is VotingManagerInterface, ownable {
+contract VotingManager is VotingManagerInterface, Ownable {
 
     struct VoteData {
         uint256 quorum;

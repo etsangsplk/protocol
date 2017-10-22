@@ -1,10 +1,10 @@
 pragma solidity ^0.4.15;
 
 import "./VaultInterface.sol";
-import "../tokens/ERC20.sol";
-import "../ownership/ownable.sol";
+import "../Tokens/ERC20.sol";
+import "../Ownership/Ownable.sol";
 
-contract Vault is VaultInterface, ownable {
+contract Vault is VaultInterface, Ownable {
 
     function transfer(address _token, address to, uint256 amount) external onlyOwner {
         ERC20 token = ERC20(_token);

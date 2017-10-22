@@ -1,8 +1,8 @@
 pragma solidity ^0.4.15;
 
-import "./ownable.sol";
+import "./Ownable.sol";
 
-contract administrable is ownable {
+contract Administrable is Ownable {
 
     mapping (address => bool) admin;
 

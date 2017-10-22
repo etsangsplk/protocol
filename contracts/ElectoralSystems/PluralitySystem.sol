@@ -1,7 +1,7 @@
 pragma solidity ^0.4.15;
 
 import "./ElectoralSystemInterface.sol";
-import "../proposals/ProposalInterface.sol";
+import "../Proposals/ProposalInterface.sol";
 
 // @todo move into module repository
 contract PluralitySystem is ElectoralSystemInterface {

@@ -1,4 +1,4 @@
-const MyVotingManager = artifacts.require('managers/VotingManager.sol');
+const MyVotingManager = artifacts.require('Managers/VotingManager.sol');
 
 const utils = require('./../helpers/Utils.js');
 

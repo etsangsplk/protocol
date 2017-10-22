@@ -2,10 +2,10 @@ pragma solidity ^0.4.15;
 
 import "./OrganizationFactoryInterface.sol";
 import "../Organization.sol";
-import "../managers/VotingManager.sol";
-import "../managers/ProposalManager.sol";
+import "../Managers/VotingManager.sol";
+import "../Managers/ProposalManager.sol";
 import "../Configuration.sol";
-import "../registries/ModuleRegistry.sol";
+import "../Registries/ModuleRegistry.sol";
 
 contract OrganizationFactory is OrganizationFactoryInterface {
 

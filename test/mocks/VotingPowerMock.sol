@@ -1,6 +1,6 @@
 pragma solidity ^0.4.15;
 
-import "../../contracts/voting/VotingPowerInterface.sol";
+import "../../contracts/Voting/VotingPowerInterface.sol";
 
 contract VotingPowerMock is VotingPowerInterface {
 

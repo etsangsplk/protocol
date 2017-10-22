@@ -2,10 +2,10 @@ pragma solidity ^0.4.15;
 
 import "../Organization.sol";
 import "../Configuration.sol";
-import "../managers/ProposalManager.sol";
-import "../managers/VotingManager.sol";
-import "../registries/ModuleRegistry.sol";
-import "../factories/OrganizationFactoryInterface.sol";
+import "../Managers/ProposalManager.sol";
+import "../Managers/VotingManager.sol";
+import "../Registries/ModuleRegistry.sol";
+import "../Factories/OrganizationFactoryInterface.sol";
 
 contract Version {
 

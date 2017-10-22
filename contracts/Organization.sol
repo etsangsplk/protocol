@@ -1,17 +1,17 @@
 pragma solidity ^0.4.15;
 
-import "./ownership/ownable.sol";
+import "./Ownership/Ownable.sol";
 import "./ConfigurationInterface.sol";
 import "./OrganizationInterface.sol";
-import "./proposals/ProposalInterface.sol";
-import "./voting/VotingPowerInterface.sol";
-import "./voting/VotingRightsInterface.sol";
-import "./registries/ModuleRegistryInterface.sol";
-import "./electoralsystems/ElectoralSystemInterface.sol";
-import "./managers/ProposalManagerInterface.sol";
-import "./managers/VotingManagerInterface.sol";
+import "./Proposals/ProposalInterface.sol";
+import "./Voting/VotingPowerInterface.sol";
+import "./Voting/VotingRightsInterface.sol";
+import "./Registries/ModuleRegistryInterface.sol";
+import "./ElectoralSystems/ElectoralSystemInterface.sol";
+import "./Managers/ProposalManagerInterface.sol";
+import "./Managers/VotingManagerInterface.sol";
 
-contract Organization is OrganizationInterface, ownable {
+contract Organization is OrganizationInterface, Ownable {
 
 
     ConfigurationInterface public configuration;

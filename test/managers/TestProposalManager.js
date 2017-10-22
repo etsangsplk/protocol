@@ -1,4 +1,4 @@
-const MyProposalManager = artifacts.require('managers/ProposalManager.sol');
+const MyProposalManager = artifacts.require('Managers/ProposalManager.sol');
 
 contract('ProposalManager', function (accounts) {
 
