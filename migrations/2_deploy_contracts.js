@@ -1,4 +1,4 @@
-const Version = artifacts.require("./Version.sol");
+const Version = artifacts.require("./Version/Version.sol");
 const OrganizationFactory = artifacts.require("./Factories/OrganizationFactory.sol");
 
 module.exports = async (deployer) => {
