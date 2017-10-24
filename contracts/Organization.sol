@@ -79,7 +79,7 @@ contract Organization is OrganizationInterface, Ownable {
         require(proposal.isAccepted());
         require(proposal.canExecute());
 
-        require(proposal.execute());
+        proposal.execute();
 
         ProposalExecuted(id);
     }
