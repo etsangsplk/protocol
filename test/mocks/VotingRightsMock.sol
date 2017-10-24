@@ -14,15 +14,15 @@ contract VotingRightsMock is VotingRightsInterface {
         return voters[voter];
     }
 
-    function canPropose(address proposer) constant returns (bool) {
+    function canPropose(address) constant returns (bool) {
         return true;
     }
 
-    function canApprove(address approver) constant returns (bool) {
+    function canApprove(address) constant returns (bool) {
         return true;
     }
 
-    function requiresApproval(uint proposal) constant returns (bool) {
+    function requiresApproval(uint) constant returns (bool) {
         return true;
     }
 

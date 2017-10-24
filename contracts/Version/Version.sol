@@ -41,16 +41,14 @@ contract Version {
         OrganizationCreated(id, org);
     }
 
-    function upgradeOrganization(uint id) external {
-        OrganizationInterface organization = OrganizationInterface(organizations[id]);
-
+//    function upgradeOrganization(uint id) external {
+//
 //        address configuration = organization.configuration();
 //        address proposalManager = organization.proposalManager();
 //        address votingManager = organization.votingManager();
-
-        // @todo get voting strategies etc
-        // @todo suicide org
-    }
+//        // @todo get voting strategies etc
+//        // @todo suicide org
+//    }
 
     function destroyOrganization(uint id) external {
         // @todo trigger selfdestruct

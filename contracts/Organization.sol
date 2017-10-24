@@ -13,14 +13,11 @@ import "./Managers/VotingManagerInterface.sol";
 
 contract Organization is OrganizationInterface, Ownable {
 
-
     ConfigurationInterface public configuration;
     ModuleRegistryInterface public modules;
     ProposalManagerInterface public proposalManager;
     VotingManagerInterface public votingManager;
     ElectoralSystemInterface public electoralSystem;
-
-    mapping (uint => bool) executed;
 
     event ProposalCreated(uint id, address proposal, address indexed creator);
     event ProposalExecuted(uint id);
@@ -36,10 +33,6 @@ contract Organization is OrganizationInterface, Ownable {
         proposalManager = _proposalManager;
         votingManager = _votingManager;
         modules = _modules;
-
-        // @todo change to repository
-        /*modules.rights.setVoting(modules.voting);*/
-        /*votingStrategy().setVoting(modules.voting);*/
     }
 
     /// @dev Votes on a proposal.

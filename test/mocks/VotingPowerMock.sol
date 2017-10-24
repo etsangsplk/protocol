@@ -4,11 +4,11 @@ import "../../contracts/Voting/VotingPowerInterface.sol";
 
 contract VotingPowerMock is VotingPowerInterface {
 
-    function quorumReached(uint quorum) constant returns (bool) {
+    function quorumReached(uint) constant returns (bool) {
         return true;
     }
 
-    function votingWeightOf(address voter) constant returns (uint) {
+    function votingWeightOf(address) constant returns (uint) {
         return 1;
     }
 }
