@@ -6,7 +6,7 @@ import "../Proposals/ProposalInterface.sol";
 // @todo move into module repository
 contract PluralitySystem is ElectoralSystemInterface {
 
-    function winner(OrganizationInterface organization, uint256 id) constant returns (uint256) {
+    function winner(OrganizationInterface organization, uint256 id) public constant returns (uint256) {
         BallotInterface ballot = ProposalInterface(organization.proposalManager().getProposal(id)).ballot();
         VotingManagerInterface votingManager = organization.votingManager();
 

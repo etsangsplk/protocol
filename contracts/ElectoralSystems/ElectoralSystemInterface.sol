@@ -5,6 +5,6 @@ import "../OrganizationInterface.sol";
 // @todo this is ugly, lets see if we can do it with libraries later
 contract ElectoralSystemInterface {
 
-    function winner(OrganizationInterface organization, uint256 id) constant returns (uint256);
+    function winner(OrganizationInterface organization, uint256 id) public constant returns (uint256);
 
 }
