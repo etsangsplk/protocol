@@ -22,19 +22,9 @@ contract Version {
         organizationFactory = _organizationFactory;
     }
 
-    function createOrganization(
-        bytes32 votingRightsHash,
-        VotingRightsInterface rights,
-        bytes32 votingPowerHash,
-        VotingPowerInterface power
-    ) external {
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external {
 
-        OrganizationInterface org = organizationFactory.createOrganization(
-            votingRightsHash,
-            rights,
-            votingPowerHash,
-            power
-        );
+        OrganizationInterface org = organizationFactory.createOrganization(rights, power);
 
         uint id = nextId();
         organizations[id] = org;

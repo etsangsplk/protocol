@@ -22,8 +22,8 @@ contract('Organization', function (accounts) {
         let votingManager = await VotingManager.new();
         let moduleRegistry = await MyModuleRegistry.new();
 
-        await moduleRegistry.addModule("rights", votingRights.address, "0x0");
-        await moduleRegistry.addModule("strategy", votingPower.address, "0x0");
+        await moduleRegistry.addModule("rights", votingRights.address);
+        await moduleRegistry.addModule("strategy", votingPower.address);
 
         organization = await MyOrganization.new(
             config.address,

@@ -8,27 +8,11 @@ contract('ModuleRegistry', function (accounts) {
         moduleRegistry = await MyModuleRegistry.new();
     });
 
-    context('getters', async () => {
+    it('should return correct address', async () => {
+        let name = "foo";
+        let address = accounts[1];
 
-        let name;
-        let hash;
-        let address;
-
-        beforeEach(async () => {
-            name = "foo";
-            hash = "0x0000000000000000000000000000000000000000000000000000000000000000";
-            address = accounts[1];
-
-            await moduleRegistry.addModule(name, address, hash);
-        });
-
-        it('should return correct address', async () => {
-            assert.equal(address, await moduleRegistry.getModule.call(name));
-        });
-
-        it('should return correct hash', async () => {
-            assert.equal(hash, await moduleRegistry.getHash.call(name));
-        });
-
-    })
+        await moduleRegistry.addModule(name, address);
+        assert.equal(address, await moduleRegistry.getModule.call(name));
+    });
 });

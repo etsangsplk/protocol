@@ -18,9 +18,7 @@ contract('Version', function (accounts) {
         let votingRights = await MyVotingRights.new([accounts[0]]);
 
         let result = await version.createOrganization(
-            "foo",
             votingRights.address,
-            "bar",
             votingPower.address
         );
 
