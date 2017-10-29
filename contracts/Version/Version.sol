@@ -17,7 +17,6 @@ contract Version {
 
     event OrganizationCreated(uint id, address organization);
 
-
     function Version(OrganizationFactoryInterface _organizationFactory) {
         organizationFactory = _organizationFactory;
     }
@@ -43,10 +42,6 @@ contract Version {
     function destroyOrganization(uint id) external {
         // @todo trigger selfdestruct
         delete organizations[id];
-    }
-
-    function getOrganization(uint id) external returns (address) {
-        return organizations[id];
     }
 
     function nextId() private returns (uint) {
