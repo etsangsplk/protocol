@@ -13,11 +13,11 @@ contract Ownable {
         owner = msg.sender;
     }
 
-    function transferOwnership(address _newOwner) onlyOwner {
-        owner = _newOwner;
+    function transferOwnership(address newOwner) onlyOwner {
+        owner = newOwner;
     }
 
-    function isOwner(address _address) public constant returns (bool) {
-        return owner == _address;
+    function isOwner(address addr) public constant returns (bool) {
+        return owner == addr;
     }
 }

@@ -11,15 +11,15 @@ contract Administrable is Ownable {
         _;
     }
 
-    function addAdmin(address _address) onlyOwner {
-        admin[_address] = true;
+    function addAdmin(address addr) onlyOwner {
+        admin[addr] = true;
     }
 
-    function removeAdmin(address _address) onlyOwner {
-        admin[_address] = false;
+    function removeAdmin(address addr) onlyOwner {
+        admin[addr] = false;
     }
 
-    function isAdmin(address _address) public constant returns (bool) {
-        return admin[_address];
+    function isAdmin(address addr) public constant returns (bool) {
+        return admin[addr];
     }
 }
