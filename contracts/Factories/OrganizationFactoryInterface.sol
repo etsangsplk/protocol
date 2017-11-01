@@ -1,11 +1,11 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "../OrganizationInterface.sol";
 import "../Voting/VotingPowerInterface.sol";
 import "../Voting/VotingRightsInterface.sol";
 
-contract OrganizationFactoryInterface {
+interface OrganizationFactoryInterface {
 
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) public returns (OrganizationInterface);
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (OrganizationInterface);
 
 }

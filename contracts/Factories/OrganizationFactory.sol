@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "./OrganizationFactoryInterface.sol";
 import "../Organization.sol";
@@ -10,7 +10,7 @@ import "../Registries/ModuleRegistry.sol";
 contract OrganizationFactory is OrganizationFactoryInterface {
 
     // @todo these are proxies, not the real interface
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) public returns (OrganizationInterface) {
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (OrganizationInterface) {
         ProposalManager proposalManager = new ProposalManager();
         VotingManager votingManager = new VotingManager();
 

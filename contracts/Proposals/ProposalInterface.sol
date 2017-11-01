@@ -1,20 +1,19 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 // @todo add this directly into the proposal potentially
 import "./Ballot/BallotInterface.sol";
 import "./ExecutorInterface.sol";
 
-contract ProposalInterface {
-
-    BallotInterface public ballot;
-    ExecutorInterface public executor;
+interface ProposalInterface {
 
     function execute() external;
     function setWinningOption(uint option) external;
-    function isVoting() external constant returns (bool);
-    function isEnded() external constant returns (bool);
-    function isAccepted() public constant returns (bool);
-    function canExecute() public constant returns (bool);
-    function isExecuted() public constant returns (bool);
+    function isVoting() external view returns (bool);
+    function isEnded() external view returns (bool);
+    function ballot() external view returns (BallotInterface);
+    function executor() external view returns (ExecutorInterface);
+    function isAccepted() public view returns (bool);
+    function canExecute() public view returns (bool);
+    function isExecuted() public view returns (bool);
 
 }

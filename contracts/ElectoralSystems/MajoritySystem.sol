@@ -1,11 +1,11 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "./PluralitySystem.sol";
 
 // @todo move into module repository
 contract MajoritySystem is PluralitySystem {
 
-    function winner(OrganizationInterface organization, uint256 id) public constant returns (uint256) {
+    function winner(OrganizationInterface organization, uint256 id) public view returns (uint256) {
 
         VotingManagerInterface votingManager = organization.votingManager();
 

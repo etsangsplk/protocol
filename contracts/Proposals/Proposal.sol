@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "./ProposalInterface.sol";
 
@@ -24,7 +24,7 @@ contract Proposal is ProposalInterface {
     BallotInterface public ballot;
     ExecutorInterface public executor;
 
-    function Proposal(BallotInterface _ballot, bool isBlockNumber, uint256 start, uint256 end) {
+    function Proposal(BallotInterface _ballot, bool isBlockNumber, uint256 start, uint256 end) public {
         ballot = _ballot;
 
         UnitOfTime unit = UnitOfTime.Block;
@@ -55,7 +55,7 @@ contract Proposal is ProposalInterface {
         tallied = true;
     }
 
-    function isVoting() external constant returns (bool) {
+    function isVoting() external view returns (bool) {
         if (timeSpan.unit == UnitOfTime.Block) {
             return timeSpan.start >= block.number && block.number <= timeSpan.end;
         }
@@ -63,7 +63,7 @@ contract Proposal is ProposalInterface {
         return timeSpan.start >= block.timestamp && block.timestamp <= timeSpan.end;
     }
 
-    function isEnded() external constant returns (bool) {
+    function isEnded() external view returns (bool) {
         if (timeSpan.unit == UnitOfTime.Block) {
             return timeSpan.end < block.number;
         }
@@ -71,15 +71,23 @@ contract Proposal is ProposalInterface {
         return timeSpan.end < block.timestamp;
     }
 
-    function isAccepted() public constant returns (bool) {
+    function ballot() external view returns (BallotInterface) {
+        return ballot;
+    }
+
+    function executor() external view returns (ExecutorInterface) {
+        return executor;
+    }
+
+    function isAccepted() public view returns (bool) {
         return state == State.Accepted;
     }
 
-    function canExecute() public constant returns (bool) {
+    function canExecute() public view returns (bool) {
         return address(executor) != 0x0;
     }
 
-    function isExecuted() public constant returns (bool) {
+    function isExecuted() public view returns (bool) {
         return executed;
     }
 }

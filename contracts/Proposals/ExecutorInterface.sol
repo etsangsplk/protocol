@@ -1,6 +1,6 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
-contract ExecutorInterface {
+interface ExecutorInterface {
 
     function execute(address proposal) external;
 

@@ -1,8 +1,8 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
-contract VotingPowerInterface {
+interface VotingPowerInterface {
 
-    function quorumReached(uint quorum) constant returns (bool);
-    function votingWeightOf(address voter) constant returns (uint);
+    function quorumReached(uint quorum) public view returns (bool);
+    function votingWeightOf(address voter) public view returns (uint);
 
 }

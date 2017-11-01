@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "./VaultInterface.sol";
 import "../Ownership/Ownable.sol";
@@ -15,7 +15,7 @@ contract Vault is VaultInterface, Ownable {
         to.transfer(amount);
     }
 
-    function balanceOf(ERC20 token) public constant returns (uint) {
+    function balanceOf(ERC20 token) public view returns (uint) {
         return token.balanceOf(address(this));
     }
 }
