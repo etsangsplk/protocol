@@ -15,8 +15,5 @@ before_script:
 
 script: truffle test
 
-after_script:
-  - cat testrpc.log
-
 notifications:
   email: false
