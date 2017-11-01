@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "../Ownership/Ownable.sol";
 import "./VotingManagerInterface.sol";
@@ -30,21 +30,21 @@ contract VotingManager is VotingManagerInterface, Ownable {
     /// @param proposal Id of the proposal.
     /// @param choice Selected option.
     /// @return count of votes for option.
-    function votes(uint proposal, uint choice) external constant returns (uint256) {
+    function votes(uint proposal, uint choice) external view returns (uint256) {
         return proposalVotes[proposal].choices[choice];
     }
 
     /// @dev Whether a voter has voted on a specific proposal.
     /// @param proposal Id of the proposal.
     /// @param voter Address of the voter.
-    function voted(uint proposal, address voter) public constant returns (bool) {
+    function voted(uint proposal, address voter) public view returns (bool) {
         return proposalVotes[proposal].voted[voter];
     }
 
     /// @dev Returns the achieved quorum for Proposal.
     /// @param proposal Id of the proposal.
     /// @return quorum of votes
-    function quorum(uint proposal) public constant returns (uint256) {
+    function quorum(uint proposal) public view returns (uint256) {
         return proposalVotes[proposal].quorum;
     }
 }

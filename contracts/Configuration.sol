@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "./ConfigurationInterface.sol";
 import "./Ownership/Administrable.sol";
@@ -14,19 +14,19 @@ contract Configuration is ConfigurationInterface, Administrable {
         _;
     }
 
-    function set(bytes32 key, uint value) onlyPermitted(key) {
+    function set(bytes32 key, uint value) external onlyPermitted(key) {
         values[key] = value;
     }
 
-    function get(bytes32 key) returns (uint) {
+    function get(bytes32 key) external view returns (uint) {
         return values[key];
     }
 
-    function protect(bytes32 key) onlyOwner {
+    function protect(bytes32 key) external onlyOwner {
         protected[key] = true;
     }
 
-    function unprotect(bytes32 key) onlyOwner {
+    function unprotect(bytes32 key) external onlyOwner {
         protected[key] = false;
     }
 }

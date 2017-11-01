@@ -16,7 +16,7 @@ contract ModuleRegistry is ModuleRegistryInterface {
     /// @dev Returns address for module
     /// @param name Name of the module
     /// @return Address of the module
-    function getModule(bytes32 name) external constant returns (address) {
+    function getModule(bytes32 name) external view returns (address) {
         return modules[name];
     }
 }

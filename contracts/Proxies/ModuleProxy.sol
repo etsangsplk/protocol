@@ -9,7 +9,7 @@ contract ModuleProxy is Proxy, Ownable {
     bytes32 public node;
     AddrResolver public resolver;
 
-    function ModuleProxy(AddrResolver _resolver, bytes32 _node) {
+    function ModuleProxy(AddrResolver _resolver, bytes32 _node) public {
         node = _node;
         resolver = _resolver;
     }

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "../../contracts/Voting/VotingRightsInterface.sol";
 
@@ -10,19 +10,19 @@ contract VotingRightsMock is VotingRightsInterface {
         voters[voter] = true;
     }
 
-    function canVote(address voter) constant returns (bool) {
+    function canVote(address voter) public view returns (bool) {
         return voters[voter];
     }
 
-    function canPropose(address) constant returns (bool) {
+    function canPropose(address) public view returns (bool) {
         return true;
     }
 
-    function canApprove(address) constant returns (bool) {
+    function canApprove(address) public view returns (bool) {
         return true;
     }
 
-    function requiresApproval(uint) constant returns (bool) {
+    function requiresApproval(uint) public view returns (bool) {
         return true;
     }
 

@@ -6,11 +6,11 @@ contract AddrResolverMock is AddrResolver {
 
     mapping (bytes32 => address) records;
 
-    function addRecord(bytes32 _node, address addr) {
-        records[_node] = addr;
+    function addRecord(bytes32 node, address addr) public {
+        records[node] = addr;
     }
 
-    function addr(bytes32 _node) constant returns (address) {
-        return records[_node];
+    function addr(bytes32 node) public view returns (address) {
+        return records[node];
     }
 }

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "../Organization.sol";
 import "../Configuration.sol";
@@ -17,7 +17,7 @@ contract Version {
 
     event OrganizationCreated(uint id, address organization);
 
-    function Version(OrganizationFactoryInterface _organizationFactory) {
+    function Version(OrganizationFactoryInterface _organizationFactory) public {
         organizationFactory = _organizationFactory;
     }
 

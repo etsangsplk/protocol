@@ -1,7 +1,7 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
-contract ConfigurationInterface {
+interface ConfigurationInterface {
 
-    function set(bytes32 key, uint value);
-    function get(bytes32 key) returns (uint);
+    function set(bytes32 key, uint value) external;
+    function get(bytes32 key) external view returns (uint);
 }

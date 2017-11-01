@@ -1,22 +1,10 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
-contract BallotInterface {
+interface BallotInterface {
 
-    enum Mode {Reject, Accept}
-
-    struct Option {
-        bytes32 label;
-        bytes32 data;
-        Mode mode;
-    }
-
-    uint256 public optionsLength;
-
-    mapping (uint => Option) public options;
-
-
-    function optionWillAccept(uint index) external constant returns (bool);
-    function getLabel(uint index) external constant returns (bytes32);
-    function getData(uint index) external constant returns (bytes32);
+    function optionWillAccept(uint index) external view returns (bool);
+    function getLabel(uint index) external view returns (bytes32);
+    function getData(uint index) external view returns (bytes32);
+    function optionsLength() external view returns (uint256);
 
 }

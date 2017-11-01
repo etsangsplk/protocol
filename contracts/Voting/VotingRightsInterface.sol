@@ -1,10 +1,10 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
-contract VotingRightsInterface {
+interface VotingRightsInterface {
 
-    function canVote(address voter) constant returns (bool);
-    function canPropose(address proposer) constant returns (bool);
-    function canApprove(address approver) constant returns (bool);
-    function requiresApproval(uint proposal) constant returns (bool);
+    function canVote(address voter) public view returns (bool);
+    function canPropose(address proposer) public view returns (bool);
+    function canApprove(address approver) public view returns (bool);
+    function requiresApproval(uint proposal) public view returns (bool);
 
 }

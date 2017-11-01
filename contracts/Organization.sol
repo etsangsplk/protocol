@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.18;
 
 import "./Ownership/Ownable.sol";
 import "./ConfigurationInterface.sol";
@@ -28,6 +28,7 @@ contract Organization is OrganizationInterface, Ownable {
         VotingManagerInterface _votingManager,
         ModuleRegistryInterface _modules
     )
+    public
     {
         configuration = _configuration;
         proposalManager = _proposalManager;
@@ -91,18 +92,27 @@ contract Organization is OrganizationInterface, Ownable {
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
+
+    function proposalManager() external view returns (ProposalManagerInterface) {
+        return proposalManager;
+    }
+
+    function votingManager() external view returns (VotingManagerInterface) {
+        return votingManager;
+    }
+
     /// @dev Selects the winning option using the electoral system.
     /// @param id Id of the proposal
     /// @return id of the winning option
-    function winningOption(uint id) public constant returns (uint256) {
+    function winningOption(uint id) public view returns (uint256) {
         return electoralSystem.winner(this, id);
     }
 
-    function votingRights() public constant returns (VotingRightsInterface) {
+    function votingRights() public view returns (VotingRightsInterface) {
         return VotingRightsInterface(modules.getModule("rights"));
     }
 
-    function votingPower() public constant returns (VotingPowerInterface) {
+    function votingPower() public view returns (VotingPowerInterface) {
         return VotingPowerInterface(modules.getModule("strategy"));
     }
 }
