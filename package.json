@@ -13,7 +13,8 @@
     "truffle": "^4.0.0",
     "truffle-config": "^1.0.3",
     "truffle-expect": "0.0.3",
-    "truffle-hdwallet-provider": "0.0.3"
+    "truffle-hdwallet-provider": "0.0.3",
+    "eth-gas-reporter": "^0.0.12"
   },
   "keywords": [
     "solidity",
