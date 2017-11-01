@@ -11,15 +11,15 @@ const utils = require('./helpers/Utils.js');
 
 contract('Organization', function (accounts) {
 
-    let organization, config, proposalManager, votingRights;
+    let organization, config, proposalManager, votingRights, votingManager;
 
     beforeEach(async () => {
         config = await Configuration.new();
         proposalManager = await ProposalManager.new();
+        votingManager = await VotingManager.new();
         votingRights = await VotingRights.new();
 
         let votingPower = await VotingPower.new();
-        let votingManager = await VotingManager.new();
         let moduleRegistry = await MyModuleRegistry.new();
 
         await moduleRegistry.addModule("rights", votingRights.address);
@@ -38,8 +38,10 @@ contract('Organization', function (accounts) {
 
     context('voting', async () => {
 
+        let ballot;
+
         beforeEach(async () => {
-            let ballot = await Ballot.new();
+            ballot = await Ballot.new(["0x0"], ["0x0"], [true]);
             let proposal = await Proposal.new(ballot.address, true, 20, 30);
             await organization.propose(proposal.address);
         });
@@ -59,15 +61,41 @@ contract('Organization', function (accounts) {
         it('should fail when voting without rights', async () => {
             await organization.approve(0, { from: accounts[0] });
             assert.equal(await proposalManager.isApproved.call(0), true);
-            await votingRights.addVoter(accounts[1]);
 
             try {
-                await organization.vote(0, 1, { from: accounts[1] });
+                await organization.vote(0, 0, { from: accounts[1] });
             } catch (error) {
                 return utils.ensureException(error);
             }
 
             assert.fail('voting did not fail');
+        });
+
+        it('should fail when voting with invalid choice', async () => {
+            await organization.approve(0, { from: accounts[0] });
+            assert.equal(await proposalManager.isApproved.call(0), true);
+            await votingRights.addVoter(accounts[1]);
+
+            let choice = 1;
+            assert.equal(await ballot.isValidChoice.call(1), false);
+
+            try {
+                await organization.vote(0, choice, { from: accounts[1] });
+            } catch (error) {
+                return utils.ensureException(error);
+            }
+
+            assert.fail('voting did not fail');
+        });
+
+        it('should allow organization member to vote', async () => {
+            await organization.approve(0, { from: accounts[0] });
+            assert.equal(await proposalManager.isApproved.call(0), true);
+
+            await votingRights.addVoter(accounts[1]);
+            await organization.vote(0, 0, { from: accounts[1] });
+
+            assert.equal(await votingManager.voted.call(0, accounts[1]), true);
         });
     });
 

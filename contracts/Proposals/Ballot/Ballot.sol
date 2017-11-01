@@ -41,6 +41,10 @@ contract Ballot is BallotInterface {
         return options[index].data;
     }
 
+    function isValidChoice(uint index) external view returns (bool) {
+        return optionsLength > index;
+    }
+
     function optionsLength() external view returns(uint256) {
         return optionsLength;
     }

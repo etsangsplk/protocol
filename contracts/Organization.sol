@@ -42,7 +42,7 @@ contract Organization is OrganizationInterface, Ownable {
     function vote(uint proposal, uint choice) external {
         require(proposalManager.isApproved(proposal));
         require(votingRights().canVote(msg.sender));
-        require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().optionsLength() > choice);
+        require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().isValidChoice(choice));
 
         votingManager.vote(proposal, msg.sender, choice, votingPower().votingWeightOf(msg.sender));
     }
