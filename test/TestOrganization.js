@@ -97,6 +97,25 @@ contract('Organization', function (accounts) {
 
             assert.equal(await votingManager.voted.call(0, accounts[1]), true);
         });
+
+        it('should allow organization member to unvote', async () => {
+            let proposal = 0;
+            let choice = 0;
+
+            await organization.approve(proposal, { from: accounts[0] });
+            assert.equal(await proposalManager.isApproved.call(0), true);
+
+            await votingRights.addVoter(accounts[1]);
+            await organization.vote(proposal, choice, { from: accounts[1] });
+
+            assert.notEqual(await votingManager.votes.call(proposal, choice), 0);
+
+            assert.equal(await votingManager.voted.call(0, accounts[1]), true);
+            await organization.unvote(0, { from: accounts[1] });
+            assert.equal(await votingManager.voted.call(0, accounts[1]), false);
+
+            assert.equal(await votingManager.votes.call(proposal, choice), 0)
+        });
     });
 
 });

@@ -47,6 +47,11 @@ contract Organization is OrganizationInterface, Ownable {
         votingManager.vote(proposal, msg.sender, choice, votingPower().votingWeightOf(msg.sender));
     }
 
+    function unvote(uint proposal) external {
+        // @todo we will need to ensure proposal has not yet ended, also in vote
+        votingManager.unvote(proposal, msg.sender);
+    }
+
     /// @dev Approves a proposal.
     /// @param proposal ID of the proposal we want to approve
     function approve(uint proposal) external {
