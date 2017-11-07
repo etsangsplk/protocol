@@ -5,7 +5,7 @@
   "author": "Harbour",
   "license": "GPL-3.0",
   "scripts": {
-    "test": "truffle test",
+    "report": "truffle test --report",
     "lint": "solium --dir ./contracts",
   },
   "files": [
