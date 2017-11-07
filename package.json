@@ -13,7 +13,7 @@
     "truffle.js"
   ],
   "devDependencies": {
-    "solium": "^0.5.5",
+    "solium": "^1.0.4",
     "truffle": "^4.0.0",
     "truffle-config": "^1.0.3",
     "truffle-expect": "0.0.3",
