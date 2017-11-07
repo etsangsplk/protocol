@@ -6,7 +6,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "report": "truffle test --report",
-    "lint": "solium --dir ./contracts",
+    "lint": "solium --dir ./contracts"
   },
   "files": [
     "contracts/",
