@@ -1,5 +1,6 @@
 const MyModuleProxy = artifacts.require('Proxies/ModuleProxy.sol');
 const AddressResolver = artifacts.require('./../mocks/AddrResolverMock.sol');
+const ENS = artifacts.require('./../mocks/ENSResolverMock.sol');
 const Configuration = artifacts.require('Configuration.sol');
 
 contract('ModuleProxy', function () {
@@ -14,7 +15,10 @@ contract('ModuleProxy', function () {
 
         await resolver.addRecord(name, config.address);
 
-        proxy = await MyModuleProxy.new(resolver.address, name);
+        let ens = await ENS.new();
+        await ens.setResolver(name, resolver.address);
+
+        proxy = await MyModuleProxy.new(ens.address, name);
     });
 
     it('should set data on proxy storage', async () => {
