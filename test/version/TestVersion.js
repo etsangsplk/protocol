@@ -1,7 +1,7 @@
 const MyVersion = artifacts.require('Version/Version.sol');
 const MyOrganizationFactory = artifacts.require('Factories/OrganizationFactory.sol');
-const MyVotingPower = artifacts.require('./mock/VotingPowerMock.sol');
-const MyVotingRights = artifacts.require('./mock/VotingRightsMock.sol');
+const MyVotingPower = artifacts.require('./mocks/VotingPowerMock.sol');
+const MyVotingRights = artifacts.require('./mocks/VotingRightsMock.sol');
 
 contract('Version', function (accounts) {
 
