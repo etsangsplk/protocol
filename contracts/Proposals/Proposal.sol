@@ -57,10 +57,10 @@ contract Proposal is ProposalInterface {
 
     function isVoting() external view returns (bool) {
         if (timeSpan.unit == UnitOfTime.Block) {
-            return timeSpan.start >= block.number && block.number <= timeSpan.end;
+            return block.number >= timeSpan.start && block.number <= timeSpan.end;
         }
 
-        return timeSpan.start >= block.timestamp && block.timestamp <= timeSpan.end;
+        return block.timestamp >= timeSpan.start && block.timestamp <= timeSpan.end;
     }
 
     function isEnded() external view returns (bool) {
