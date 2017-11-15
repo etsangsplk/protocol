@@ -42,7 +42,10 @@ contract('Organization', function (accounts) {
 
         beforeEach(async () => {
             ballot = await Ballot.new(["0x0"], ["0x0"], [true]);
-            let proposal = await Proposal.new(ballot.address, true, 20, 30);
+
+            let now = Math.floor(Date.now() / 1000);
+
+            let proposal = await Proposal.new(ballot.address, false, now * 0.75, now * 1.5);
             await organization.propose(proposal.address);
         });
 

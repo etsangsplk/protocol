@@ -68,7 +68,7 @@ contract Proposal is ProposalInterface {
             return timeSpan.end < block.number;
         }
 
-        return timeSpan.end < block.timestamp;
+        return timeSpan.end > block.timestamp;
     }
 
     function ballot() external view returns (BallotInterface) {

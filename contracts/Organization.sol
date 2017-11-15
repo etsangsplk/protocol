@@ -37,19 +37,25 @@ contract Organization is OrganizationInterface, Ownable {
     }
 
     /// @dev Votes on a proposal.
-    /// @param proposal ID of the proposal to vote on.
+    /// @param proposalId ID of the proposal to vote on.
     /// @param choice Option selected for vote.
-    function vote(uint proposal, uint choice) external {
-        require(proposalManager.isApproved(proposal));
+    function vote(uint proposalId, uint choice) external {
+        require(proposalManager.isApproved(proposalId));
         require(votingRights().canVote(msg.sender));
-        require(ProposalInterface(proposalManager.getProposal(proposal)).ballot().isValidChoice(choice));
 
-        votingManager.vote(proposal, msg.sender, choice, votingPower().votingWeightOf(msg.sender));
+        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(proposalId));
+
+        require(proposal.isVoting());
+        require(proposal.ballot().isValidChoice(choice));
+
+        votingManager.vote(proposalId, msg.sender, choice, votingPower().votingWeightOf(msg.sender));
     }
 
-    function unvote(uint proposal) external {
-        // @todo we will need to ensure proposal has not yet ended, also in vote
-        votingManager.unvote(proposal, msg.sender);
+    /// @dev Reverses a vote on a proposal.
+    /// @param proposalId ID of the proposal to undo vote on.
+    function unvote(uint proposalId) external {
+        require(ProposalInterface(proposalManager.getProposal(proposalId)).isVoting());
+        votingManager.unvote(proposalId, msg.sender);
     }
 
     /// @dev Approves a proposal.
