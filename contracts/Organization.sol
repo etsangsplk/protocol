@@ -105,7 +105,6 @@ contract Organization is OrganizationInterface, Ownable {
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
-
     function proposalManager() external view returns (ProposalManagerInterface) {
         return proposalManager;
     }
