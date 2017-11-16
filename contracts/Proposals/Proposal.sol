@@ -17,6 +17,7 @@ contract Proposal is ProposalInterface {
     State public state;
     TimeSpan public timeSpan;
 
+    uint public createdAt;
     uint public winningOption;
     bool public tallied = false;
     bool public executed = false;
@@ -33,6 +34,7 @@ contract Proposal is ProposalInterface {
         }
 
         timeSpan = TimeSpan({unit: unit, start: start, end: end});
+        createdAt = block.number;
     }
 
     // @todo remove this, lets put this into Org contract
@@ -90,5 +92,9 @@ contract Proposal is ProposalInterface {
 
     function isExecuted() public view returns (bool) {
         return executed;
+    }
+
+    function createdAt() public view returns (uint256) {
+        return createdAt;
     }
 }
