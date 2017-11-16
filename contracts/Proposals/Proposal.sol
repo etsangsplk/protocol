@@ -35,6 +35,7 @@ contract Proposal is ProposalInterface {
         timeSpan = TimeSpan({unit: unit, start: start, end: end});
     }
 
+    // @todo remove this, lets put this into Org contract
     function execute() external {
         require(canExecute() && isAccepted() && !isExecuted());
         executor.execute(this);
