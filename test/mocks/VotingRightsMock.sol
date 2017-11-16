@@ -10,7 +10,7 @@ contract VotingRightsMock is VotingRightsInterface {
         voters[voter] = true;
     }
 
-    function canVote(address voter) public view returns (bool) {
+    function canVote(address voter, ProposalInterface) public view returns (bool) {
         return voters[voter];
     }
 

@@ -8,7 +8,7 @@ contract VotingPowerMock is VotingPowerInterface {
         return true;
     }
 
-    function votingWeightOf(address) public view returns (uint) {
+    function votingWeightOf(address, ProposalInterface) public view returns (uint) {
         return 1;
     }
 }
