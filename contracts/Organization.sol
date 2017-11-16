@@ -100,6 +100,7 @@ contract Organization is OrganizationInterface, Ownable {
     /// @dev Tallies votes and submits count to proposal.
     /// @param id Id of the proposal to tally.
     function tally(uint id) external {
+        // @todo pass the quorum % that we need to reach, this section needs to be thought about. Not sure what I was thinking.
         require(votingPower().quorumReached(votingManager.quorum(id)));
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
