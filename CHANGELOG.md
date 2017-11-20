@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
  - Bug fix related to proposal times
  - Voting function checking proposal times
+ - Passing proposal to VotingRights & Power functions
 
 
 ## [0.1.0] - 2017-11-09
