@@ -6,8 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Bug fix related to proposal times
-- Voting function checking proposal times
+
+### Added
+ - Creation block to proposal, to allow for easier usage with [stakebank](https://github.com/harbourproject/stakebank)
+ - Unvote function
+
+### Changed
+ - Bug fix related to proposal times
+ - Voting function checking proposal times
+
 
 ## [0.1.0] - 2017-11-09
 
