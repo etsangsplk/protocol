@@ -40,8 +40,8 @@ contract Proposal is ProposalInterface {
     // @todo remove this, lets put this into Org contract
     function execute() external {
         require(canExecute() && isAccepted() && !isExecuted());
-        executor.execute(this);
         executed = true;
+        executor.execute(this);
     }
 
     // @todo this is ugly, only make it settable once
