@@ -34,7 +34,7 @@ contract Proposal is ProposalInterface {
         }
 
         timeSpan = TimeSpan({unit: unit, start: start, end: end});
-        createdAt = block.number;
+        createdAt = (block.number - 1);
     }
 
     // @todo remove this, lets put this into Org contract
