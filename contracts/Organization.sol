@@ -13,6 +13,8 @@ import "./Managers/VotingManagerInterface.sol";
 
 contract Organization is OrganizationInterface, Ownable {
 
+    uint256 constant PERCENTAGE_BASE = 10**18;
+
     ConfigurationInterface public configuration;
     ModuleRegistryInterface public modules;
     ProposalManagerInterface public proposalManager;
@@ -100,8 +102,7 @@ contract Organization is OrganizationInterface, Ownable {
     /// @dev Tallies votes and submits count to proposal.
     /// @param id Id of the proposal to tally.
     function tally(uint id) external {
-        // @todo pass the quorum % that we need to reach, this section needs to be thought about. Not sure what I was thinking.
-        require(votingPower().quorumReached(votingManager.quorum(id)));
+        require(quorumReached(id));
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
@@ -111,6 +112,17 @@ contract Organization is OrganizationInterface, Ownable {
 
     function votingManager() external view returns (VotingManagerInterface) {
         return votingManager;
+    }
+
+    /// @dev Validates if the reached quorum is greater than or equal to the maximum.
+    /// @param id Id of the proposal.
+    /// @return true/false if quorum was reached.
+    function quorumReached(uint id) public view returns (bool) {
+        uint256 maxQuorum = votingPower().maximumQuorum();
+        uint256 quorum = votingManager.quorum(id);
+        uint256 minimumQuorum = configuration.get("minQuorum");
+
+        return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
     }
 
     /// @dev Selects the winning option using the electoral system.

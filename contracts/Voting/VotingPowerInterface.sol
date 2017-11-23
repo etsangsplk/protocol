@@ -4,7 +4,7 @@ import "../Proposals/ProposalInterface.sol";
 
 interface VotingPowerInterface {
 
-    function quorumReached(uint quorum) public view returns (bool);
-    function votingWeightOf(address voter, ProposalInterface proposal) public view returns (uint);
+    function maximumQuorum() public view returns (uint256);
+    function votingWeightOf(address voter, ProposalInterface proposal) public view returns (uint256);
 
 }

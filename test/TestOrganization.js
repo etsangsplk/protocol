@@ -119,6 +119,24 @@ contract('Organization', function (accounts) {
 
             assert.equal(await votingManager.votes.call(proposal, choice), 0)
         });
-    });
 
+        it('should return expected value for quorum reached', async () => {
+            let proposal = 0;
+            let choice = 0;
+
+            await config.set("minQuorum", 51 * 10**16);
+
+            await organization.approve(proposal, { from: accounts[0] });
+            assert.equal(await proposalManager.isApproved.call(0), true);
+
+            await votingRights.addVoter(accounts[1]);
+            await votingRights.addVoter(accounts[2]);
+
+            await organization.vote(proposal, choice, { from: accounts[1] });
+            assert.equal(await organization.quorumReached.call(proposal), false);
+
+            await organization.vote(proposal, choice, { from: accounts[2] });
+            assert.equal(await organization.quorumReached.call(proposal), true);
+        });
+    });
 });
