@@ -69,6 +69,7 @@ contract Organization is OrganizationInterface, Ownable {
     }
 
     // @todo move off chain
+    // @todo this isn't smart, proposal contract should be created here. Pass Ballot, Executor etc.
     /// @dev Creates a new proposal and stores it.
     /// @param proposalAddress Address of the new proposal.
     function propose(address proposalAddress) external {
