@@ -8,8 +8,8 @@ contract Proposal is ProposalInterface {
     // @todo when we have plamsa we may be able to remove this, as we could potentially guarantee a stable blocktime then.
     struct TimeSpan {
         UnitOfTime unit;
-        uint256 start;
-        uint256 end;
+        uint start;
+        uint end;
     }
 
     enum UnitOfTime { Block, Timestamp }
@@ -26,7 +26,7 @@ contract Proposal is ProposalInterface {
     BallotInterface public ballot;
     ExecutorInterface public executor;
 
-    function Proposal(BallotInterface _ballot, bool isBlockNumber, uint256 start, uint256 end) public {
+    function Proposal(BallotInterface _ballot, bool isBlockNumber, uint start, uint end) public {
         ballot = _ballot;
 
         UnitOfTime unit = UnitOfTime.Block;
@@ -95,7 +95,7 @@ contract Proposal is ProposalInterface {
         return executed;
     }
 
-    function createdAt() public view returns (uint256) {
+    function createdAt() public view returns (uint) {
         return createdAt;
     }
 }

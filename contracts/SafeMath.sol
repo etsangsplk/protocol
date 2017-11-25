@@ -34,11 +34,11 @@ library SafeMath {
         return a < b ? a : b;
     }
 
-    function max256(uint256 a, uint256 b) internal pure returns (uint256) {
+    function max256(uint a, uint b) internal pure returns (uint) {
         return a >= b ? a : b;
     }
 
-    function min256(uint256 a, uint256 b) internal pure returns (uint256) {
+    function min256(uint a, uint b) internal pure returns (uint) {
         return a < b ? a : b;
     }
 }

@@ -12,7 +12,7 @@ contract ProposalManager is ProposalManagerInterface, Ownable {
         address proposal;
     }
 
-    uint256 public nextId = 0;
+    uint public nextId = 0;
 
     mapping (uint => ProposalData) public proposals;
 
@@ -21,7 +21,7 @@ contract ProposalManager is ProposalManagerInterface, Ownable {
     /// @param proposal Address of the proposal contract.
     /// @return id of the proposal.
     function add(address creator, address proposal) external onlyOwner returns (uint) {
-        uint256 id = nextId;
+        uint id = nextId;
         nextId++;
 
         proposals[id] = ProposalData({

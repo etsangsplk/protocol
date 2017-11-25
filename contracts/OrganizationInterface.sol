@@ -13,6 +13,6 @@ interface OrganizationInterface {
     function proposalManager() external view returns (ProposalManagerInterface);
     function votingManager() external view returns (VotingManagerInterface);
     function quorumReached(uint id) public view returns (bool);
-    function winningOption(uint id) public view returns (uint256);
+    function winningOption(uint id) public view returns (uint);
 
 }

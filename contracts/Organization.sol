@@ -13,7 +13,7 @@ import "./Managers/VotingManagerInterface.sol";
 
 contract Organization is OrganizationInterface, Ownable {
 
-    uint256 constant PERCENTAGE_BASE = 10**18;
+    uint constant PERCENTAGE_BASE = 10**18;
 
     ConfigurationInterface public configuration;
     ModuleRegistryInterface public modules;
@@ -50,7 +50,7 @@ contract Organization is OrganizationInterface, Ownable {
         require(proposal.isVoting());
         require(proposal.ballot().isValidChoice(choice));
 
-        uint256 weight = votingPower().votingWeightOf(msg.sender, proposal);
+        uint weight = votingPower().votingWeightOf(msg.sender, proposal);
         votingManager.vote(proposalId, msg.sender, choice, weight);
     }
 
@@ -118,9 +118,9 @@ contract Organization is OrganizationInterface, Ownable {
     /// @param id Id of the proposal.
     /// @return true/false if quorum was reached.
     function quorumReached(uint id) public view returns (bool) {
-        uint256 maxQuorum = votingPower().maximumQuorum();
-        uint256 quorum = votingManager.quorum(id);
-        uint256 minimumQuorum = configuration.get("minQuorum");
+        uint maxQuorum = votingPower().maximumQuorum();
+        uint quorum = votingManager.quorum(id);
+        uint minimumQuorum = configuration.get("minQuorum");
 
         return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
     }
@@ -128,7 +128,7 @@ contract Organization is OrganizationInterface, Ownable {
     /// @dev Selects the winning option using the electoral system.
     /// @param id Id of the proposal
     /// @return id of the winning option
-    function winningOption(uint id) public view returns (uint256) {
+    function winningOption(uint id) public view returns (uint) {
         return electoralSystem.winner(this, id);
     }
 

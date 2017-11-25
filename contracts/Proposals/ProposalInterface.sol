@@ -15,6 +15,6 @@ interface ProposalInterface {
     function isAccepted() public view returns (bool);
     function canExecute() public view returns (bool);
     function isExecuted() public view returns (bool);
-    function createdAt() public view returns (uint256);
+    function createdAt() public view returns (uint);
 
 }

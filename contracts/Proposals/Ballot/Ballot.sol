@@ -12,14 +12,14 @@ contract Ballot is BallotInterface {
         Mode mode;
     }
 
-    uint256 public optionsLength;
+    uint public optionsLength;
 
     mapping (uint => Option) public options;
 
     function Ballot(bytes32[] labels, bytes32[] data, bool[] willAccept) public {
         optionsLength = labels.length;
 
-        for (uint256 i = 0; i < optionsLength; i++) {
+        for (uint i = 0; i < optionsLength; i++) {
             Mode mode = Mode.Accept;
             if (!willAccept[i]) {
                 mode = Mode.Reject;
@@ -45,7 +45,7 @@ contract Ballot is BallotInterface {
         return optionsLength > index;
     }
 
-    function optionsLength() external view returns(uint256) {
+    function optionsLength() external view returns(uint) {
         return optionsLength;
     }
 }
