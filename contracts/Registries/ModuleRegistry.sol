@@ -2,6 +2,7 @@ pragma solidity 0.4.18;
 
 import "./ModuleRegistryInterface.sol";
 
+// @todo ownership
 contract ModuleRegistry is ModuleRegistryInterface {
 
     mapping (bytes32 => ProxyInterface) public modules;
