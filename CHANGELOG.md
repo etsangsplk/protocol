@@ -17,9 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Passing proposal to VotingRights & Power functions
  - Update to quorum counting
  - Replaced ```quorumReached``` with ```maximumQuorum```
+ - Electoral System Methods
+ - Moved Voting Manager functions into ballot
  
 ### Removed
  - Vault 
+ - Voting Manager
 
 ## [0.1.0] - 2017-11-09
 

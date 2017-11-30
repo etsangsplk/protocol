@@ -5,13 +5,11 @@ import "./PluralitySystem.sol";
 // @todo move into module repository
 contract MajoritySystem is PluralitySystem {
 
-    function winner(OrganizationInterface organization, uint id) public view returns (uint) {
+    function winner(BallotInterface ballot) public view returns (uint) {
 
-        VotingManagerInterface votingManager = organization.votingManager();
-
-        uint candidate = super.winner(organization, id);
-        uint quorum = votingManager.quorum(id);
-        uint votes = votingManager.votes(id, candidate);
+        uint candidate = super.winner(ballot);
+        uint quorum = ballot.quorum();
+        uint votes = ballot.votes(candidate);
         uint percentage = ((votes * 10**4) / (quorum * 10**4)) * (10**4);
 
         require(percentage > 5000); // @todo check this

@@ -9,7 +9,6 @@ import "./Voting/VotingRightsInterface.sol";
 import "./Registries/ModuleRegistryInterface.sol";
 import "./ElectoralSystems/ElectoralSystemInterface.sol";
 import "./Managers/ProposalManagerInterface.sol";
-import "./Managers/VotingManagerInterface.sol";
 
 contract Organization is OrganizationInterface, Ownable {
 
@@ -18,7 +17,6 @@ contract Organization is OrganizationInterface, Ownable {
     ConfigurationInterface public configuration;
     ModuleRegistryInterface public modules;
     ProposalManagerInterface public proposalManager;
-    VotingManagerInterface public votingManager;
     ElectoralSystemInterface public electoralSystem;
 
     event ProposalCreated(uint id, address proposal, address indexed creator);
@@ -27,14 +25,12 @@ contract Organization is OrganizationInterface, Ownable {
     function Organization(
         ConfigurationInterface _configuration,
         ProposalManagerInterface _proposalManager,
-        VotingManagerInterface _votingManager,
         ModuleRegistryInterface _modules
     )
     public
     {
         configuration = _configuration;
         proposalManager = _proposalManager;
-        votingManager = _votingManager;
         modules = _modules;
     }
 
@@ -51,14 +47,17 @@ contract Organization is OrganizationInterface, Ownable {
         require(proposal.ballot().isValidChoice(choice));
 
         uint weight = votingPower().votingWeightOf(msg.sender, proposal);
-        votingManager.vote(proposalId, msg.sender, choice, weight);
+        proposal.ballot().vote(msg.sender, choice, weight);
     }
 
     /// @dev Reverses a vote on a proposal.
     /// @param proposalId ID of the proposal to undo vote on.
     function unvote(uint proposalId) external {
-        require(ProposalInterface(proposalManager.getProposal(proposalId)).isVoting());
-        votingManager.unvote(proposalId, msg.sender);
+        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(proposalId));
+
+        require(proposal.isVoting());
+
+        proposal.ballot().unvote(msg.sender);
     }
 
     /// @dev Approves a proposal.
@@ -111,16 +110,12 @@ contract Organization is OrganizationInterface, Ownable {
         return proposalManager;
     }
 
-    function votingManager() external view returns (VotingManagerInterface) {
-        return votingManager;
-    }
-
     /// @dev Validates if the reached quorum is greater than or equal to the maximum.
     /// @param id Id of the proposal.
     /// @return true/false if quorum was reached.
     function quorumReached(uint id) public view returns (bool) {
         uint maxQuorum = votingPower().maximumQuorum();
-        uint quorum = votingManager.quorum(id);
+        uint quorum = ProposalInterface(proposalManager.getProposal(id)).ballot().quorum();
         uint minimumQuorum = configuration.get("minQuorum");
 
         return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
@@ -130,7 +125,7 @@ contract Organization is OrganizationInterface, Ownable {
     /// @param id Id of the proposal
     /// @return id of the winning option
     function winningOption(uint id) public view returns (uint) {
-        return electoralSystem.winner(this, id);
+        return electoralSystem.winner(ProposalInterface(proposalManager.getProposal(id)).ballot());
     }
 
     function votingRights() public view returns (VotingRightsInterface) {

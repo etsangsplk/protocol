@@ -3,7 +3,6 @@ const Configuration = artifacts.require('Configuration.sol');
 const VotingPower = artifacts.require('./mocks/VotingPowerMock.sol');
 const VotingRights = artifacts.require('./mocks/VotingRightsMock.sol');
 const ProposalManager = artifacts.require('Managers/ProposalManager.sol');
-const VotingManager = artifacts.require('Managers/VotingManager.sol');
 const MyModuleRegistry = artifacts.require('Registries/ModuleRegistry.sol');
 const Ballot = artifacts.require('Proposals/Ballot/Ballot.sol');
 const Proposal = artifacts.require('Proposals/Proposal.sol');
@@ -11,12 +10,11 @@ const utils = require('./helpers/Utils.js');
 
 contract('Organization', function (accounts) {
 
-    let organization, config, proposalManager, votingRights, votingManager;
+    let organization, config, proposalManager, votingRights;
 
     beforeEach(async () => {
         config = await Configuration.new();
         proposalManager = await ProposalManager.new();
-        votingManager = await VotingManager.new();
         votingRights = await VotingRights.new();
 
         let votingPower = await VotingPower.new();
@@ -28,12 +26,10 @@ contract('Organization', function (accounts) {
         organization = await MyOrganization.new(
             config.address,
             proposalManager.address,
-            votingManager.address,
             moduleRegistry.address
         );
 
          await proposalManager.transferOwnership(organization.address);
-         await votingManager.transferOwnership(organization.address);
     });
 
     context('voting', async () => {
@@ -42,6 +38,7 @@ contract('Organization', function (accounts) {
 
         beforeEach(async () => {
             ballot = await Ballot.new(["0x0"], ["0x0"], [true]);
+            await ballot.transferOwnership(organization.address);
 
             let now = Math.floor(Date.now() / 1000);
 
@@ -98,7 +95,7 @@ contract('Organization', function (accounts) {
             await votingRights.addVoter(accounts[1]);
             await organization.vote(0, 0, { from: accounts[1] });
 
-            assert.equal(await votingManager.voted.call(0, accounts[1]), true);
+            assert.equal(await ballot.voted.call(accounts[1]), true);
         });
 
         it('should allow organization member to unvote', async () => {
@@ -111,13 +108,13 @@ contract('Organization', function (accounts) {
             await votingRights.addVoter(accounts[1]);
             await organization.vote(proposal, choice, { from: accounts[1] });
 
-            assert.notEqual(await votingManager.votes.call(proposal, choice), 0);
+            assert.notEqual(await ballot.votes.call(choice), 0);
 
-            assert.equal(await votingManager.voted.call(0, accounts[1]), true);
+            assert.equal(await ballot.voted.call(accounts[1]), true);
             await organization.unvote(0, { from: accounts[1] });
-            assert.equal(await votingManager.voted.call(0, accounts[1]), false);
+            assert.equal(await ballot.voted.call(accounts[1]), false);
 
-            assert.equal(await votingManager.votes.call(proposal, choice), 0)
+            assert.equal(await ballot.votes.call(choice), 0)
         });
 
         it('should return expected value for quorum reached', async () => {

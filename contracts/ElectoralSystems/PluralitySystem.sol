@@ -6,16 +6,13 @@ import "../Proposals/ProposalInterface.sol";
 // @todo move into module repository
 contract PluralitySystem is ElectoralSystemInterface {
 
-    function winner(OrganizationInterface organization, uint id) public view returns (uint) {
-        BallotInterface ballot = ProposalInterface(organization.proposalManager().getProposal(id)).ballot();
-        VotingManagerInterface votingManager = organization.votingManager();
-
+    function winner(BallotInterface ballot) public view returns (uint) {
         uint candidate = 0;
         uint candidateVoteCount = 0;
         for (uint i = 0; i < ballot.optionsLength(); i++) {
-            if (votingManager.votes(id, i) > candidateVoteCount) {
+            if (ballot.votes(i) > candidateVoteCount) {
                 candidate = i;
-                candidateVoteCount = votingManager.votes(id, i);
+                candidateVoteCount = ballot.votes(i);
             }
         }
 

@@ -3,7 +3,6 @@ pragma solidity 0.4.18;
 import "../Organization.sol";
 import "../Configuration.sol";
 import "../Managers/ProposalManager.sol";
-import "../Managers/VotingManager.sol";
 import "../Registries/ModuleRegistry.sol";
 import "../Factories/OrganizationFactoryInterface.sol";
 
@@ -34,7 +33,6 @@ contract Version {
 //
 //        address configuration = organization.configuration();
 //        address proposalManager = organization.proposalManager();
-//        address votingManager = organization.votingManager();
 //        // @todo get voting strategies etc
 //        // @todo suicide org
 //    }
