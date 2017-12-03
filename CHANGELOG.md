@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 ### Changed
+ - pragma version updated to ```^0.4.18```
+
 ### Removed
 
 ## [0.2.0] - 2017-12-03
