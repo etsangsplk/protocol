@@ -6,13 +6,15 @@
   "license": "GPL-3.0",
   "scripts": {
     "report": "truffle test --report",
-    "lint": "solium --dir ./contracts"
+    "lint": "solium --dir ./contracts",
+    "docs": "doxity build"
   },
   "files": [
     "contracts/",
     "truffle.js"
   ],
   "devDependencies": {
+    "@digix/doxity": "^0.5.2",
     "solium": "^1.0.4",
     "truffle": "^4.0.0",
     "truffle-config": "^1.0.3",
