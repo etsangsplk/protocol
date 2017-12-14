@@ -6,5 +6,6 @@ import "../Proposals/Ballot/BallotInterface.sol";
 interface ElectoralSystemInterface {
 
     function winner(BallotInterface ballot) public view returns (uint);
-
+    function topCandidates(BallotInterface ballot) public view returns (uint[2]); // @todo we need to be able to get the top 3 as well to be safe
+    function hasWinner(BallotInterface ballot) public view returns (bool);
 }

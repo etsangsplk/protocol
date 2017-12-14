@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [unreleased]
 
 ### Added
+ - ```hasWinner``` function in Electoral System contract
+ - ```topCandidates``` function in Electoral System contract
+ - Ability for multiple voting rounds
+
 ### Changed
  - pragma version updated to ```^0.4.18```
 

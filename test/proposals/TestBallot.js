@@ -7,7 +7,7 @@ contract('Ballot', function (accounts) {
     let ballot;
 
     beforeEach(async () => {
-        ballot = await MyBallot.new(["0x0", "0xdead"], ["0x0", "0xdead"], [true, false]);
+        ballot = await MyBallot.new(["0x0", "0xdead", "0x123"], ["0x0", "0xdead", "0x123"], [true, false, false]);
     });
 
     it('should fail when trying to vote twice', async () => {
@@ -47,7 +47,16 @@ contract('Ballot', function (accounts) {
 
     it('should return correct value for checking if valid choice', async () => {
         assert.equal(true, await ballot.isValidChoice.call(0));
-        assert.equal(false, await ballot.isValidChoice.call(2));
+        assert.equal(false, await ballot.isValidChoice.call(3));
+    });
+
+    it('should allow starting a new round', async () => {
+        await ballot.nextRound([0,2]);
+        assert.equal(true, await ballot.isValidChoice.call(1));
+        assert.equal(false, await ballot.optionWillAccept.call(2));
+
+        assert.equal("0x0000000000000000000000000000000000000000000000000000000000000000", await ballot.getLabel(0));
+        assert.equal("0x1230000000000000000000000000000000000000000000000000000000000000", await ballot.getLabel(1));
     });
 
 });

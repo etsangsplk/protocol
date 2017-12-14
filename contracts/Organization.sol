@@ -99,6 +99,17 @@ contract Organization is OrganizationInterface, Ownable {
         ProposalExecuted(id);
     }
 
+    /// @dev Creates a new voting round if now winner was found.
+    /// @param id ID of the proposal.
+    function newVotingRound(uint id) external {
+        BallotInterface ballot = ProposalInterface(proposalManager.getProposal(id)).ballot();
+
+        require(!electoralSystem.hasWinner(ballot));
+
+        uint[2] memory candidates = electoralSystem.topCandidates(ballot);
+        ballot.nextRound(candidates);
+    }
+
     /// @dev Tallies votes and submits count to proposal.
     /// @param id Id of the proposal to tally.
     function tally(uint id) external {
