@@ -117,10 +117,6 @@ contract Organization is OrganizationInterface, Ownable {
         ProposalInterface(proposalManager.getProposal(id)).setWinningOption(winningOption(id));
     }
 
-    function proposalManager() external view returns (ProposalManagerInterface) {
-        return proposalManager;
-    }
-
     /// @dev Validates if the reached quorum is greater than or equal to the maximum.
     /// @param id Id of the proposal.
     /// @return true/false if quorum was reached.
