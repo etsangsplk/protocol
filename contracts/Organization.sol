@@ -37,7 +37,8 @@ contract Organization is OrganizationInterface, Ownable {
     /// @dev Votes on a proposal.
     /// @param proposalId ID of the proposal to vote on.
     /// @param choice Option selected for vote.
-    function vote(uint proposalId, uint choice) external {
+    /// @param parameter Additional parameter for different electoral systems.
+    function vote(uint proposalId, uint choice, uint parameter) external {
         require(proposalManager.isApproved(proposalId));
 
         ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(proposalId));
