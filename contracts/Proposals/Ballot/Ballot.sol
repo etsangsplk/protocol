@@ -83,7 +83,7 @@ contract Ballot is Ownable, BallotInterface {
         rounds[votingRound].optionsLength = choices.length;
 
         for (uint i = 0; i < choices.length; i++) {
-            Option previous = rounds[previousVotingRound].options[choices[i]];
+            Option storage previous = rounds[previousVotingRound].options[choices[i]];
             rounds[votingRound].options[i] = Option({
                 votes: 0,
                 label: previous.label,

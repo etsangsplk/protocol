@@ -20,8 +20,8 @@ contract PluralitySystem is ElectoralSystemInterface {
     }
 
     function topCandidates(BallotInterface ballot) public view returns (uint[2]) {
-        uint[2] candidates;
-        uint[2] candidateVoteCounts;
+        uint[2] memory candidates;
+        uint[2] memory candidateVoteCounts;
 
         for (uint i = 0; i < ballot.optionsLength(); i++) {
             uint votes = ballot.votes(i);
