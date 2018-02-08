@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 import "./ProposalInterface.sol";
 
 // @todo lets clean this up. Potentially turn it into a struct to keep it more lightweight.
+// @todo cleanup ballot creation
 contract Proposal is ProposalInterface {
 
     // @todo when we have plamsa we may be able to remove this, as we could potentially guarantee a stable blocktime then.
