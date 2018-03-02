@@ -1,10 +1,11 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.19;
 
 import "./Proxy.sol";
 import "../ENS/AddrResolver.sol";
 import "../ENS/ENSInterface.sol";
 import "../Ownership/Ownable.sol";
 
+// UNSAFE AND SHOULD NOT BE USED. ENS NODE COJLD BE CHANGED, LEAVING US WITH PARITY TYPE BUG POTENTIALLY.
 contract ModuleProxy is Proxy, Ownable {
 
     bytes32 public node;

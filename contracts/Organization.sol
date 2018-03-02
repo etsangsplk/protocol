@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.19;
 
 import "./Ownership/Ownable.sol";
 import "./ConfigurationInterface.sol";
@@ -68,7 +68,6 @@ contract Organization is OrganizationInterface, Ownable {
         proposalManager.approve(proposal);
     }
 
-    // @todo move off chain
     // @todo this isn't smart, proposal contract should be created here. Pass Ballot, Executor etc.
     /// @dev Creates a new proposal and stores it.
     /// @param proposalAddress Address of the new proposal.
