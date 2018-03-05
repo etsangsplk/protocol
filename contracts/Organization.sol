@@ -124,6 +124,7 @@ contract Organization is OrganizationInterface, Ownable {
         uint quorum = ProposalInterface(proposalManager.getProposal(id)).ballot().quorum();
         uint minimumQuorum = configuration.get("minQuorum");
 
+        // @todo move this out
         return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
     }
 
