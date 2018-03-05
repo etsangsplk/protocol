@@ -1,8 +1,8 @@
 # Harbour Protocol
 
-[![Build Status](https://travis-ci.com/decanus/protocol.svg?token=SGE7GHsjEHmsR4VosLJx&branch=development)](https://travis-ci.com/decanus/protocol) [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/HarbourProject/protocol.svg?branch=development)](https://travis-ci.org/HarbourProject/protocol) [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
-[Harbour](https://harbour.tokenate.io) is a protocol designed to make governance easy through modularized infrastructure that defines a set of base rules tailored to specific types of organizations. This repository contains the smart contracts for the Harbours on-chain protocol. 
+[Harbour](https://harbourproject.io) is a protocol designed to make governance easy through modularized infrastructure that defines a set of base rules tailored to specific types of organizations. This repository contains the smart contracts for the Harbours on-chain protocol. 
 
 ## Getting Started
 
@@ -43,11 +43,11 @@ solium --dir ./contracts
 
 * **Dean Eigenmann** - [decanus](https://github.com/decanus)
 
-See also the list of [contributors](https://github.com/decanus/protocol/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/HarbourProject/protocol/contributors) who participated in this project.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/decanus/protocol/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/HarbourProject/protocol/tags).
 
 ## License
 
