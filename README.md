@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/HarbourProject/protocol.svg?branch=development)](https://travis-ci.org/HarbourProject/protocol) [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
-[Harbour](https://harbour.tokenate.io) is a protocol designed to make governance easy through modularized infrastructure that defines a set of base rules tailored to specific types of organizations. This repository contains the smart contracts for the Harbours on-chain protocol. 
+[Harbour](https://harbourproject.io) is a protocol designed to make governance easy through modularized infrastructure that defines a set of base rules tailored to specific types of organizations. This repository contains the smart contracts for the Harbours on-chain protocol. 
 
 ## Getting Started
 
