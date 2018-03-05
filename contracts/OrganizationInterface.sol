@@ -4,7 +4,7 @@ import "./Managers/ProposalManagerInterface.sol";
 
 interface OrganizationInterface {
 
-    function vote(uint proposal, uint choice, uint parameter) external;
+    function vote(uint proposalId, uint choice, bytes data) external;
     function unvote(uint proposalId) external;
     function approve(uint proposal) external;
     function propose(address proposalAddress) external;

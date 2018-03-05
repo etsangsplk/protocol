@@ -50,7 +50,7 @@ contract('Organization', function (accounts) {
             assert.equal(await proposalManager.isApproved.call(0), false);
 
             try {
-                await organization.vote(0, 1, { from: accounts[1] });
+                await organization.vote(0, 1, '0x0', { from: accounts[1] });
             } catch (error) {
                 return utils.ensureException(error);
             }
@@ -63,7 +63,7 @@ contract('Organization', function (accounts) {
             assert.equal(await proposalManager.isApproved.call(0), true);
 
             try {
-                await organization.vote(0, 0, { from: accounts[1] });
+                await organization.vote(0, 0, '0x0', { from: accounts[1] });
             } catch (error) {
                 return utils.ensureException(error);
             }
@@ -80,7 +80,7 @@ contract('Organization', function (accounts) {
             assert.equal(await ballot.isValidChoice.call(1), false);
 
             try {
-                await organization.vote(0, choice, { from: accounts[1] });
+                await organization.vote(0, choice, '0x0', { from: accounts[1] });
             } catch (error) {
                 return utils.ensureException(error);
             }
@@ -93,7 +93,7 @@ contract('Organization', function (accounts) {
             assert.equal(await proposalManager.isApproved.call(0), true);
 
             await votingRights.addVoter(accounts[1]);
-            await organization.vote(0, 0, { from: accounts[1] });
+            await organization.vote(0, 0, '0x0', { from: accounts[1] });
 
             assert.equal(await ballot.voted.call(accounts[1]), true);
         });
@@ -106,7 +106,7 @@ contract('Organization', function (accounts) {
             assert.equal(await proposalManager.isApproved.call(0), true);
 
             await votingRights.addVoter(accounts[1]);
-            await organization.vote(proposal, choice, { from: accounts[1] });
+            await organization.vote(proposal, choice, '0x0', { from: accounts[1] });
 
             assert.notEqual(await ballot.votes.call(choice), 0);
 
@@ -129,10 +129,10 @@ contract('Organization', function (accounts) {
             await votingRights.addVoter(accounts[1]);
             await votingRights.addVoter(accounts[2]);
 
-            await organization.vote(proposal, choice, { from: accounts[1] });
+            await organization.vote(proposal, choice, '0x0', { from: accounts[1] });
             assert.equal(await organization.quorumReached.call(proposal), false);
 
-            await organization.vote(proposal, choice, { from: accounts[2] });
+            await organization.vote(proposal, choice, '0x0', { from: accounts[2] });
             assert.equal(await organization.quorumReached.call(proposal), true);
         });
     });
