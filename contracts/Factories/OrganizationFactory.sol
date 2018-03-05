@@ -8,7 +8,10 @@ import "../Registries/ModuleRegistry.sol";
 
 contract OrganizationFactory is OrganizationFactoryInterface {
 
-    // @todo these are proxies, not the real interface
+    /// @dev Deploys a new organization.
+    /// @param rights Proxy of voting rights.
+    /// @param power Proxy of voting power.
+    /// @return Returns the organization.
     function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (OrganizationInterface) {
         ProposalManager proposalManager = new ProposalManager();
 
