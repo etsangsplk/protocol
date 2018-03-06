@@ -1,5 +1,5 @@
 {
-  "name": "protocol",
+  "name": "@HarbourProject/protocol",
   "version": "0.3.0",
   "description": "Harbour protocol core contracts",
   "author": "Harbour",
