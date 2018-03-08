@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma experimental ABIEncoderV2;
 
 import "./Ownership/Ownable.sol";
 import "./ConfigurationInterface.sol";
@@ -105,7 +105,7 @@ contract Organization is OrganizationInterface, Ownable {
 
         require(!electoralSystem.hasWinner(ballot));
 
-        uint[] candidates = electoralSystem.topCandidates(ballot);
+        uint[] storage candidates = electoralSystem.topCandidates(ballot);
         ballot.nextRound(candidates);
     }
 
