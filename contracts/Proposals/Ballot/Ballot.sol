@@ -75,7 +75,7 @@ contract Ballot is Ownable, BallotInterface {
 
     /// @dev Starts a new voting round with choices.
     /// @param choices Choices included in the next round.
-    function nextRound(uint[2] choices) external onlyOwner {
+    function nextRound(uint[] choices) external onlyOwner {
 
         uint256 previousVotingRound = votingRound;
         votingRound = votingRound + 1;

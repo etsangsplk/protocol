@@ -105,7 +105,7 @@ contract Organization is OrganizationInterface, Ownable {
 
         require(!electoralSystem.hasWinner(ballot));
 
-        uint[2] memory candidates = electoralSystem.topCandidates(ballot);
+        uint[] candidates = electoralSystem.topCandidates(ballot);
         ballot.nextRound(candidates);
     }
 
