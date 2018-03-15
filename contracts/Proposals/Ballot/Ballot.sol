@@ -37,7 +37,8 @@ contract Ballot is Ownable, BallotInterface {
         votingRound = 0;
         rounds[votingRound].optionsLength = labels.length;
 
-        for (uint i = 0; i < rounds[votingRound].optionsLength; i++) {
+        uint length = rounds[votingRound].optionsLength;
+        for (uint i = 0; i < length; i++) {
             Mode mode = Mode.Accept;
             if (!willAccept[i]) {
                 mode = Mode.Reject;
@@ -82,7 +83,8 @@ contract Ballot is Ownable, BallotInterface {
 
         rounds[votingRound].optionsLength = choices.length;
 
-        for (uint i = 0; i < choices.length; i++) {
+        uint length = choices.length;
+        for (uint i = 0; i < length; i++) {
             Option storage previous = rounds[previousVotingRound].options[choices[i]];
             rounds[votingRound].options[i] = Option({
                 votes: 0,
