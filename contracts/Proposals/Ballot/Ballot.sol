@@ -29,7 +29,7 @@ contract Ballot is Ownable, BallotInterface {
     uint public quorum;
     uint public votingRound;
 
-    mapping (uint => Round) rounds;
+    mapping (uint => Round) public rounds;
 
     function Ballot(bytes32[] labels, bytes32[] data, bool[] willAccept) public {
         require(labels.length == data.length && labels.length == willAccept.length);

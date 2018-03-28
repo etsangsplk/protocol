@@ -4,7 +4,7 @@ import "./Ownable.sol";
 
 contract Administrable is Ownable {
 
-    mapping (address => bool) admin;
+    mapping (address => bool) public admin;
 
     modifier onlyAdmin {
         require(isOwner(msg.sender) || isAdmin(msg.sender));

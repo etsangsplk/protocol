@@ -5,8 +5,8 @@ import "./Ownership/Administrable.sol";
 
 contract Configuration is ConfigurationInterface, Administrable {
 
-    mapping (bytes32 => uint) values;
-    mapping (bytes32 => bool) protected;
+    mapping (bytes32 => uint) public values;
+    mapping (bytes32 => bool) public protected;
 
     modifier onlyPermitted(bytes32 key) {
         require(isOwner(msg.sender) || isAdmin(msg.sender));
@@ -18,10 +18,6 @@ contract Configuration is ConfigurationInterface, Administrable {
         values[key] = value;
     }
 
-    function get(bytes32 key) external view returns (uint) {
-        return values[key];
-    }
-
     function protect(bytes32 key) external onlyOwner {
         protected[key] = true;
     }
@@ -29,4 +25,9 @@ contract Configuration is ConfigurationInterface, Administrable {
     function unprotect(bytes32 key) external onlyOwner {
         protected[key] = false;
     }
+
+    function get(bytes32 key) external view returns (uint) {
+        return values[key];
+    }
+
 }

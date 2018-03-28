@@ -12,7 +12,10 @@ contract OrganizationFactory is OrganizationFactoryInterface {
     /// @param rights Proxy of voting rights.
     /// @param power Proxy of voting power.
     /// @return Returns the organization.
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (OrganizationInterface) {
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power)
+        external
+        returns (OrganizationInterface)
+    {
         ProposalManager proposalManager = new ProposalManager();
 
         ModuleRegistry modules = new ModuleRegistry();
