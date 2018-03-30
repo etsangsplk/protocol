@@ -120,11 +120,12 @@ contract Organization is OrganizationInterface, Ownable {
     /// @param id Id of the proposal.
     /// @return true/false if quorum was reached.
     function quorumReached(uint id) public view returns (bool) {
-        uint maxQuorum = votingPower().maximumQuorum();
-        uint quorum = ProposalInterface(proposalManager.getProposal(id)).ballot().quorum();
+        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
+
+        uint maxQuorum = votingPower().maximumQuorum(proposal);
+        uint quorum = proposal.ballot().quorum();
         uint minimumQuorum = configuration.get("minQuorum");
 
-        // @todo move this out
         return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
     }
 
