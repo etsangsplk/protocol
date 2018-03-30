@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 // @todo add this directly into the proposal potentially
 import "./Ballot/BallotInterface.sol";

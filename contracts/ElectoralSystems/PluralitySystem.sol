@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 import "./ElectoralSystemInterface.sol";
 import "../Proposals/ProposalInterface.sol";

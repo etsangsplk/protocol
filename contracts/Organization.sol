@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 import "./Ownership/Ownable.sol";
 import "./ConfigurationInterface.sol";
@@ -82,7 +82,7 @@ contract Organization is OrganizationInterface, Ownable {
             proposalManager.approve(id);
         }
 
-        ProposalCreated(id, proposalAddress, msg.sender);
+        emit ProposalCreated(id, proposalAddress, msg.sender);
     }
 
     /// @dev Executes a proposal if it has passed.
@@ -95,7 +95,7 @@ contract Organization is OrganizationInterface, Ownable {
 
         proposal.execute();
 
-        ProposalExecuted(id);
+        emit ProposalExecuted(id);
     }
 
     /// @dev Creates a new voting round if now winner was found.

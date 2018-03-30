@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 interface ENSInterface {
     function owner(bytes32 node) public view returns (address);
