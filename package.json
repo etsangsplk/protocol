@@ -1,18 +1,20 @@
 {
-  "name": "protocol",
-  "version": "0.3.0",
+  "name": "@harbourproject/protocol",
+  "version": "0.3.1",
   "description": "Harbour protocol core contracts",
   "author": "Harbour",
   "license": "GPL-3.0",
   "scripts": {
     "report": "truffle test --report",
-    "lint": "solium --dir ./contracts"
+    "lint": "solium --dir ./contracts",
+    "coverage": "sh scripts/coverage.sh"
   },
   "files": [
     "contracts/",
     "truffle.js"
   ],
   "devDependencies": {
+    "solidity-coverage": "^0.3.5",
     "solium": "^1.0.4",
     "truffle": "^4.0.0",
     "truffle-config": "^1.0.3",
@@ -25,5 +27,11 @@
     "ethereum",
     "smart",
     "contracts"
-  ]
+  ],
+  "dependencies": {
+    "ethereumjs-util": "^5.1.5",
+    "ganache-cli": "^6.1.0",
+    "testrpc": "0.0.1",
+    "web3-utils": "^1.0.0-beta.31"
+  }
 }

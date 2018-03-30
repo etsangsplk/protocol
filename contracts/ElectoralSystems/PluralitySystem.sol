@@ -9,7 +9,9 @@ contract PluralitySystem is ElectoralSystemInterface {
     function winner(BallotInterface ballot) public view returns (uint) {
         uint candidate = 0;
         uint candidateVoteCount = 0;
-        for (uint i = 0; i < ballot.optionsLength(); i++) {
+
+        uint length = ballot.optionsLength();
+        for (uint i = 0; i < length; i++) {
             if (ballot.votes(i) > candidateVoteCount) {
                 candidate = i;
                 candidateVoteCount = ballot.votes(i);
@@ -23,7 +25,8 @@ contract PluralitySystem is ElectoralSystemInterface {
         uint[2] memory candidates;
         uint[2] memory candidateVoteCounts;
 
-        for (uint i = 0; i < ballot.optionsLength(); i++) {
+        uint length = ballot.optionsLength();
+        for (uint i = 0; i < length; i++) {
             uint votes = ballot.votes(i);
 
             if (votes > candidateVoteCounts[0]) {

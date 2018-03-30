@@ -12,7 +12,7 @@ import "./Managers/ProposalManagerInterface.sol";
 
 contract Organization is OrganizationInterface, Ownable {
 
-    uint constant PERCENTAGE_BASE = 10**18;
+    uint public constant PERCENTAGE_BASE = 10**18;
 
     ConfigurationInterface public configuration;
     ModuleRegistryInterface public modules;
@@ -125,6 +125,7 @@ contract Organization is OrganizationInterface, Ownable {
         uint quorum = ProposalInterface(proposalManager.getProposal(id)).ballot().quorum();
         uint minimumQuorum = configuration.get("minQuorum");
 
+        // @todo move this out
         return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
     }
 

@@ -12,7 +12,7 @@ contract Version {
 
     OrganizationFactoryInterface public organizationFactory;
 
-    mapping (uint => address) organizations;
+    mapping (uint => address) public organizations;
 
     event OrganizationCreated(uint id, address organization);
 

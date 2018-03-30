@@ -6,6 +6,8 @@ import "../Voting/VotingRightsInterface.sol";
 
 interface OrganizationFactoryInterface {
 
-    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power) external returns (OrganizationInterface);
+    function createOrganization(VotingRightsInterface rights, VotingPowerInterface power)
+        external
+        returns (OrganizationInterface);
 
 }
