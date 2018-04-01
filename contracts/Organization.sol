@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 import "./Ownership/Ownable.sol";
 import "./ConfigurationInterface.sol";
@@ -83,7 +83,7 @@ contract Organization is OrganizationInterface, Ownable {
             proposalManager.approve(id);
         }
 
-        ProposalCreated(id, proposalAddress, msg.sender);
+        emit ProposalCreated(id, proposalAddress, msg.sender);
     }
 
     /// @dev Executes a proposal if it has passed.
@@ -96,7 +96,7 @@ contract Organization is OrganizationInterface, Ownable {
 
         proposal.execute();
 
-        ProposalExecuted(id);
+        emit ProposalExecuted(id);
     }
 
     /// @dev Creates a new voting round if now winner was found.
@@ -121,11 +121,12 @@ contract Organization is OrganizationInterface, Ownable {
     /// @param id Id of the proposal.
     /// @return true/false if quorum was reached.
     function quorumReached(uint id) public view returns (bool) {
-        uint maxQuorum = votingPower().maximumQuorum();
-        uint quorum = ProposalInterface(proposalManager.getProposal(id)).ballot().quorum();
+        ProposalInterface proposal = ProposalInterface(proposalManager.getProposal(id));
+
+        uint maxQuorum = votingPower().maximumQuorum(proposal);
+        uint quorum = proposal.ballot().quorum();
         uint minimumQuorum = configuration.get("minQuorum");
 
-        // @todo move this out
         return ((quorum * PERCENTAGE_BASE) / maxQuorum) >= minimumQuorum;
     }
 

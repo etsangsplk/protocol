@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 import "../Organization.sol";
 import "../Configuration.sol";
@@ -26,7 +26,7 @@ contract Version {
 
         uint id = nextId();
         organizations[id] = org;
-        OrganizationCreated(id, org);
+        emit OrganizationCreated(id, org);
     }
 
     function destroyOrganization(uint id) external {
