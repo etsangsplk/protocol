@@ -50,6 +50,10 @@ contract Organization is OrganizationInterface, Ownable {
         proposal.ballot().vote(msg.sender, choice, weight);
     }
 
+    function voteFor(uint proposalId, uint choice, address voter, bytes signature) external {
+        // @todo
+    }
+
     /// @dev Reverses a vote on a proposal.
     /// @param proposalId ID of the proposal to undo vote on.
     function unvote(uint proposalId) external {
@@ -58,6 +62,10 @@ contract Organization is OrganizationInterface, Ownable {
         require(proposal.isVoting());
 
         proposal.ballot().unvote(msg.sender);
+    }
+
+    function unvoteFor(uint proposalId, address voter, bytes signature) external {
+        // @todo
     }
 
     /// @dev Approves a proposal.
